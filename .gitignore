@@ -1,0 +1,30 @@
+# --- Environnement local --------------------------------------------------
+.venv/
+__pycache__/
+*.pyc
+.gocar_profile/
+.vscode/
+.idea/
+
+# --- Données générées par le pipeline (regénérables : batch\full.bat) ------
+# Annonces scrapées et étapes intermédiaires : propres à chaque PC, non publiées.
+raw_listings.json
+catalog_matches.json
+resolution_log.json
+llm_decisions.json
+resolved_cars.json
+resolved_cars.json.bak-*
+resolved_cars_cache.json
+cars_cache.json
+*.tmp
+
+# --- Exports -----------------------------------------------------------------
+best_ev_opportunities.*
+opportunities*.csv
+opportunities*.xlsx
+~$*.xlsx
+
+# --- Anciennes sauvegardes manuelles (remplacées par l'historique Git) -------
+bkp/
+src/bkp/
+archives/

@@ -1,0 +1,10 @@
+# Pas de conversion automatique des fins de ligne : les fichiers sont stockés tels quels
+# (models.json et les .bat en CRLF, le code Python en LF), identiques sur tous les PC.
+* -text
+# Diffs lisibles pour les fichiers texte malgré l'absence de conversion
+*.py diff=python
+*.json diff
+*.md diff
+*.csv diff
+*.bat diff
+*.txt diff

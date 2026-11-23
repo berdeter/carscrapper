@@ -1,0 +1,2671 @@
+{
+  "metadata": {
+    "description": "Référentiel des modèles 100% électriques (Segments A et B) pour les marques ayant un score de feeling >= 70.0 en Belgique (2026)",
+    "criteres_inclusion": {
+      "score_marque_min": 70.0,
+      "segments": [
+        "A",
+        "B"
+      ],
+      "motorisation": "100% électrique (BEV) uniquement"
+    },
+    "total_marques_eligibles": 20,
+    "total_marques_avec_offre_ev_ab": 18,
+    "total_modeles_retenus": 36,
+    "total_variantes_techniques": 65,
+    "algorithme_prediction": {
+      "nom": "EVPredictorNN (PyTorch MLP 6->16->8->1)",
+      "cible": "Temps total Challenge 1000 km (roulage autoroutier + recharges rapides)",
+      "features_entree": [
+        "batterie_utile_kwh",
+        "autonomie_wltp_km",
+        "temps_charge_10_80_min",
+        "puissance_dc_max_kw",
+        "conso_wltp_theorique_kwh_100km",
+        "puissance_charge_moyenne_10_80_kw"
+      ]
+    },
+    "algorithme_simulation_humaine": {
+      "nom": "SimulateurRoadTripHumain",
+      "version": "2.0",
+      "cible": "Temps total 1000 km au rythme habituel (étape 90 min, pause 15 min, déjeuner 45 min), départ batterie pleine ; étapes raccourcies / pauses allongées si l'énergie manque",
+      "hypotheses": {
+        "longueur_km": 1000,
+        "vitesse_kmh": 120,
+        "etape_min": 90,
+        "pause_min": 15,
+        "dejeuner_min": 45,
+        "reserve_soc": 0.1,
+        "recharge_max_soc": 0.8,
+        "delai_branchement_min": 3
+      }
+    }
+  },
+  "catalogue_filtrage": [
+    {
+      "marque_id": "dacia",
+      "marque_nom": "Dacia",
+      "feeling_marque": 94.0,
+      "modeles": [
+        {
+          "id": "dacia_spring",
+          "nom_canonique": "Spring",
+          "segment": "A",
+          "type_ev": "100% EV exclusif",
+          "alias_scraping": [
+            "spring",
+            "dacia spring",
+            "spring electric",
+            "spring 45",
+            "spring 65",
+            "spring extreme"
+          ],
+          "variantes": [
+            {
+              "variante_id": "dacia_spring_27kwh",
+              "nom_variante": "Spring 45 / 65 (26.8 kWh)",
+              "generation": "Gén 1 / Phase 2 (2021-2026)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 26.8,
+                "autonomie_wltp_km": 225,
+                "temps_charge_10_80_min": 45,
+                "puissance_dc_max_kw": 30,
+                "conso_wltp_theorique_kwh_100km": 11.91,
+                "puissance_charge_moyenne_10_80_kw": 25.0
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "14h02",
+                "temps_minutes": 841.6,
+                "temps_heures_decimales": 14.03
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "13h55",
+                "temps_minutes": 834.5,
+                "temps_heures_decimales": 13.91,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 229.5,
+                "nb_arrets": 7,
+                "nb_etapes_raccourcies": 7,
+                "pause_supplementaire_min": 199.5,
+                "autonomie_autoroute_km": 156.0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "marque_id": "toyota",
+      "marque_nom": "Toyota",
+      "feeling_marque": 93.8,
+      "modeles": []
+    },
+    {
+      "marque_id": "skoda",
+      "marque_nom": "Škoda",
+      "feeling_marque": 92.2,
+      "modeles": [
+        {
+          "id": "skoda_citigo_e_iv",
+          "nom_canonique": "Citigo-e iV",
+          "segment": "A",
+          "type_ev": "Variante 100% EV",
+          "alias_scraping": [
+            "citigo-e",
+            "citigo e",
+            "citigoe",
+            "citigo iv",
+            "citigo electric"
+          ],
+          "variantes": [
+            {
+              "variante_id": "skoda_citigo_e_iv_32kwh",
+              "nom_variante": "Citigo-e iV (32.3 kWh)",
+              "generation": "Gén unique (2019-2021)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 32.3,
+                "autonomie_wltp_km": 260,
+                "temps_charge_10_80_min": 45,
+                "puissance_dc_max_kw": 40,
+                "conso_wltp_theorique_kwh_100km": 12.42,
+                "puissance_charge_moyenne_10_80_kw": 30.1
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "13h08",
+                "temps_minutes": 787.7,
+                "temps_heures_decimales": 13.13
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "13h01",
+                "temps_minutes": 781.5,
+                "temps_heures_decimales": 13.02,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 176.5,
+                "nb_arrets": 6,
+                "nb_etapes_raccourcies": 5,
+                "pause_supplementaire_min": 161.5,
+                "autonomie_autoroute_km": 180.0
+              }
+            }
+          ]
+        },
+        {
+          "id": "skoda_epiq",
+          "nom_canonique": "Epiq",
+          "segment": "B",
+          "type_ev": "100% EV exclusif",
+          "alias_scraping": [
+            "epiq",
+            "skoda epiq"
+          ],
+          "variantes": [
+            {
+              "variante_id": "skoda_epiq_35_37kwh",
+              "nom_variante": "Epiq 35 (37 kWh LFP)",
+              "generation": "Gén 1 (2026+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 37.0,
+                "autonomie_wltp_km": 280,
+                "temps_charge_10_80_min": 32,
+                "puissance_dc_max_kw": 50,
+                "conso_wltp_theorique_kwh_100km": 13.21,
+                "puissance_charge_moyenne_10_80_kw": 48.6
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "12h02",
+                "temps_minutes": 722.1,
+                "temps_heures_decimales": 12.03
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "11h47",
+                "temps_minutes": 707.2,
+                "temps_heures_decimales": 11.79,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 102.2,
+                "nb_arrets": 6,
+                "nb_etapes_raccourcies": 5,
+                "pause_supplementaire_min": 87.2,
+                "autonomie_autoroute_km": 187.0
+              }
+            },
+            {
+              "variante_id": "skoda_epiq_40_37kwh",
+              "nom_variante": "Epiq 40 (37 kWh LFP)",
+              "generation": "Gén 1 (2026+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 37.0,
+                "autonomie_wltp_km": 310,
+                "temps_charge_10_80_min": 23,
+                "puissance_dc_max_kw": 88,
+                "conso_wltp_theorique_kwh_100km": 11.94,
+                "puissance_charge_moyenne_10_80_kw": 67.6
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h30",
+                "temps_minutes": 689.6,
+                "temps_heures_decimales": 11.49
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "11h00",
+                "temps_minutes": 660.2,
+                "temps_heures_decimales": 11.0,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 55.2,
+                "nb_arrets": 6,
+                "nb_etapes_raccourcies": 5,
+                "pause_supplementaire_min": 40.2,
+                "autonomie_autoroute_km": 207.0
+              }
+            },
+            {
+              "variante_id": "skoda_epiq_55_52kwh",
+              "nom_variante": "Epiq 55 (52 kWh NMC)",
+              "generation": "Gén 1 (2026+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 52.0,
+                "autonomie_wltp_km": 441,
+                "temps_charge_10_80_min": 24,
+                "puissance_dc_max_kw": 105,
+                "conso_wltp_theorique_kwh_100km": 11.79,
+                "puissance_charge_moyenne_10_80_kw": 91.0
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "10h41",
+                "temps_minutes": 641.2,
+                "temps_heures_decimales": 10.69
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h09",
+                "temps_minutes": 608.6,
+                "temps_heures_decimales": 10.14,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 3.6,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 3.6,
+                "autonomie_autoroute_km": 294.0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "marque_id": "renault",
+      "marque_nom": "Renault",
+      "feeling_marque": 90.4,
+      "modeles": [
+        {
+          "id": "renault_twingo_electric",
+          "nom_canonique": "Twingo E-Tech Electric",
+          "segment": "A",
+          "type_ev": "Variante 100% EV / Nouvelle gen 100% EV",
+          "alias_scraping": [
+            "twingo e-tech",
+            "twingo electric",
+            "twingo ze",
+            "twingo z.e.",
+            "twingo electrique"
+          ],
+          "variantes": [
+            {
+              "variante_id": "renault_twingo_ze_21kwh",
+              "nom_variante": "Twingo E-Tech ZE (21.3 kWh)",
+              "generation": "Gén 3 ZE (2020-2024)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 21.3,
+                "autonomie_wltp_km": 190,
+                "temps_charge_10_80_min": 60,
+                "puissance_dc_max_kw": 22,
+                "conso_wltp_theorique_kwh_100km": 11.21,
+                "puissance_charge_moyenne_10_80_kw": 14.9
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "17h26",
+                "temps_minutes": 1046.1,
+                "temps_heures_decimales": 17.43
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "17h16",
+                "temps_minutes": 1036.3,
+                "temps_heures_decimales": 17.27,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 431.3,
+                "nb_arrets": 9,
+                "nb_etapes_raccourcies": 9,
+                "pause_supplementaire_min": 371.3,
+                "autonomie_autoroute_km": 132.0
+              }
+            },
+            {
+              "variante_id": "renault_twingo_2026_27kwh",
+              "nom_variante": "Twingo E-Tech (27.5 kWh LFP)",
+              "generation": "Gén 4 (2026+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 27.5,
+                "autonomie_wltp_km": 263,
+                "temps_charge_10_80_min": 30,
+                "puissance_dc_max_kw": 50,
+                "conso_wltp_theorique_kwh_100km": 10.46,
+                "puissance_charge_moyenne_10_80_kw": 38.5
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "12h29",
+                "temps_minutes": 748.5,
+                "temps_heures_decimales": 12.48
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "11h43",
+                "temps_minutes": 703.3,
+                "temps_heures_decimales": 11.72,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 98.3,
+                "nb_arrets": 6,
+                "nb_etapes_raccourcies": 5,
+                "pause_supplementaire_min": 83.3,
+                "autonomie_autoroute_km": 182.0
+              }
+            }
+          ]
+        },
+        {
+          "id": "renault_zoe",
+          "nom_canonique": "Zoe",
+          "segment": "B",
+          "type_ev": "100% EV exclusif",
+          "alias_scraping": [
+            "zoe",
+            "zoé",
+            "zoe ze",
+            "zoe r110",
+            "zoe r135",
+            "zoe q210",
+            "zoe r90"
+          ],
+          "variantes": [
+            {
+              "variante_id": "renault_zoe_ze40_41kwh",
+              "nom_variante": "Zoe ZE40 (41 kWh)",
+              "generation": "Phase 1 (2017-2019)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 41.0,
+                "autonomie_wltp_km": 316,
+                "temps_charge_10_80_min": 65,
+                "puissance_dc_max_kw": 43,
+                "conso_wltp_theorique_kwh_100km": 12.97,
+                "puissance_charge_moyenne_10_80_kw": 26.5
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "14h18",
+                "temps_minutes": 857.8,
+                "temps_heures_decimales": 14.3
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "14h03",
+                "temps_minutes": 842.8,
+                "temps_heures_decimales": 14.05,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 237.8,
+                "nb_arrets": 6,
+                "nb_etapes_raccourcies": 5,
+                "pause_supplementaire_min": 222.8,
+                "autonomie_autoroute_km": 211.0
+              }
+            },
+            {
+              "variante_id": "renault_zoe_ze50_52kwh",
+              "nom_variante": "Zoe ZE50 R110/R135 (52 kWh)",
+              "generation": "Phase 2 (2019-2024)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 52.0,
+                "autonomie_wltp_km": 395,
+                "temps_charge_10_80_min": 56,
+                "puissance_dc_max_kw": 50,
+                "conso_wltp_theorique_kwh_100km": 13.16,
+                "puissance_charge_moyenne_10_80_kw": 39.0
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "12h00",
+                "temps_minutes": 720.0,
+                "temps_heures_decimales": 12.0
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "11h56",
+                "temps_minutes": 716.3,
+                "temps_heures_decimales": 11.94,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 111.3,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 111.3,
+                "autonomie_autoroute_km": 263.0
+              }
+            }
+          ]
+        },
+        {
+          "id": "renault_5_etech",
+          "nom_canonique": "5 E-Tech Electric",
+          "segment": "B",
+          "type_ev": "100% EV exclusif",
+          "alias_scraping": [
+            "r5",
+            "renault 5",
+            "5 e-tech",
+            "5 etech",
+            "r5 e-tech",
+            "r5 electric"
+          ],
+          "variantes": [
+            {
+              "variante_id": "renault_5_40kwh",
+              "nom_variante": "5 E-Tech Urban Range (40 kWh)",
+              "generation": "Gén 1 (2025+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 40.0,
+                "autonomie_wltp_km": 312,
+                "temps_charge_10_80_min": 30,
+                "puissance_dc_max_kw": 80,
+                "conso_wltp_theorique_kwh_100km": 12.82,
+                "puissance_charge_moyenne_10_80_kw": 56.0
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h41",
+                "temps_minutes": 700.9,
+                "temps_heures_decimales": 11.68
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "11h27",
+                "temps_minutes": 686.8,
+                "temps_heures_decimales": 11.45,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 81.8,
+                "nb_arrets": 6,
+                "nb_etapes_raccourcies": 5,
+                "pause_supplementaire_min": 66.8,
+                "autonomie_autoroute_km": 208.0
+              }
+            },
+            {
+              "variante_id": "renault_5_52kwh",
+              "nom_variante": "5 E-Tech Comfort Range (52 kWh)",
+              "generation": "Gén 1 (2024+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 52.0,
+                "autonomie_wltp_km": 410,
+                "temps_charge_10_80_min": 30,
+                "puissance_dc_max_kw": 100,
+                "conso_wltp_theorique_kwh_100km": 12.68,
+                "puissance_charge_moyenne_10_80_kw": 72.8
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h08",
+                "temps_minutes": 668.2,
+                "temps_heures_decimales": 11.14
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h30",
+                "temps_minutes": 629.5,
+                "temps_heures_decimales": 10.49,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 24.5,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 24.5,
+                "autonomie_autoroute_km": 273.0
+              }
+            }
+          ]
+        },
+        {
+          "id": "renault_4_etech",
+          "nom_canonique": "4 E-Tech Electric",
+          "segment": "B",
+          "type_ev": "100% EV exclusif",
+          "alias_scraping": [
+            "r4",
+            "renault 4",
+            "4 e-tech",
+            "4 etech",
+            "r4 e-tech"
+          ],
+          "variantes": [
+            {
+              "variante_id": "renault_4_40kwh",
+              "nom_variante": "4 E-Tech Autonomie Urbaine (40 kWh)",
+              "generation": "Gén 1 (2025+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 40.0,
+                "autonomie_wltp_km": 308,
+                "temps_charge_10_80_min": 30,
+                "puissance_dc_max_kw": 80,
+                "conso_wltp_theorique_kwh_100km": 12.99,
+                "puissance_charge_moyenne_10_80_kw": 56.0
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h43",
+                "temps_minutes": 702.8,
+                "temps_heures_decimales": 11.71
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "11h27",
+                "temps_minutes": 687.2,
+                "temps_heures_decimales": 11.45,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 82.2,
+                "nb_arrets": 6,
+                "nb_etapes_raccourcies": 5,
+                "pause_supplementaire_min": 67.2,
+                "autonomie_autoroute_km": 205.0
+              }
+            },
+            {
+              "variante_id": "renault_4_52kwh",
+              "nom_variante": "4 E-Tech Autonomie Confort (52 kWh)",
+              "generation": "Gén 1 (2025+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 52.0,
+                "autonomie_wltp_km": 409,
+                "temps_charge_10_80_min": 30,
+                "puissance_dc_max_kw": 100,
+                "conso_wltp_theorique_kwh_100km": 12.71,
+                "puissance_charge_moyenne_10_80_kw": 72.8
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h08",
+                "temps_minutes": 668.4,
+                "temps_heures_decimales": 11.14
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h30",
+                "temps_minutes": 629.8,
+                "temps_heures_decimales": 10.5,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 24.8,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 24.8,
+                "autonomie_autoroute_km": 273.0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "marque_id": "volkswagen",
+      "marque_nom": "Volkswagen",
+      "feeling_marque": 90.4,
+      "modeles": [
+        {
+          "id": "vw_e_up",
+          "nom_canonique": "e-up!",
+          "segment": "A",
+          "type_ev": "Variante 100% EV",
+          "alias_scraping": [
+            "e-up",
+            "e-up!",
+            "e up",
+            "eup",
+            "up electric",
+            "up! electric"
+          ],
+          "variantes": [
+            {
+              "variante_id": "vw_e_up_32kwh",
+              "nom_variante": "e-up! 2.0 (32.3 kWh)",
+              "generation": "Phase 2 (2019-2023)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 32.3,
+                "autonomie_wltp_km": 258,
+                "temps_charge_10_80_min": 45,
+                "puissance_dc_max_kw": 40,
+                "conso_wltp_theorique_kwh_100km": 12.52,
+                "puissance_charge_moyenne_10_80_kw": 30.1
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "13h08",
+                "temps_minutes": 788.0,
+                "temps_heures_decimales": 13.13
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "13h04",
+                "temps_minutes": 784.1,
+                "temps_heures_decimales": 13.07,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 179.1,
+                "nb_arrets": 6,
+                "nb_etapes_raccourcies": 6,
+                "pause_supplementaire_min": 164.1,
+                "autonomie_autoroute_km": 179.0
+              }
+            }
+          ]
+        },
+        {
+          "id": "vw_id_polo",
+          "nom_canonique": "ID. Polo",
+          "segment": "B",
+          "type_ev": "100% EV exclusif",
+          "alias_scraping": [
+            "id. polo",
+            "id polo",
+            "id.polo",
+            "id.2",
+            "id2",
+            "id 2"
+          ],
+          "variantes": [
+            {
+              "variante_id": "vw_id_polo_37kwh",
+              "nom_variante": "ID. Polo Entry (37 kWh LFP)",
+              "generation": "Gén 1 (2026+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 37.0,
+                "autonomie_wltp_km": 300,
+                "temps_charge_10_80_min": 23,
+                "puissance_dc_max_kw": 88,
+                "conso_wltp_theorique_kwh_100km": 12.33,
+                "puissance_charge_moyenne_10_80_kw": 67.6
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h33",
+                "temps_minutes": 693.4,
+                "temps_heures_decimales": 11.56
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "11h01",
+                "temps_minutes": 661.0,
+                "temps_heures_decimales": 11.02,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 56.0,
+                "nb_arrets": 6,
+                "nb_etapes_raccourcies": 5,
+                "pause_supplementaire_min": 41.0,
+                "autonomie_autoroute_km": 200.0
+              }
+            },
+            {
+              "variante_id": "vw_id_polo_52kwh",
+              "nom_variante": "ID. Polo Long Range (52 kWh NMC)",
+              "generation": "Gén 1 (2026+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 52.0,
+                "autonomie_wltp_km": 450,
+                "temps_charge_10_80_min": 20,
+                "puissance_dc_max_kw": 125,
+                "conso_wltp_theorique_kwh_100km": 11.56,
+                "puissance_charge_moyenne_10_80_kw": 109.2
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "10h12",
+                "temps_minutes": 612.4,
+                "temps_heures_decimales": 10.21
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h05",
+                "temps_minutes": 605.0,
+                "temps_heures_decimales": 10.08,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 0.0,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 0.0,
+                "autonomie_autoroute_km": 300.0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "marque_id": "kia",
+      "marque_nom": "Kia",
+      "feeling_marque": 90.2,
+      "modeles": [
+        {
+          "id": "kia_ev2",
+          "nom_canonique": "EV2",
+          "segment": "B",
+          "type_ev": "100% EV exclusif",
+          "alias_scraping": [
+            "ev2",
+            "kia ev2",
+            "ev 2"
+          ],
+          "variantes": [
+            {
+              "variante_id": "kia_ev2_42kwh",
+              "nom_variante": "EV2 Standard Range (42 kWh LFP)",
+              "generation": "Gén 1 (2026+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 42.0,
+                "autonomie_wltp_km": 320,
+                "temps_charge_10_80_min": 25,
+                "puissance_dc_max_kw": 100,
+                "conso_wltp_theorique_kwh_100km": 13.12,
+                "puissance_charge_moyenne_10_80_kw": 70.6
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h28",
+                "temps_minutes": 687.9,
+                "temps_heures_decimales": 11.46
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h50",
+                "temps_minutes": 650.5,
+                "temps_heures_decimales": 10.84,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 45.5,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 4,
+                "pause_supplementaire_min": 45.5,
+                "autonomie_autoroute_km": 213.0
+              }
+            },
+            {
+              "variante_id": "kia_ev2_62kwh",
+              "nom_variante": "EV2 Long Range (62 kWh NMC)",
+              "generation": "Gén 1 (2026+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 62.0,
+                "autonomie_wltp_km": 440,
+                "temps_charge_10_80_min": 29,
+                "puissance_dc_max_kw": 120,
+                "conso_wltp_theorique_kwh_100km": 14.09,
+                "puissance_charge_moyenne_10_80_kw": 89.8
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "10h50",
+                "temps_minutes": 650.2,
+                "temps_heures_decimales": 10.84
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h18",
+                "temps_minutes": 617.8,
+                "temps_heures_decimales": 10.3,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 12.8,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 12.8,
+                "autonomie_autoroute_km": 293.0
+              }
+            }
+          ]
+        },
+        {
+          "id": "kia_soul_ev",
+          "nom_canonique": "e-Soul / Soul EV",
+          "segment": "B",
+          "type_ev": "Variante 100% EV",
+          "alias_scraping": [
+            "e-soul",
+            "esoul",
+            "e soul",
+            "soul ev",
+            "soul electric"
+          ],
+          "variantes": [
+            {
+              "variante_id": "kia_soul_ev_39kwh",
+              "nom_variante": "e-Soul (39.2 kWh)",
+              "generation": "Gén 3 (2019-2024)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 39.2,
+                "autonomie_wltp_km": 276,
+                "temps_charge_10_80_min": 47,
+                "puissance_dc_max_kw": 50,
+                "conso_wltp_theorique_kwh_100km": 14.2,
+                "puissance_charge_moyenne_10_80_kw": 35.0
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "12h40",
+                "temps_minutes": 759.8,
+                "temps_heures_decimales": 12.66
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "13h06",
+                "temps_minutes": 785.9,
+                "temps_heures_decimales": 13.1,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 180.9,
+                "nb_arrets": 6,
+                "nb_etapes_raccourcies": 5,
+                "pause_supplementaire_min": 165.9,
+                "autonomie_autoroute_km": 184.0
+              }
+            },
+            {
+              "variante_id": "kia_soul_ev_64kwh",
+              "nom_variante": "e-Soul (64.0 kWh)",
+              "generation": "Gén 3 (2019-2024)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 64.0,
+                "autonomie_wltp_km": 452,
+                "temps_charge_10_80_min": 44,
+                "puissance_dc_max_kw": 77,
+                "conso_wltp_theorique_kwh_100km": 14.16,
+                "puissance_charge_moyenne_10_80_kw": 61.1
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h12",
+                "temps_minutes": 672.5,
+                "temps_heures_decimales": 11.21
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h46",
+                "temps_minutes": 646.2,
+                "temps_heures_decimales": 10.77,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 41.2,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 41.2,
+                "autonomie_autoroute_km": 301.0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "marque_id": "hyundai",
+      "marque_nom": "Hyundai",
+      "feeling_marque": 89.6,
+      "modeles": [
+        {
+          "id": "hyundai_inster",
+          "nom_canonique": "Inster",
+          "segment": "A",
+          "type_ev": "100% EV exclusif",
+          "alias_scraping": [
+            "inster",
+            "hyundai inster",
+            "inster cross"
+          ],
+          "variantes": [
+            {
+              "variante_id": "hyundai_inster_42kwh",
+              "nom_variante": "Inster Standard Range (42 kWh)",
+              "generation": "Gén 1 (2025+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 39.0,
+                "autonomie_wltp_km": 327,
+                "temps_charge_10_80_min": 30,
+                "puissance_dc_max_kw": 73,
+                "conso_wltp_theorique_kwh_100km": 11.93,
+                "puissance_charge_moyenne_10_80_kw": 54.6
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h36",
+                "temps_minutes": 696.2,
+                "temps_heures_decimales": 11.6
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h59",
+                "temps_minutes": 658.9,
+                "temps_heures_decimales": 10.98,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 53.9,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 4,
+                "pause_supplementaire_min": 53.9,
+                "autonomie_autoroute_km": 226.0
+              }
+            },
+            {
+              "variante_id": "hyundai_inster_49kwh",
+              "nom_variante": "Inster Long Range (49 kWh)",
+              "generation": "Gén 1 (2025+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 46.0,
+                "autonomie_wltp_km": 370,
+                "temps_charge_10_80_min": 30,
+                "puissance_dc_max_kw": 85,
+                "conso_wltp_theorique_kwh_100km": 12.43,
+                "puissance_charge_moyenne_10_80_kw": 64.4
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h22",
+                "temps_minutes": 681.8,
+                "temps_heures_decimales": 11.36
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h39",
+                "temps_minutes": 639.0,
+                "temps_heures_decimales": 10.65,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 34.0,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 34.0,
+                "autonomie_autoroute_km": 256.0
+              }
+            }
+          ]
+        },
+        {
+          "id": "hyundai_kona_electric",
+          "nom_canonique": "Kona Electric",
+          "segment": "B",
+          "type_ev": "Variante 100% EV",
+          "alias_scraping": [
+            "kona electric",
+            "kona ev",
+            "kona électrique",
+            "kona electrique",
+            "kona 64",
+            "kona 39",
+            "kona 48",
+            "kona 65"
+          ],
+          "variantes": [
+            {
+              "variante_id": "hyundai_kona_gen1_39kwh",
+              "nom_variante": "Kona Electric 39 kWh (Gén 1)",
+              "generation": "Gén 1 (2018-2023)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 39.2,
+                "autonomie_wltp_km": 305,
+                "temps_charge_10_80_min": 47,
+                "puissance_dc_max_kw": 50,
+                "conso_wltp_theorique_kwh_100km": 12.85,
+                "puissance_charge_moyenne_10_80_kw": 35.0
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "12h34",
+                "temps_minutes": 753.7,
+                "temps_heures_decimales": 12.56
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "12h38",
+                "temps_minutes": 758.1,
+                "temps_heures_decimales": 12.63,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 153.1,
+                "nb_arrets": 6,
+                "nb_etapes_raccourcies": 5,
+                "pause_supplementaire_min": 138.1,
+                "autonomie_autoroute_km": 203.0
+              }
+            },
+            {
+              "variante_id": "hyundai_kona_gen1_64kwh",
+              "nom_variante": "Kona Electric 64 kWh (Gén 1)",
+              "generation": "Gén 1 (2018-2023)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 64.0,
+                "autonomie_wltp_km": 484,
+                "temps_charge_10_80_min": 47,
+                "puissance_dc_max_kw": 77,
+                "conso_wltp_theorique_kwh_100km": 13.22,
+                "puissance_charge_moyenne_10_80_kw": 57.2
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h03",
+                "temps_minutes": 663.1,
+                "temps_heures_decimales": 11.05
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h42",
+                "temps_minutes": 641.8,
+                "temps_heures_decimales": 10.7,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 36.8,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 36.8,
+                "autonomie_autoroute_km": 323.0
+              }
+            },
+            {
+              "variante_id": "hyundai_kona_gen2_48kwh",
+              "nom_variante": "Kona Electric 48.4 kWh (Gén 2)",
+              "generation": "Gén 2 (2023+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 48.4,
+                "autonomie_wltp_km": 377,
+                "temps_charge_10_80_min": 41,
+                "puissance_dc_max_kw": 74,
+                "conso_wltp_theorique_kwh_100km": 12.84,
+                "puissance_charge_moyenne_10_80_kw": 49.6
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h36",
+                "temps_minutes": 695.8,
+                "temps_heures_decimales": 11.6
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "11h13",
+                "temps_minutes": 673.1,
+                "temps_heures_decimales": 11.22,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 68.1,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 68.1,
+                "autonomie_autoroute_km": 251.0
+              }
+            },
+            {
+              "variante_id": "hyundai_kona_gen2_65kwh",
+              "nom_variante": "Kona Electric 65.4 kWh (Gén 2)",
+              "generation": "Gén 2 (2023+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 65.4,
+                "autonomie_wltp_km": 514,
+                "temps_charge_10_80_min": 41,
+                "puissance_dc_max_kw": 102,
+                "conso_wltp_theorique_kwh_100km": 12.72,
+                "puissance_charge_moyenne_10_80_kw": 67.0
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "10h47",
+                "temps_minutes": 647.2,
+                "temps_heures_decimales": 10.79
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h17",
+                "temps_minutes": 617.1,
+                "temps_heures_decimales": 10.28,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 12.1,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 12.1,
+                "autonomie_autoroute_km": 343.0
+              }
+            }
+          ]
+        },
+        {
+          "id": "hyundai_ioniq_3",
+          "nom_canonique": "Ioniq 3",
+          "segment": "B",
+          "type_ev": "100% EV exclusif",
+          "alias_scraping": [
+            "ioniq 3",
+            "ioniq3",
+            "hyundai ioniq 3",
+            "hyundai ioniq3"
+          ],
+          "variantes": [
+            {
+              "variante_id": "hyundai_ioniq_3_42kwh",
+              "nom_variante": "Ioniq 3 Petite Batterie (42.2 kWh)",
+              "generation": "Gén 1 (2026+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 42.2,
+                "autonomie_wltp_km": 345,
+                "temps_charge_10_80_min": 25,
+                "puissance_dc_max_kw": 100,
+                "conso_wltp_theorique_kwh_100km": 12.23,
+                "puissance_charge_moyenne_10_80_kw": 70.9
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h22",
+                "temps_minutes": 682.2,
+                "temps_heures_decimales": 11.37
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h40",
+                "temps_minutes": 639.6,
+                "temps_heures_decimales": 10.66,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 34.6,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 4,
+                "pause_supplementaire_min": 34.6,
+                "autonomie_autoroute_km": 230.0
+              }
+            },
+            {
+              "variante_id": "hyundai_ioniq_3_61kwh",
+              "nom_variante": "Ioniq 3 Grande Batterie (61.0 kWh)",
+              "generation": "Gén 1 (2026+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 61.0,
+                "autonomie_wltp_km": 496,
+                "temps_charge_10_80_min": 30,
+                "puissance_dc_max_kw": 120,
+                "conso_wltp_theorique_kwh_100km": 12.3,
+                "puissance_charge_moyenne_10_80_kw": 85.4
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "10h41",
+                "temps_minutes": 640.9,
+                "temps_heures_decimales": 10.68
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h05",
+                "temps_minutes": 605.4,
+                "temps_heures_decimales": 10.09,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 0.4,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 0.4,
+                "autonomie_autoroute_km": 331.0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "marque_id": "suzuki",
+      "marque_nom": "Suzuki",
+      "feeling_marque": 87.7,
+      "modeles": [
+        {
+          "id": "suzuki_e_vitara",
+          "nom_canonique": "e Vitara",
+          "segment": "B",
+          "type_ev": "100% EV exclusif",
+          "alias_scraping": [
+            "e vitara",
+            "e-vitara",
+            "evitara",
+            "vitara electric",
+            "vitara ev"
+          ],
+          "variantes": [
+            {
+              "variante_id": "suzuki_e_vitara_49kwh",
+              "nom_variante": "e Vitara 49 kWh 2WD (LFP)",
+              "generation": "Gén 1 (2025+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 47.5,
+                "autonomie_wltp_km": 345,
+                "temps_charge_10_80_min": 42,
+                "puissance_dc_max_kw": 60,
+                "conso_wltp_theorique_kwh_100km": 13.77,
+                "puissance_charge_moyenne_10_80_kw": 47.5
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h54",
+                "temps_minutes": 713.9,
+                "temps_heures_decimales": 11.9
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "11h36",
+                "temps_minutes": 695.8,
+                "temps_heures_decimales": 11.6,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 90.8,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 4,
+                "pause_supplementaire_min": 90.8,
+                "autonomie_autoroute_km": 230.0
+              }
+            },
+            {
+              "variante_id": "suzuki_e_vitara_61kwh",
+              "nom_variante": "e Vitara 61 kWh 2WD (LFP)",
+              "generation": "Gén 1 (2025+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 59.8,
+                "autonomie_wltp_km": 427,
+                "temps_charge_10_80_min": 44,
+                "puissance_dc_max_kw": 70,
+                "conso_wltp_theorique_kwh_100km": 14.0,
+                "puissance_charge_moyenne_10_80_kw": 57.1
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h23",
+                "temps_minutes": 683.4,
+                "temps_heures_decimales": 11.39
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h57",
+                "temps_minutes": 657.1,
+                "temps_heures_decimales": 10.95,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 52.1,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 52.1,
+                "autonomie_autoroute_km": 285.0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "marque_id": "seat",
+      "marque_nom": "SEAT",
+      "feeling_marque": 86.7,
+      "modeles": [
+        {
+          "id": "seat_mii_electric",
+          "nom_canonique": "Mii electric",
+          "segment": "A",
+          "type_ev": "Variante 100% EV",
+          "alias_scraping": [
+            "mii electric",
+            "mii-electric",
+            "e-mii",
+            "mii ev"
+          ],
+          "variantes": [
+            {
+              "variante_id": "seat_mii_electric_32kwh",
+              "nom_variante": "Mii electric (32.3 kWh)",
+              "generation": "Gén unique (2019-2021)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 32.3,
+                "autonomie_wltp_km": 259,
+                "temps_charge_10_80_min": 45,
+                "puissance_dc_max_kw": 40,
+                "conso_wltp_theorique_kwh_100km": 12.47,
+                "puissance_charge_moyenne_10_80_kw": 30.1
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "13h08",
+                "temps_minutes": 787.9,
+                "temps_heures_decimales": 13.13
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "13h03",
+                "temps_minutes": 782.8,
+                "temps_heures_decimales": 13.05,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 177.8,
+                "nb_arrets": 6,
+                "nb_etapes_raccourcies": 6,
+                "pause_supplementaire_min": 162.8,
+                "autonomie_autoroute_km": 179.0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "marque_id": "mazda",
+      "marque_nom": "Mazda",
+      "feeling_marque": 86.2,
+      "modeles": []
+    },
+    {
+      "marque_id": "opel",
+      "marque_nom": "Opel",
+      "feeling_marque": 86.2,
+      "modeles": [
+        {
+          "id": "opel_corsa_electric",
+          "nom_canonique": "Corsa Electric / Corsa-e",
+          "segment": "B",
+          "type_ev": "Variante 100% EV",
+          "alias_scraping": [
+            "corsa-e",
+            "corsa e",
+            "corsae",
+            "corsa electric",
+            "corsa électrique",
+            "corsa electrique"
+          ],
+          "variantes": [
+            {
+              "variante_id": "opel_corsa_e_50kwh",
+              "nom_variante": "Corsa-e (46.3 kWh utile / 50 kWh)",
+              "generation": "Phase 1 (2019-2023)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 46.3,
+                "autonomie_wltp_km": 359,
+                "temps_charge_10_80_min": 30,
+                "puissance_dc_max_kw": 100,
+                "conso_wltp_theorique_kwh_100km": 12.9,
+                "puissance_charge_moyenne_10_80_kw": 64.8
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h22",
+                "temps_minutes": 681.8,
+                "temps_heures_decimales": 11.36
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h50",
+                "temps_minutes": 649.6,
+                "temps_heures_decimales": 10.83,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 44.6,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 44.6,
+                "autonomie_autoroute_km": 239.0
+              }
+            },
+            {
+              "variante_id": "opel_corsa_electric_51kwh",
+              "nom_variante": "Corsa Electric (48.1 kWh utile / 51 kWh)",
+              "generation": "Phase 2 (2023+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 48.1,
+                "autonomie_wltp_km": 405,
+                "temps_charge_10_80_min": 27,
+                "puissance_dc_max_kw": 100,
+                "conso_wltp_theorique_kwh_100km": 11.88,
+                "puissance_charge_moyenne_10_80_kw": 74.8
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h08",
+                "temps_minutes": 668.1,
+                "temps_heures_decimales": 11.14
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h24",
+                "temps_minutes": 623.9,
+                "temps_heures_decimales": 10.4,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 18.9,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 18.9,
+                "autonomie_autoroute_km": 270.0
+              }
+            }
+          ]
+        },
+        {
+          "id": "opel_mokka_electric",
+          "nom_canonique": "Mokka Electric / Mokka-e",
+          "segment": "B",
+          "type_ev": "Variante 100% EV",
+          "alias_scraping": [
+            "mokka-e",
+            "mokka e",
+            "mokkae",
+            "mokka electric",
+            "mokka électrique",
+            "mokka electrique"
+          ],
+          "variantes": [
+            {
+              "variante_id": "opel_mokka_e_50kwh",
+              "nom_variante": "Mokka-e (46.3 kWh utile / 50 kWh)",
+              "generation": "Phase 1 (2020-2023)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 46.3,
+                "autonomie_wltp_km": 338,
+                "temps_charge_10_80_min": 30,
+                "puissance_dc_max_kw": 100,
+                "conso_wltp_theorique_kwh_100km": 13.7,
+                "puissance_charge_moyenne_10_80_kw": 64.8
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h30",
+                "temps_minutes": 689.7,
+                "temps_heures_decimales": 11.5
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "11h00",
+                "temps_minutes": 659.6,
+                "temps_heures_decimales": 10.99,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 54.6,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 4,
+                "pause_supplementaire_min": 54.6,
+                "autonomie_autoroute_km": 225.0
+              }
+            },
+            {
+              "variante_id": "opel_mokka_electric_54kwh",
+              "nom_variante": "Mokka Electric (50.8 kWh utile / 54 kWh)",
+              "generation": "Phase 2 (2023+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 50.8,
+                "autonomie_wltp_km": 403,
+                "temps_charge_10_80_min": 27,
+                "puissance_dc_max_kw": 100,
+                "conso_wltp_theorique_kwh_100km": 12.61,
+                "puissance_charge_moyenne_10_80_kw": 79.0
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h08",
+                "temps_minutes": 667.9,
+                "temps_heures_decimales": 11.13
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h25",
+                "temps_minutes": 624.5,
+                "temps_heures_decimales": 10.41,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 19.5,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 19.5,
+                "autonomie_autoroute_km": 269.0
+              }
+            }
+          ]
+        },
+        {
+          "id": "opel_frontera_electric",
+          "nom_canonique": "Frontera Electric",
+          "segment": "B",
+          "type_ev": "Variante 100% EV",
+          "alias_scraping": [
+            "frontera electric",
+            "frontera-e",
+            "frontera ev",
+            "frontera électrique"
+          ],
+          "variantes": [
+            {
+              "variante_id": "opel_frontera_44kwh",
+              "nom_variante": "Frontera Electric Standard (44 kWh LFP)",
+              "generation": "Gén 1 (2025+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 43.8,
+                "autonomie_wltp_km": 306,
+                "temps_charge_10_80_min": 26,
+                "puissance_dc_max_kw": 100,
+                "conso_wltp_theorique_kwh_100km": 14.31,
+                "puissance_charge_moyenne_10_80_kw": 70.8
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h37",
+                "temps_minutes": 697.0,
+                "temps_heures_decimales": 11.62
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "11h12",
+                "temps_minutes": 672.1,
+                "temps_heures_decimales": 11.2,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 67.1,
+                "nb_arrets": 6,
+                "nb_etapes_raccourcies": 5,
+                "pause_supplementaire_min": 52.1,
+                "autonomie_autoroute_km": 204.0
+              }
+            },
+            {
+              "variante_id": "opel_frontera_54kwh",
+              "nom_variante": "Frontera Electric Extended Range (54 kWh)",
+              "generation": "Gén 1 (2025+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 52.8,
+                "autonomie_wltp_km": 409,
+                "temps_charge_10_80_min": 33,
+                "puissance_dc_max_kw": 100,
+                "conso_wltp_theorique_kwh_100km": 12.91,
+                "puissance_charge_moyenne_10_80_kw": 67.2
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h10",
+                "temps_minutes": 670.5,
+                "temps_heures_decimales": 11.17
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h37",
+                "temps_minutes": 637.2,
+                "temps_heures_decimales": 10.62,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 32.2,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 32.2,
+                "autonomie_autoroute_km": 273.0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "marque_id": "citroen",
+      "marque_nom": "Citroën",
+      "feeling_marque": 85.6,
+      "modeles": [
+        {
+          "id": "citroen_c_zero",
+          "nom_canonique": "C-Zero",
+          "segment": "A",
+          "type_ev": "100% EV exclusif",
+          "alias_scraping": [
+            "c-zero",
+            "czero",
+            "c zero",
+            "c-zéro"
+          ],
+          "variantes": [
+            {
+              "variante_id": "citroen_c_zero_14kwh",
+              "nom_variante": "C-Zero (14.5 kWh)",
+              "generation": "Gén unique (2010-2020)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 14.5,
+                "autonomie_wltp_km": 110,
+                "temps_charge_10_80_min": 30,
+                "puissance_dc_max_kw": 45,
+                "conso_wltp_theorique_kwh_100km": 13.18,
+                "puissance_charge_moyenne_10_80_kw": 20.3
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "14h31",
+                "temps_minutes": 870.9,
+                "temps_heures_decimales": 14.51
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "17h08",
+                "temps_minutes": 1027.9,
+                "temps_heures_decimales": 17.13,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 422.9,
+                "nb_arrets": 16,
+                "nb_etapes_raccourcies": 16,
+                "pause_supplementaire_min": 257.9,
+                "autonomie_autoroute_km": 76.0
+              }
+            }
+          ]
+        },
+        {
+          "id": "citroen_e_c3",
+          "nom_canonique": "ë-C3",
+          "segment": "B",
+          "type_ev": "Variante 100% EV",
+          "alias_scraping": [
+            "e-c3",
+            "ë-c3",
+            "ec3",
+            "e c3",
+            "ë c3",
+            "c3 electric",
+            "c3 électrique",
+            "c3 electrique",
+            "c3 4 electric",
+            "c3 4 e-"
+          ],
+          "variantes": [
+            {
+              "variante_id": "citroen_e_c3_44kwh",
+              "nom_variante": "ë-C3 (43.8 kWh utile / 44 kWh LFP)",
+              "generation": "Gén 4 (2024+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 43.8,
+                "autonomie_wltp_km": 326,
+                "temps_charge_10_80_min": 26,
+                "puissance_dc_max_kw": 100,
+                "conso_wltp_theorique_kwh_100km": 13.44,
+                "puissance_charge_moyenne_10_80_kw": 70.8
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h27",
+                "temps_minutes": 687.2,
+                "temps_heures_decimales": 11.45
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h51",
+                "temps_minutes": 651.4,
+                "temps_heures_decimales": 10.86,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 46.4,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 4,
+                "pause_supplementaire_min": 46.4,
+                "autonomie_autoroute_km": 217.0
+              }
+            }
+          ]
+        },
+        {
+          "id": "citroen_e_c3_aircross",
+          "nom_canonique": "ë-C3 Aircross",
+          "segment": "B",
+          "type_ev": "Variante 100% EV",
+          "alias_scraping": [
+            "e-c3 aircross",
+            "ë-c3 aircross",
+            "ec3 aircross",
+            "c3 aircross electric",
+            "c3 aircross électrique"
+          ],
+          "variantes": [
+            {
+              "variante_id": "citroen_e_c3_aircross_44kwh",
+              "nom_variante": "ë-C3 Aircross Standard (43.8 kWh LFP)",
+              "generation": "Gén 2 (2025+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 43.8,
+                "autonomie_wltp_km": 306,
+                "temps_charge_10_80_min": 26,
+                "puissance_dc_max_kw": 100,
+                "conso_wltp_theorique_kwh_100km": 14.31,
+                "puissance_charge_moyenne_10_80_kw": 70.8
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h37",
+                "temps_minutes": 697.0,
+                "temps_heures_decimales": 11.62
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "11h12",
+                "temps_minutes": 672.1,
+                "temps_heures_decimales": 11.2,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 67.1,
+                "nb_arrets": 6,
+                "nb_etapes_raccourcies": 5,
+                "pause_supplementaire_min": 52.1,
+                "autonomie_autoroute_km": 204.0
+              }
+            },
+            {
+              "variante_id": "citroen_e_c3_aircross_54kwh",
+              "nom_variante": "ë-C3 Aircross Extended Range (52.8 kWh)",
+              "generation": "Gén 2 (2025+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 52.8,
+                "autonomie_wltp_km": 400,
+                "temps_charge_10_80_min": 33,
+                "puissance_dc_max_kw": 100,
+                "conso_wltp_theorique_kwh_100km": 13.2,
+                "puissance_charge_moyenne_10_80_kw": 67.2
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h12",
+                "temps_minutes": 672.2,
+                "temps_heures_decimales": 11.2
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h41",
+                "temps_minutes": 640.7,
+                "temps_heures_decimales": 10.68,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 35.7,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 35.7,
+                "autonomie_autoroute_km": 267.0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "marque_id": "peugeot",
+      "marque_nom": "Peugeot",
+      "feeling_marque": 85.6,
+      "modeles": [
+        {
+          "id": "peugeot_ion",
+          "nom_canonique": "iOn",
+          "segment": "A",
+          "type_ev": "100% EV exclusif",
+          "alias_scraping": [
+            "ion",
+            "peugeot ion"
+          ],
+          "variantes": [
+            {
+              "variante_id": "peugeot_ion_14kwh",
+              "nom_variante": "iOn (14.5 kWh)",
+              "generation": "Gén unique (2010-2020)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 14.5,
+                "autonomie_wltp_km": 110,
+                "temps_charge_10_80_min": 30,
+                "puissance_dc_max_kw": 45,
+                "conso_wltp_theorique_kwh_100km": 13.18,
+                "puissance_charge_moyenne_10_80_kw": 20.3
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "14h31",
+                "temps_minutes": 870.9,
+                "temps_heures_decimales": 14.51
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "17h08",
+                "temps_minutes": 1027.9,
+                "temps_heures_decimales": 17.13,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 422.9,
+                "nb_arrets": 16,
+                "nb_etapes_raccourcies": 16,
+                "pause_supplementaire_min": 257.9,
+                "autonomie_autoroute_km": 76.0
+              }
+            }
+          ]
+        },
+        {
+          "id": "peugeot_e_208",
+          "nom_canonique": "e-208",
+          "segment": "B",
+          "type_ev": "Variante 100% EV",
+          "alias_scraping": [
+            "e-208",
+            "e208",
+            "e 208",
+            "208 electric",
+            "208 électrique",
+            "208 electrique"
+          ],
+          "variantes": [
+            {
+              "variante_id": "peugeot_e_208_50kwh",
+              "nom_variante": "e-208 (46.3 kWh utile / 50 kWh)",
+              "generation": "Phase 1 (2019-2023)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 46.3,
+                "autonomie_wltp_km": 362,
+                "temps_charge_10_80_min": 30,
+                "puissance_dc_max_kw": 100,
+                "conso_wltp_theorique_kwh_100km": 12.79,
+                "puissance_charge_moyenne_10_80_kw": 64.8
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h21",
+                "temps_minutes": 681.2,
+                "temps_heures_decimales": 11.35
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h48",
+                "temps_minutes": 648.3,
+                "temps_heures_decimales": 10.8,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 43.3,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 43.3,
+                "autonomie_autoroute_km": 241.0
+              }
+            },
+            {
+              "variante_id": "peugeot_e_208_51kwh",
+              "nom_variante": "e-208 (48.1 kWh utile / 51 kWh)",
+              "generation": "Phase 2 (2023+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 48.1,
+                "autonomie_wltp_km": 410,
+                "temps_charge_10_80_min": 27,
+                "puissance_dc_max_kw": 100,
+                "conso_wltp_theorique_kwh_100km": 11.73,
+                "puissance_charge_moyenne_10_80_kw": 74.8
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h06",
+                "temps_minutes": 666.2,
+                "temps_heures_decimales": 11.1
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h22",
+                "temps_minutes": 622.3,
+                "temps_heures_decimales": 10.37,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 17.3,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 17.3,
+                "autonomie_autoroute_km": 273.0
+              }
+            }
+          ]
+        },
+        {
+          "id": "peugeot_e_2008",
+          "nom_canonique": "e-2008",
+          "segment": "B",
+          "type_ev": "Variante 100% EV",
+          "alias_scraping": [
+            "e-2008",
+            "e2008",
+            "e 2008",
+            "2008 electric",
+            "2008 électrique",
+            "2008 electrique"
+          ],
+          "variantes": [
+            {
+              "variante_id": "peugeot_e_2008_50kwh",
+              "nom_variante": "e-2008 (46.3 kWh utile / 50 kWh)",
+              "generation": "Phase 1 (2020-2023)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 46.3,
+                "autonomie_wltp_km": 345,
+                "temps_charge_10_80_min": 30,
+                "puissance_dc_max_kw": 100,
+                "conso_wltp_theorique_kwh_100km": 13.42,
+                "puissance_charge_moyenne_10_80_kw": 64.8
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h26",
+                "temps_minutes": 686.4,
+                "temps_heures_decimales": 11.44
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h56",
+                "temps_minutes": 656.1,
+                "temps_heures_decimales": 10.94,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 51.1,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 4,
+                "pause_supplementaire_min": 51.1,
+                "autonomie_autoroute_km": 230.0
+              }
+            },
+            {
+              "variante_id": "peugeot_e_2008_54kwh",
+              "nom_variante": "e-2008 (50.8 kWh utile / 54 kWh)",
+              "generation": "Phase 2 (2023+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 50.8,
+                "autonomie_wltp_km": 406,
+                "temps_charge_10_80_min": 27,
+                "puissance_dc_max_kw": 100,
+                "conso_wltp_theorique_kwh_100km": 12.51,
+                "puissance_charge_moyenne_10_80_kw": 79.0
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h07",
+                "temps_minutes": 667.2,
+                "temps_heures_decimales": 11.12
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h24",
+                "temps_minutes": 623.5,
+                "temps_heures_decimales": 10.39,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 18.5,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 18.5,
+                "autonomie_autoroute_km": 271.0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "marque_id": "fiat",
+      "marque_nom": "Fiat",
+      "feeling_marque": 83.7,
+      "modeles": [
+        {
+          "id": "fiat_500e",
+          "nom_canonique": "500e",
+          "segment": "A",
+          "type_ev": "Variante 100% EV / Nouvelle gen 100% EV",
+          "alias_scraping": [
+            "500e",
+            "500 e",
+            "500 electric",
+            "500 électrique",
+            "500 electrique",
+            "500 la prima",
+            "500 icon",
+            "500 action"
+          ],
+          "variantes": [
+            {
+              "variante_id": "fiat_500e_24kwh",
+              "nom_variante": "500e Petite Batterie (21.3 kWh utile / 23.8 kWh)",
+              "generation": "Gén 2 (2020+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 21.3,
+                "autonomie_wltp_km": 190,
+                "temps_charge_10_80_min": 30,
+                "puissance_dc_max_kw": 50,
+                "conso_wltp_theorique_kwh_100km": 11.21,
+                "puissance_charge_moyenne_10_80_kw": 29.8
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "13h41",
+                "temps_minutes": 821.3,
+                "temps_heures_decimales": 13.69
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "13h14",
+                "temps_minutes": 793.6,
+                "temps_heures_decimales": 13.23,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 188.6,
+                "nb_arrets": 9,
+                "nb_etapes_raccourcies": 9,
+                "pause_supplementaire_min": 128.6,
+                "autonomie_autoroute_km": 132.0
+              }
+            },
+            {
+              "variante_id": "fiat_500e_42kwh",
+              "nom_variante": "500e Grande Batterie (37.3 kWh utile / 42 kWh)",
+              "generation": "Gén 2 (2020+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 37.3,
+                "autonomie_wltp_km": 320,
+                "temps_charge_10_80_min": 25,
+                "puissance_dc_max_kw": 85,
+                "conso_wltp_theorique_kwh_100km": 11.66,
+                "puissance_charge_moyenne_10_80_kw": 62.7
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h31",
+                "temps_minutes": 691.3,
+                "temps_heures_decimales": 11.52
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h45",
+                "temps_minutes": 645.0,
+                "temps_heures_decimales": 10.75,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 40.0,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 4,
+                "pause_supplementaire_min": 40.0,
+                "autonomie_autoroute_km": 221.0
+              }
+            }
+          ]
+        },
+        {
+          "id": "fiat_grande_panda_e",
+          "nom_canonique": "Grande Panda Electric",
+          "segment": "B",
+          "type_ev": "Variante 100% EV",
+          "alias_scraping": [
+            "grande panda",
+            "grande panda electric",
+            "grande panda-e",
+            "grande panda ev"
+          ],
+          "variantes": [
+            {
+              "variante_id": "fiat_grande_panda_44kwh",
+              "nom_variante": "Grande Panda Electric (43.8 kWh utile / 44 kWh LFP)",
+              "generation": "Gén 1 (2025+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 43.8,
+                "autonomie_wltp_km": 320,
+                "temps_charge_10_80_min": 27,
+                "puissance_dc_max_kw": 100,
+                "conso_wltp_theorique_kwh_100km": 13.69,
+                "puissance_charge_moyenne_10_80_kw": 68.1
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h32",
+                "temps_minutes": 691.7,
+                "temps_heures_decimales": 11.53
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h58",
+                "temps_minutes": 658.0,
+                "temps_heures_decimales": 10.97,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 53.0,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 4,
+                "pause_supplementaire_min": 53.0,
+                "autonomie_autoroute_km": 213.0
+              }
+            }
+          ]
+        },
+        {
+          "id": "fiat_600e",
+          "nom_canonique": "600e",
+          "segment": "B",
+          "type_ev": "Variante 100% EV",
+          "alias_scraping": [
+            "600e",
+            "600 e",
+            "600 electric",
+            "600 électrique",
+            "600 electrique",
+            "600"
+          ],
+          "variantes": [
+            {
+              "variante_id": "fiat_600e_54kwh",
+              "nom_variante": "600e (50.8 kWh utile / 54 kWh)",
+              "generation": "Gén 1 (2023+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 50.8,
+                "autonomie_wltp_km": 409,
+                "temps_charge_10_80_min": 27,
+                "puissance_dc_max_kw": 100,
+                "conso_wltp_theorique_kwh_100km": 12.42,
+                "puissance_charge_moyenne_10_80_kw": 79.0
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h06",
+                "temps_minutes": 666.5,
+                "temps_heures_decimales": 11.11
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h23",
+                "temps_minutes": 622.6,
+                "temps_heures_decimales": 10.38,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 17.6,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 17.6,
+                "autonomie_autoroute_km": 273.0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "marque_id": "audi",
+      "marque_nom": "Audi",
+      "feeling_marque": 82.8,
+      "modeles": [
+        {
+          "id": "audi_a2_etron",
+          "nom_canonique": "A2 e-tron",
+          "segment": "B",
+          "type_ev": "100% EV exclusif",
+          "alias_scraping": [
+            "a2 e-tron",
+            "a2 etron",
+            "audi a2 e-tron"
+          ],
+          "variantes": [
+            {
+              "variante_id": "audi_a2_etron_125kw_42kwh",
+              "nom_variante": "A2 e-tron 125 kW (42 kWh utile / 52 kWh)",
+              "generation": "Gén 1 (2026+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 42.0,
+                "autonomie_wltp_km": 423,
+                "temps_charge_10_80_min": 24,
+                "puissance_dc_max_kw": 100,
+                "conso_wltp_theorique_kwh_100km": 9.93,
+                "puissance_charge_moyenne_10_80_kw": 73.5
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "10h49",
+                "temps_minutes": 648.5,
+                "temps_heures_decimales": 10.81
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h13",
+                "temps_minutes": 612.6,
+                "temps_heures_decimales": 10.21,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 7.6,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 7.6,
+                "autonomie_autoroute_km": 282.0
+              }
+            },
+            {
+              "variante_id": "audi_a2_etron_140kw_58kwh",
+              "nom_variante": "A2 e-tron 140 kW (58 kWh utile / 61 kWh)",
+              "generation": "Gén 1 (2026+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 58.0,
+                "autonomie_wltp_km": 501,
+                "temps_charge_10_80_min": 24,
+                "puissance_dc_max_kw": 100,
+                "conso_wltp_theorique_kwh_100km": 11.58,
+                "puissance_charge_moyenne_10_80_kw": 101.5
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "10h21",
+                "temps_minutes": 620.7,
+                "temps_heures_decimales": 10.35
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h05",
+                "temps_minutes": 605.0,
+                "temps_heures_decimales": 10.08,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 0.0,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 0.0,
+                "autonomie_autoroute_km": 334.0
+              }
+            },
+            {
+              "variante_id": "audi_a2_etron_170kw_79kwh",
+              "nom_variante": "A2 e-tron 170 kW (79 kWh utile / 84 kWh)",
+              "generation": "Gén 1 (2026+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 79.0,
+                "autonomie_wltp_km": 649,
+                "temps_charge_10_80_min": 29,
+                "puissance_dc_max_kw": 183,
+                "conso_wltp_theorique_kwh_100km": 12.17,
+                "puissance_charge_moyenne_10_80_kw": 114.4
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "9h59",
+                "temps_minutes": 598.9,
+                "temps_heures_decimales": 9.98
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h05",
+                "temps_minutes": 605.0,
+                "temps_heures_decimales": 10.08,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 0.0,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 0.0,
+                "autonomie_autoroute_km": 433.0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "marque_id": "nissan",
+      "marque_nom": "Nissan",
+      "feeling_marque": 82.2,
+      "modeles": [
+        {
+          "id": "nissan_micra_ev",
+          "nom_canonique": "Micra EV",
+          "segment": "B",
+          "type_ev": "100% EV exclusif",
+          "alias_scraping": [
+            "micra ev",
+            "micra electric",
+            "micra e-tech",
+            "micra électrique"
+          ],
+          "variantes": [
+            {
+              "variante_id": "nissan_micra_ev_40kwh",
+              "nom_variante": "Micra EV Engage/Advance (40 kWh)",
+              "generation": "K15 (2025+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 40.0,
+                "autonomie_wltp_km": 317,
+                "temps_charge_10_80_min": 30,
+                "puissance_dc_max_kw": 80,
+                "conso_wltp_theorique_kwh_100km": 12.62,
+                "puissance_charge_moyenne_10_80_kw": 56.0
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h39",
+                "temps_minutes": 698.5,
+                "temps_heures_decimales": 11.64
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "11h11",
+                "temps_minutes": 671.0,
+                "temps_heures_decimales": 11.18,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 66.0,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 4,
+                "pause_supplementaire_min": 66.0,
+                "autonomie_autoroute_km": 211.0
+              }
+            },
+            {
+              "variante_id": "nissan_micra_ev_52kwh",
+              "nom_variante": "Micra EV Advance/Evolve (52 kWh)",
+              "generation": "K15 (2025+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 52.0,
+                "autonomie_wltp_km": 416,
+                "temps_charge_10_80_min": 30,
+                "puissance_dc_max_kw": 100,
+                "conso_wltp_theorique_kwh_100km": 12.5,
+                "puissance_charge_moyenne_10_80_kw": 72.8
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h07",
+                "temps_minutes": 666.8,
+                "temps_heures_decimales": 11.11
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h28",
+                "temps_minutes": 627.5,
+                "temps_heures_decimales": 10.46,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 22.5,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 22.5,
+                "autonomie_autoroute_km": 277.0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "marque_id": "honda",
+      "marque_nom": "Honda",
+      "feeling_marque": 80.6,
+      "modeles": [
+        {
+          "id": "honda_e",
+          "nom_canonique": "Honda e",
+          "segment": "B",
+          "type_ev": "100% EV exclusif",
+          "alias_scraping": [
+            "honda e",
+            "honda-e",
+            "e advance"
+          ],
+          "variantes": [
+            {
+              "variante_id": "honda_e_35kwh",
+              "nom_variante": "Honda e (28.5 kWh utile / 35.5 kWh)",
+              "generation": "Gén unique (2020-2023)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 28.5,
+                "autonomie_wltp_km": 222,
+                "temps_charge_10_80_min": 30,
+                "puissance_dc_max_kw": 56,
+                "conso_wltp_theorique_kwh_100km": 12.84,
+                "puissance_charge_moyenne_10_80_kw": 39.9
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "12h33",
+                "temps_minutes": 753.0,
+                "temps_heures_decimales": 12.55
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "12h38",
+                "temps_minutes": 758.1,
+                "temps_heures_decimales": 12.63,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 153.1,
+                "nb_arrets": 8,
+                "nb_etapes_raccourcies": 8,
+                "pause_supplementaire_min": 108.1,
+                "autonomie_autoroute_km": 148.0
+              }
+            }
+          ]
+        },
+        {
+          "id": "honda_e_ny1",
+          "nom_canonique": "e:Ny1",
+          "segment": "B",
+          "type_ev": "100% EV exclusif",
+          "alias_scraping": [
+            "e:ny1",
+            "eny1",
+            "e ny1",
+            "e-ny1"
+          ],
+          "variantes": [
+            {
+              "variante_id": "honda_e_ny1_62kwh",
+              "nom_variante": "e:Ny1 (61.9 kWh utile / 68.8 kWh)",
+              "generation": "Gén 1 (2023-2026)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 61.9,
+                "autonomie_wltp_km": 412,
+                "temps_charge_10_80_min": 45,
+                "puissance_dc_max_kw": 78,
+                "conso_wltp_theorique_kwh_100km": 15.02,
+                "puissance_charge_moyenne_10_80_kw": 57.8
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h31",
+                "temps_minutes": 691.4,
+                "temps_heures_decimales": 11.52
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "11h08",
+                "temps_minutes": 667.7,
+                "temps_heures_decimales": 11.13,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 62.7,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 62.7,
+                "autonomie_autoroute_km": 275.0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "marque_id": "mini",
+      "marque_nom": "MINI",
+      "feeling_marque": 78.9,
+      "modeles": [
+        {
+          "id": "mini_cooper_se",
+          "nom_canonique": "Cooper SE / Cooper E",
+          "segment": "B",
+          "type_ev": "Variante 100% EV",
+          "alias_scraping": [
+            "cooper se",
+            "cooper e",
+            "mini electric",
+            "mini électrique",
+            "mini electrique"
+          ],
+          "variantes": [
+            {
+              "variante_id": "mini_cooper_se_f56_29kwh",
+              "nom_variante": "Cooper SE F56 (28.9 kWh utile / 32.6 kWh)",
+              "generation": "Gén 3 F56 (2020-2023)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 28.9,
+                "autonomie_wltp_km": 234,
+                "temps_charge_10_80_min": 29,
+                "puissance_dc_max_kw": 49,
+                "conso_wltp_theorique_kwh_100km": 12.35,
+                "puissance_charge_moyenne_10_80_kw": 41.9
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "12h21",
+                "temps_minutes": 741.2,
+                "temps_heures_decimales": 12.35
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "12h16",
+                "temps_minutes": 735.7,
+                "temps_heures_decimales": 12.26,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 130.7,
+                "nb_arrets": 7,
+                "nb_etapes_raccourcies": 7,
+                "pause_supplementaire_min": 100.7,
+                "autonomie_autoroute_km": 156.0
+              }
+            },
+            {
+              "variante_id": "mini_cooper_e_j01_37kwh",
+              "nom_variante": "Cooper E J01 (36.6 kWh utile / 40.7 kWh)",
+              "generation": "Gén 4 J01 (2024+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 36.6,
+                "autonomie_wltp_km": 305,
+                "temps_charge_10_80_min": 28,
+                "puissance_dc_max_kw": 75,
+                "conso_wltp_theorique_kwh_100km": 12.0,
+                "puissance_charge_moyenne_10_80_kw": 54.9
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h40",
+                "temps_minutes": 700.0,
+                "temps_heures_decimales": 11.67
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "11h20",
+                "temps_minutes": 679.9,
+                "temps_heures_decimales": 11.33,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 74.9,
+                "nb_arrets": 6,
+                "nb_etapes_raccourcies": 5,
+                "pause_supplementaire_min": 59.9,
+                "autonomie_autoroute_km": 203.0
+              }
+            },
+            {
+              "variante_id": "mini_cooper_se_j01_49kwh",
+              "nom_variante": "Cooper SE J01 (49.2 kWh utile / 54.2 kWh)",
+              "generation": "Gén 4 J01 (2024+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 49.2,
+                "autonomie_wltp_km": 402,
+                "temps_charge_10_80_min": 30,
+                "puissance_dc_max_kw": 95,
+                "conso_wltp_theorique_kwh_100km": 12.24,
+                "puissance_charge_moyenne_10_80_kw": 68.9
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h12",
+                "temps_minutes": 672.3,
+                "temps_heures_decimales": 11.21
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h32",
+                "temps_minutes": 632.4,
+                "temps_heures_decimales": 10.54,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 27.4,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 27.4,
+                "autonomie_autoroute_km": 268.0
+              }
+            }
+          ]
+        },
+        {
+          "id": "mini_aceman",
+          "nom_canonique": "Aceman",
+          "segment": "B",
+          "type_ev": "100% EV exclusif",
+          "alias_scraping": [
+            "aceman",
+            "aceman e",
+            "aceman se"
+          ],
+          "variantes": [
+            {
+              "variante_id": "mini_aceman_e_38kwh",
+              "nom_variante": "Aceman E (38.5 kWh utile / 42.5 kWh)",
+              "generation": "Gén 1 J05 (2024+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 38.5,
+                "autonomie_wltp_km": 310,
+                "temps_charge_10_80_min": 28,
+                "puissance_dc_max_kw": 75,
+                "conso_wltp_theorique_kwh_100km": 12.42,
+                "puissance_charge_moyenne_10_80_kw": 57.8
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h38",
+                "temps_minutes": 698.1,
+                "temps_heures_decimales": 11.63
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "11h19",
+                "temps_minutes": 679.4,
+                "temps_heures_decimales": 11.32,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 74.4,
+                "nb_arrets": 6,
+                "nb_etapes_raccourcies": 5,
+                "pause_supplementaire_min": 59.4,
+                "autonomie_autoroute_km": 207.0
+              }
+            },
+            {
+              "variante_id": "mini_aceman_se_49kwh",
+              "nom_variante": "Aceman SE (49.2 kWh utile / 54.2 kWh)",
+              "generation": "Gén 1 J05 (2024+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 49.2,
+                "autonomie_wltp_km": 406,
+                "temps_charge_10_80_min": 30,
+                "puissance_dc_max_kw": 95,
+                "conso_wltp_theorique_kwh_100km": 12.12,
+                "puissance_charge_moyenne_10_80_kw": 68.9
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h12",
+                "temps_minutes": 671.6,
+                "temps_heures_decimales": 11.19
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h31",
+                "temps_minutes": 631.0,
+                "temps_heures_decimales": 10.52,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 26.0,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 26.0,
+                "autonomie_autoroute_km": 271.0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "marque_id": "cupra",
+      "marque_nom": "Cupra",
+      "feeling_marque": 78.5,
+      "modeles": [
+        {
+          "id": "cupra_raval",
+          "nom_canonique": "Raval",
+          "segment": "B",
+          "type_ev": "100% EV exclusif",
+          "alias_scraping": [
+            "raval",
+            "cupra raval"
+          ],
+          "variantes": [
+            {
+              "variante_id": "cupra_raval_origin_37kwh",
+              "nom_variante": "Raval Origin (37 kWh LFP)",
+              "generation": "Gén 1 (2026+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 37.0,
+                "autonomie_wltp_km": 300,
+                "temps_charge_10_80_min": 23,
+                "puissance_dc_max_kw": 88,
+                "conso_wltp_theorique_kwh_100km": 12.33,
+                "puissance_charge_moyenne_10_80_kw": 67.6
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h33",
+                "temps_minutes": 693.4,
+                "temps_heures_decimales": 11.56
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "11h01",
+                "temps_minutes": 661.0,
+                "temps_heures_decimales": 11.02,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 56.0,
+                "nb_arrets": 6,
+                "nb_etapes_raccourcies": 5,
+                "pause_supplementaire_min": 41.0,
+                "autonomie_autoroute_km": 200.0
+              }
+            },
+            {
+              "variante_id": "cupra_raval_v1_52kwh",
+              "nom_variante": "Raval V1 / VZ (52 kWh NMC)",
+              "generation": "Gén 1 (2026+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 52.0,
+                "autonomie_wltp_km": 440,
+                "temps_charge_10_80_min": 24,
+                "puissance_dc_max_kw": 105,
+                "conso_wltp_theorique_kwh_100km": 11.82,
+                "puissance_charge_moyenne_10_80_kw": 91.0
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "10h42",
+                "temps_minutes": 641.7,
+                "temps_heures_decimales": 10.7
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h09",
+                "temps_minutes": 608.8,
+                "temps_heures_decimales": 10.15,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 3.8,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 3.8,
+                "autonomie_autoroute_km": 293.0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "marque_id": "ford",
+      "marque_nom": "Ford",
+      "feeling_marque": 74.7,
+      "modeles": [
+        {
+          "id": "ford_puma_gen_e",
+          "nom_canonique": "Puma Gen-E",
+          "segment": "B",
+          "type_ev": "Variante 100% EV",
+          "alias_scraping": [
+            "puma gen-e",
+            "puma gene",
+            "puma gen e",
+            "puma electric",
+            "puma ev",
+            "puma électrique"
+          ],
+          "variantes": [
+            {
+              "variante_id": "ford_puma_gen_e_44kwh",
+              "nom_variante": "Puma Gen-E (43.6 kWh utile / 53 kWh)",
+              "generation": "Gén 1 (2025+)",
+              "donnees_techniques": {
+                "batterie_utile_kwh": 43.6,
+                "autonomie_wltp_km": 376,
+                "temps_charge_10_80_min": 23,
+                "puissance_dc_max_kw": 100,
+                "conso_wltp_theorique_kwh_100km": 11.6,
+                "puissance_charge_moyenne_10_80_kw": 79.6
+              },
+              "prediction_challenge_1000km": {
+                "temps_formate": "11h07",
+                "temps_minutes": 666.9,
+                "temps_heures_decimales": 11.12
+              },
+              "simulation_humaine_1000km": {
+                "realisable": true,
+                "temps_formate": "10h23",
+                "temps_minutes": 622.6,
+                "temps_heures_decimales": 10.38,
+                "temps_reference_thermique_min": 605.0,
+                "temps_perdu_min": 17.6,
+                "nb_arrets": 5,
+                "nb_etapes_raccourcies": 0,
+                "pause_supplementaire_min": 17.6,
+                "autonomie_autoroute_km": 251.0
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

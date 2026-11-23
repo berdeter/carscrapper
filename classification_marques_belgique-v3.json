@@ -1,0 +1,471 @@
+{
+  "metadata": {
+    "description": "Classification des marques automobiles couramment vendues sur le marché de l'occasion en Belgique (2026)",
+    "axes": {
+      "origine_geopolitique": "Zone d'origine historique/capitale : UE, Near-shore (UK/Suisse), Corée du Sud, Japon, Chine, USA",
+      "origine_capitaux": "Zone du groupe actionnaire majoritaire (ex: Volvo = origine UE, capitaux Chine)",
+      "groupe": "Groupe industriel ou alliance mère",
+      "caractere_principal": "Positionnement principal : Low-cost, Généraliste, Généraliste+, Premium, Luxe, Sport",
+      "caracteres_secondaires": "Nuances supplémentaires de positionnement",
+      "specialisation_ev": "Niveau d'électrification : 100% EV, Multi-énergie (EV fort), Multi-énergie (Hybride fort), Thermique/Hybride léger",
+      "presence_reseau_belgique": "Densité du réseau SAV en Belgique : Très forte, Forte, Moyenne, Émergente, Faible/Niche",
+      "reputation_fiabilite": "Réputation de fiabilité globale en occasion (études Consumer Reports, ADAC, Test Achats, WhatCar) : Excellente, Bonne, Moyenne, Délicate, Trop récente",
+      "score_fiabilite": "Note indicative sur 5 (5 = référence du marché, 1 = pannes fréquentes / coûteuses, null = recul insuffisant)",
+      "feeling_global": {
+        "description": "Indicateur synthétique sur 100 combinant fiabilité (40%), réseau BEL (35%) et géopolitique UE/alliés (25%), sans pénalité de segment.",
+        "ponderation": {
+          "fiabilite": 0.4,
+          "reseau_belgique": 0.35,
+          "geopolitique": 0.25
+        },
+        "echelle_verdict": "Excellent (>= 80), Très bon (70-79), Correct (55-69), Peu adapté (40-54), Écarté (< 40)"
+      }
+    }
+  },
+  "marques": [
+    {
+      "id": "dacia",
+      "nom": "Dacia",
+      "pays_origine": "Roumanie",
+      "origine_geopolitique": "UE",
+      "origine_capitaux": "UE",
+      "groupe": "Renault Group",
+      "caractere_principal": "Low-cost",
+      "caracteres_secondaires": [
+        "Généraliste"
+      ],
+      "specialisation_ev": "Multi-énergie (Hybride fort)",
+      "presence_reseau_belgique": "Très forte",
+      "reputation_fiabilite": "Bonne",
+      "score_fiabilite": 4.0,
+      "feeling_global": {
+        "score": 92.0,
+        "verdict": "Excellent",
+        "details": {
+          "fiabilite_100": 80.0,
+          "reseau_100": 100.0,
+          "geopolitique_100": 100.0
+        }
+      }
+    },
+    {
+      "id": "skoda",
+      "nom": "Škoda",
+      "pays_origine": "République tchèque",
+      "origine_geopolitique": "UE",
+      "origine_capitaux": "UE",
+      "groupe": "Volkswagen Group",
+      "caractere_principal": "Généraliste",
+      "caracteres_secondaires": [
+        "Généraliste+"
+      ],
+      "specialisation_ev": "Multi-énergie (EV fort)",
+      "presence_reseau_belgique": "Très forte",
+      "reputation_fiabilite": "Bonne",
+      "score_fiabilite": 3.7,
+      "feeling_global": {
+        "score": 89.6,
+        "verdict": "Excellent",
+        "details": {
+          "fiabilite_100": 74.0,
+          "reseau_100": 100.0,
+          "geopolitique_100": 100.0
+        }
+      }
+    },
+    {
+      "id": "kia",
+      "nom": "Kia",
+      "pays_origine": "Corée du Sud",
+      "origine_geopolitique": "Corée du Sud",
+      "origine_capitaux": "Corée du Sud",
+      "groupe": "Hyundai Motor Group",
+      "caractere_principal": "Généraliste",
+      "caracteres_secondaires": [
+        "Généraliste+"
+      ],
+      "specialisation_ev": "Multi-énergie (EV fort)",
+      "presence_reseau_belgique": "Très forte",
+      "reputation_fiabilite": "Bonne",
+      "score_fiabilite": 4.2,
+      "feeling_global": {
+        "score": 88.6,
+        "verdict": "Excellent",
+        "details": {
+          "fiabilite_100": 84.0,
+          "reseau_100": 100.0,
+          "geopolitique_100": 80.0
+        }
+      }
+    },
+    {
+      "id": "hyundai",
+      "nom": "Hyundai",
+      "pays_origine": "Corée du Sud",
+      "origine_geopolitique": "Corée du Sud",
+      "origine_capitaux": "Corée du Sud",
+      "groupe": "Hyundai Motor Group",
+      "caractere_principal": "Généraliste",
+      "caracteres_secondaires": [
+        "Généraliste+"
+      ],
+      "specialisation_ev": "Multi-énergie (EV fort)",
+      "presence_reseau_belgique": "Très forte",
+      "reputation_fiabilite": "Bonne",
+      "score_fiabilite": 4.1,
+      "feeling_global": {
+        "score": 87.8,
+        "verdict": "Excellent",
+        "details": {
+          "fiabilite_100": 82.0,
+          "reseau_100": 100.0,
+          "geopolitique_100": 80.0
+        }
+      }
+    },
+    {
+      "id": "renault",
+      "nom": "Renault",
+      "pays_origine": "France",
+      "origine_geopolitique": "UE",
+      "origine_capitaux": "UE",
+      "groupe": "Renault Group",
+      "caractere_principal": "Généraliste",
+      "caracteres_secondaires": [],
+      "specialisation_ev": "Multi-énergie (EV fort)",
+      "presence_reseau_belgique": "Très forte",
+      "reputation_fiabilite": "Moyenne",
+      "score_fiabilite": 3.4,
+      "feeling_global": {
+        "score": 87.2,
+        "verdict": "Excellent",
+        "details": {
+          "fiabilite_100": 68.0,
+          "reseau_100": 100.0,
+          "geopolitique_100": 100.0
+        }
+      }
+    },
+    {
+      "id": "volkswagen",
+      "nom": "Volkswagen",
+      "pays_origine": "Allemagne",
+      "origine_geopolitique": "UE",
+      "origine_capitaux": "UE",
+      "groupe": "Volkswagen Group",
+      "caractere_principal": "Généraliste",
+      "caracteres_secondaires": [
+        "Généraliste+"
+      ],
+      "specialisation_ev": "Multi-énergie (EV fort)",
+      "presence_reseau_belgique": "Très forte",
+      "reputation_fiabilite": "Moyenne",
+      "score_fiabilite": 3.4,
+      "feeling_global": {
+        "score": 87.2,
+        "verdict": "Excellent",
+        "details": {
+          "fiabilite_100": 68.0,
+          "reseau_100": 100.0,
+          "geopolitique_100": 100.0
+        }
+      }
+    },
+    {
+      "id": "audi",
+      "nom": "Audi",
+      "pays_origine": "Allemagne",
+      "origine_geopolitique": "UE",
+      "origine_capitaux": "UE",
+      "groupe": "Volkswagen Group",
+      "caractere_principal": "Premium",
+      "caracteres_secondaires": [
+        "Sport"
+      ],
+      "specialisation_ev": "Multi-énergie (EV fort)",
+      "presence_reseau_belgique": "Très forte",
+      "reputation_fiabilite": "Moyenne",
+      "score_fiabilite": 3.3,
+      "feeling_global": {
+        "score": 86.4,
+        "verdict": "Excellent",
+        "details": {
+          "fiabilite_100": 66.0,
+          "reseau_100": 100.0,
+          "geopolitique_100": 100.0
+        }
+      }
+    },
+    {
+      "id": "suzuki",
+      "nom": "Suzuki",
+      "pays_origine": "Japon",
+      "origine_geopolitique": "Japon",
+      "origine_capitaux": "Japon",
+      "groupe": "Suzuki Motor Corporation",
+      "caractere_principal": "Généraliste",
+      "caracteres_secondaires": [
+        "Low-cost"
+      ],
+      "specialisation_ev": "Multi-énergie (Hybride fort)",
+      "presence_reseau_belgique": "Forte",
+      "reputation_fiabilite": "Excellente",
+      "score_fiabilite": 4.4,
+      "feeling_global": {
+        "score": 85.0,
+        "verdict": "Excellent",
+        "details": {
+          "fiabilite_100": 88.0,
+          "reseau_100": 85.0,
+          "geopolitique_100": 80.0
+        }
+      }
+    },
+    {
+      "id": "mini",
+      "nom": "MINI",
+      "pays_origine": "Royaume-Uni",
+      "origine_geopolitique": "Near-shore",
+      "origine_capitaux": "UE",
+      "groupe": "BMW Group",
+      "caractere_principal": "Premium",
+      "caracteres_secondaires": [
+        "Généraliste+",
+        "Sport"
+      ],
+      "specialisation_ev": "Multi-énergie (EV fort)",
+      "presence_reseau_belgique": "Forte",
+      "reputation_fiabilite": "Bonne",
+      "score_fiabilite": 3.9,
+      "feeling_global": {
+        "score": 82.2,
+        "verdict": "Excellent",
+        "details": {
+          "fiabilite_100": 78.0,
+          "reseau_100": 85.0,
+          "geopolitique_100": 85.0
+        }
+      }
+    },
+    {
+      "id": "seat",
+      "nom": "SEAT",
+      "pays_origine": "Espagne",
+      "origine_geopolitique": "UE",
+      "origine_capitaux": "UE",
+      "groupe": "Volkswagen Group",
+      "caractere_principal": "Généraliste",
+      "caracteres_secondaires": [],
+      "specialisation_ev": "Thermique/Hybride léger",
+      "presence_reseau_belgique": "Forte",
+      "reputation_fiabilite": "Moyenne",
+      "score_fiabilite": 3.4,
+      "feeling_global": {
+        "score": 82.0,
+        "verdict": "Excellent",
+        "details": {
+          "fiabilite_100": 68.0,
+          "reseau_100": 85.0,
+          "geopolitique_100": 100.0
+        }
+      }
+    },
+    {
+      "id": "cupra",
+      "nom": "Cupra",
+      "pays_origine": "Espagne",
+      "origine_geopolitique": "UE",
+      "origine_capitaux": "UE",
+      "groupe": "Volkswagen Group",
+      "caractere_principal": "Généraliste+",
+      "caracteres_secondaires": [
+        "Sport"
+      ],
+      "specialisation_ev": "Multi-énergie (EV fort)",
+      "presence_reseau_belgique": "Forte",
+      "reputation_fiabilite": "Moyenne",
+      "score_fiabilite": 3.2,
+      "feeling_global": {
+        "score": 80.3,
+        "verdict": "Excellent",
+        "details": {
+          "fiabilite_100": 64.0,
+          "reseau_100": 85.0,
+          "geopolitique_100": 100.0
+        }
+      }
+    },
+    {
+      "id": "nissan",
+      "nom": "Nissan",
+      "pays_origine": "Japon",
+      "origine_geopolitique": "Japon",
+      "origine_capitaux": "Japon",
+      "groupe": "Alliance Renault-Nissan-Mitsubishi",
+      "caractere_principal": "Généraliste",
+      "caracteres_secondaires": [],
+      "specialisation_ev": "Multi-énergie (EV fort)",
+      "presence_reseau_belgique": "Forte",
+      "reputation_fiabilite": "Moyenne",
+      "score_fiabilite": 3.5,
+      "feeling_global": {
+        "score": 77.8,
+        "verdict": "Très bon",
+        "details": {
+          "fiabilite_100": 70.0,
+          "reseau_100": 85.0,
+          "geopolitique_100": 80.0
+        }
+      }
+    },
+    {
+      "id": "honda",
+      "nom": "Honda",
+      "pays_origine": "Japon",
+      "origine_geopolitique": "Japon",
+      "origine_capitaux": "Japon",
+      "groupe": "Honda Motor Co.",
+      "caractere_principal": "Généraliste",
+      "caracteres_secondaires": [
+        "Généraliste+",
+        "Sport"
+      ],
+      "specialisation_ev": "Multi-énergie (Hybride fort)",
+      "presence_reseau_belgique": "Moyenne",
+      "reputation_fiabilite": "Excellente",
+      "score_fiabilite": 4.6,
+      "feeling_global": {
+        "score": 77.8,
+        "verdict": "Très bon",
+        "details": {
+          "fiabilite_100": 92.0,
+          "reseau_100": 60.0,
+          "geopolitique_100": 80.0
+        }
+      }
+    },
+    {
+      "id": "opel",
+      "nom": "Opel",
+      "pays_origine": "Allemagne",
+      "origine_geopolitique": "UE",
+      "origine_capitaux": "UE",
+      "groupe": "Stellantis",
+      "caractere_principal": "Généraliste",
+      "caracteres_secondaires": [],
+      "specialisation_ev": "Multi-énergie (EV fort)",
+      "presence_reseau_belgique": "Très forte",
+      "reputation_fiabilite": "Très délicate",
+      "score_fiabilite": 2.1,
+      "feeling_global": {
+        "score": 76.8,
+        "verdict": "Très bon",
+        "details": {
+          "fiabilite_100": 42.0,
+          "reseau_100": 100.0,
+          "geopolitique_100": 100.0
+        }
+      }
+    },
+    {
+      "id": "citroen",
+      "nom": "Citroën",
+      "pays_origine": "France",
+      "origine_geopolitique": "UE",
+      "origine_capitaux": "UE",
+      "groupe": "Stellantis",
+      "caractere_principal": "Généraliste",
+      "caracteres_secondaires": [
+        "Low-cost"
+      ],
+      "specialisation_ev": "Multi-énergie (EV fort)",
+      "presence_reseau_belgique": "Très forte",
+      "reputation_fiabilite": "Très délicate",
+      "score_fiabilite": 2.1,
+      "feeling_global": {
+        "score": 76.8,
+        "verdict": "Très bon",
+        "details": {
+          "fiabilite_100": 42.0,
+          "reseau_100": 100.0,
+          "geopolitique_100": 100.0
+        }
+      }
+    },
+    {
+      "id": "peugeot",
+      "nom": "Peugeot",
+      "pays_origine": "France",
+      "origine_geopolitique": "UE",
+      "origine_capitaux": "UE",
+      "groupe": "Stellantis",
+      "caractere_principal": "Généraliste",
+      "caracteres_secondaires": [
+        "Généraliste+"
+      ],
+      "specialisation_ev": "Multi-énergie (EV fort)",
+      "presence_reseau_belgique": "Très forte",
+      "reputation_fiabilite": "Très délicate",
+      "score_fiabilite": 2.1,
+      "feeling_global": {
+        "score": 76.8,
+        "verdict": "Très bon",
+        "details": {
+          "fiabilite_100": 42.0,
+          "reseau_100": 100.0,
+          "geopolitique_100": 100.0
+        }
+      }
+    },
+    {
+      "id": "fiat",
+      "nom": "Fiat",
+      "pays_origine": "Italie",
+      "origine_geopolitique": "UE",
+      "origine_capitaux": "UE",
+      "groupe": "Stellantis",
+      "caractere_principal": "Généraliste",
+      "caracteres_secondaires": [
+        "Low-cost"
+      ],
+      "specialisation_ev": "Multi-énergie (EV fort)",
+      "presence_reseau_belgique": "Forte",
+      "reputation_fiabilite": "Délicate",
+      "score_fiabilite": 2.4,
+      "feeling_global": {
+        "score": 74.0,
+        "verdict": "Très bon",
+        "details": {
+          "fiabilite_100": 48.0,
+          "reseau_100": 85.0,
+          "geopolitique_100": 100.0
+        }
+      }
+    },
+    {
+      "id": "ford",
+      "nom": "Ford",
+      "pays_origine": "États-Unis",
+      "origine_geopolitique": "USA",
+      "origine_capitaux": "USA",
+      "groupe": "Ford Motor Company",
+      "caractere_principal": "Généraliste",
+      "caracteres_secondaires": [
+        "Sport"
+      ],
+      "specialisation_ev": "Multi-énergie (EV fort)",
+      "presence_reseau_belgique": "Très forte",
+      "reputation_fiabilite": "Moyenne",
+      "score_fiabilite": 3.2,
+      "feeling_global": {
+        "score": 73.1,
+        "verdict": "Très bon",
+        "details": {
+          "fiabilite_100": 64.0,
+          "reseau_100": 100.0,
+          "geopolitique_100": 50.0
+        }
+      }
+    }
+  ]
+}
