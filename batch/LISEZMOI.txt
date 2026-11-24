@@ -1,0 +1,38 @@
+﻿Batchs du pipeline carscrapper (double-clic ou ligne de commande depuis n'importe quel dossier)
+=============================================================================================
+
+full.bat           Traitement complet : scraping de toutes les pages -> match -> fiches de détail
+                   -> résolution des variantes -> estimation (best_ev_opportunities.xlsx).
+                   Les annonces non revues deviennent inactives, les fiches orphelines sont retirées.
+                   Arguments transmis au pipeline : full.bat --scraper renew   /   full.bat --headless
+
+reset-all.bat      Après une longue pause : archive toutes les données d'annonces dans
+                   archives\AAAAMMJJ-HHMMSS\ puis lance full.bat. models.json et les scores de
+                   marques sont conservés. « reset-all.bat /y » : sans confirmation.
+
+update.bat         Mise à jour rapide (3 premières pages par source) : nouvelles annonces et prix,
+                   fiches en échec retentées, puis résolution et estimation.
+                   Ne détecte pas les annonces disparues (full.bat le fait).
+
+replay.bat         Hors-ligne, sans réseau : après une modification de models.json (alias, variantes,
+                   puissance_moteur_kw, mots_cles), des marques autorisées ou des règles. Rejoue
+                   match + resolve sur toutes les annonces, puis l'estimation.
+
+estimate.bat       Estimation seule, après un changement de paramètres de MarketEstimator.
+
+simulate.bat       Recalcule la simulation 1000 km de toutes les variantes de models.json (sauvegarde
+                   dans archives\ avant), puis resolve + estimation. Affiche les temps Spring / IONIQ 3
+                   pour mettre à jour ref_sim_min dans market_estimator.py si besoin.
+
+details-retry.bat  Retente les fiches de détail en échec (même abandonnées après 3 essais).
+                   « details-retry.bat --refresh-details » relit TOUTES les fiches : à faire une fois,
+                   car avant le 23/11/2026 une fiche en échec était marquée lue à tort.
+
+_env.bat, _estimate.bat : utilitaires internes (ne pas lancer directement).
+
+Remarques
+- Python : .venv\Scripts\python.exe s'il existe, sinon « python » du PATH.
+- Fermer best_ev_opportunities.xlsx dans Excel avant une estimation (sinon échec d'écriture).
+- full.bat suppose que 200 pages couvrent tout le catalogue de chaque source : si une source a plus
+  d'annonces, augmenter --max-pages, sinon --mark-missing rendrait inactives des annonces encore en ligne.
+- --prune sauvegarde resolved_cars.json (resolved_cars.json.bak-...) avant de retirer des fiches.

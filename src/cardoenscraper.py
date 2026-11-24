@@ -1,3 +1,5 @@
+import time
+import random
 from cardata import CarScraperBase
 import requests
 from bs4 import BeautifulSoup
@@ -6,12 +8,14 @@ import re
 from typing import List, Optional, Any
 from bs4 import BeautifulSoup
 import requests
-from cardata import CarScraperBase, CarListing
+from cardata import CarScraperBase, CarListing, DetailsFetchError, DetailsGoneError
 import requests
 from bs4 import BeautifulSoup
 from carhelper import CarHelper
 
 class CardoenScraper(CarScraperBase):
+    TIMEOUT = 15  # secondes : sans timeout, un serveur muet bloquait tout le pipeline
+
     def __init__(self, helper: CarHelper):
         self.helper = helper   
     def scrape_base_data(self, max_pages: int = 200)  -> List[CarListing]:
@@ -23,12 +27,16 @@ class CardoenScraper(CarScraperBase):
 
         while page_num <= max_pages:
             url = f"{base_url}?page={page_num}" if page_num > 1 else base_url
-            response = requests.get(url, headers=self.helper.headers)
-            if response.status_code != 200:
+            try:
+                response = requests.get(url, headers=self.helper.headers, timeout=self.TIMEOUT)
+                if response.status_code != 200:
                     url = f"{base_url}?p={page_num}"
-                    response = requests.get(url, headers=self.helper.headers)
-                    if response.status_code != 200:
-                        break
+                    response = requests.get(url, headers=self.helper.headers, timeout=self.TIMEOUT)
+            except requests.RequestException as e:
+                print(f"[Cardoen] Erreur réseau page {page_num} : {e} ({len(listings)} annonces conservées)")
+                break
+            if response.status_code != 200:
+                break
 
             soup = BeautifulSoup(response.text, "html.parser")
             cards = soup.find_all("article", class_=lambda x: x and "card" in x.lower()) or soup.find_all("div", class_=lambda x: x and "vehicle" in x.lower())
@@ -108,6 +116,7 @@ class CardoenScraper(CarScraperBase):
                     break
             print(f"[Cardoen] Page {page_num} traitée ({new_cards_count} véhicules).")
             page_num += 1
+            time.sleep(random.uniform(0.8, 1.6))  # politesse envers le serveur
 
         print(f"[Cardoen] Total : {len(listings)} véhicules extraits.")
         return listings
@@ -117,96 +126,95 @@ class CardoenScraper(CarScraperBase):
             # Récupération sécurisée de l'objet CarListing sous-jacent
             car_obj = listing.listing if hasattr(listing, "listing") else listing
             
-            try:
-                resp = requests.get(car_obj.url, headers=self.helper.headers, timeout=12)
-                if resp.status_code != 200:
-                    return listing
+            # Pas de try/except global : une erreur remonte au pipeline, qui retentera la fiche plus tard.
+            resp = requests.get(car_obj.url, headers=self.helper.headers, timeout=self.TIMEOUT)
+            if resp.status_code in (404, 410):
+                raise DetailsGoneError(f"HTTP {resp.status_code}")
+            if resp.status_code != 200:
+                raise DetailsFetchError(f"HTTP {resp.status_code}")
 
-                soup = BeautifulSoup(resp.text, "html.parser")
+            soup = BeautifulSoup(resp.text, "html.parser")
 
-                # 1. Recherche JSON-LD
-                for ld_script in soup.find_all("script", type="application/ld+json"):
+            # 1. Recherche JSON-LD
+            for ld_script in soup.find_all("script", type="application/ld+json"):
+                try:
+                    data = json.loads(ld_script.string)
+                    items = data if isinstance(data, list) else [data]
+                    for item in items:
+                        offers = item.get("offers", {})
+                        if isinstance(offers, list) and offers:
+                            offers = offers[0]
+                        if isinstance(offers, dict):
+                            p = offers.get("price") or item.get("price")
+                            if p and not car_obj.price:
+                                parsed_p = self.helper._parse_price(str(p))
+                                if parsed_p:
+                                    car_obj.price = parsed_p
+                except Exception:
+                    pass
+
+            # 2. OpenGraph
+            if not car_obj.price:
+                og_price = soup.find(
+                    "meta", property=re.compile(r"price:amount|product:price:amount")
+                )
+                if og_price and og_price.get("content"):
+                    car_obj.price = self.helper._parse_price(og_price["content"])
+
+            page_text = soup.get_text(" ", strip=True)
+
+            # 3. Balises HTML de prix
+            if not car_obj.price:
+                price_candidates = soup.find_all(
+                    class_=lambda x: x and any(c in x.lower() for c in ["price", "amount", "cash", "valeur"])
+                )
+                for elem in price_candidates:
+                    cand = self.helper._parse_price(elem.get_text())
+                    if cand:
+                        car_obj.price = cand
+                        break
+
+            # 4. Fallback textuel
+            if not car_obj.price:
+                for m in re.finditer(
+                    r"\d{1,3}(?:[\s\xa0\.]\d{3})*(?:,\d{1,2})?\s*(?:€|EUR)", page_text
+                ):
+                    candidate = self.helper._parse_price(m.group(0))
+                    if candidate:
+                        car_obj.price = candidate
+                        break
+
+            # SOH, garantie, etc.
+            if not car_obj.soh_percent:
+                soh_match = re.search(
+                    r"(?:SOH|État de la batterie)[^\d]*(\d+)\s*%",
+                    page_text,
+                    re.IGNORECASE,
+                )
+                if soh_match:
                     try:
-                        data = json.loads(ld_script.string)
-                        items = data if isinstance(data, list) else [data]
-                        for item in items:
-                            offers = item.get("offers", {})
-                            if isinstance(offers, list) and offers:
-                                offers = offers[0]
-                            if isinstance(offers, dict):
-                                p = offers.get("price") or item.get("price")
-                                if p and not car_obj.price:
-                                    parsed_p = self.helper._parse_price(str(p))
-                                    if parsed_p:
-                                        car_obj.price = parsed_p
-                    except Exception:
+                        car_obj.soh_percent = int(soh_match.group(1))
+                    except ValueError:
                         pass
 
-                # 2. OpenGraph
-                if not car_obj.price:
-                    og_price = soup.find(
-                        "meta", property=re.compile(r"price:amount|product:price:amount")
-                    )
-                    if og_price and og_price.get("content"):
-                        car_obj.price = self.helper._parse_price(og_price["content"])
+            if not car_obj.warranty_months:
+                w_match = re.search(r"garantie[^\d]*(\d+)\s*mois", page_text, re.IGNORECASE)
+                if w_match:
+                    car_obj.warranty_months = int(w_match.group(1))
 
-                page_text = soup.get_text(" ", strip=True)
+            if car_obj.has_service_history is None:
+                if "carnet d'entretien" in page_text.lower() or "historique d'entretien" in page_text.lower():
+                    car_obj.has_service_history = True
 
-                # 3. Balises HTML de prix
-                if not car_obj.price:
-                    price_candidates = soup.find_all(
-                        class_=lambda x: x and any(c in x.lower() for c in ["price", "amount", "cash", "valeur"])
-                    )
-                    for elem in price_candidates:
-                        cand = self.helper._parse_price(elem.get_text())
-                        if cand:
-                            car_obj.price = cand
-                            break
+            if not car_obj.power_hp:
+                hp_match = re.search(r"(\d{2,3})\s*(?:ch|hp|CV)", page_text, re.IGNORECASE)
+                if hp_match:
+                    car_obj.power_hp = int(hp_match.group(1))
 
-                # 4. Fallback textuel
-                if not car_obj.price:
-                    for m in re.finditer(
-                        r"\d{1,3}(?:[\s\xa0\.]\d{3})*(?:,\d{1,2})?\s*(?:€|EUR)", page_text
-                    ):
-                        candidate = self.helper._parse_price(m.group(0))
-                        if candidate:
-                            car_obj.price = candidate
-                            break
-
-                # SOH, garantie, etc.
-                if not car_obj.soh_percent:
-                    soh_match = re.search(
-                        r"(?:SOH|État de la batterie)[^\d]*(\d+)\s*%",
-                        page_text,
-                        re.IGNORECASE,
-                    )
-                    if soh_match:
-                        try:
-                            car_obj.soh_percent = int(soh_match.group(1))
-                        except ValueError:
-                            pass
-
-                if not car_obj.warranty_months:
-                    w_match = re.search(r"garantie[^\d]*(\d+)\s*mois", page_text, re.IGNORECASE)
-                    if w_match:
-                        car_obj.warranty_months = int(w_match.group(1))
-
-                if car_obj.has_service_history is None:
-                    if "carnet d'entretien" in page_text.lower() or "historique d'entretien" in page_text.lower():
-                        car_obj.has_service_history = True
-
-                if not car_obj.power_hp:
-                    hp_match = re.search(r"(\d{2,3})\s*(?:ch|hp|CV)", page_text, re.IGNORECASE)
-                    if hp_match:
-                        car_obj.power_hp = int(hp_match.group(1))
-
-                if not car_obj.battery_kwh:
-                    batt_match = re.search(r"([\d\.,]+)\s*(?:kWh|kwh)", page_text)
-                    if batt_match:
-                        car_obj.battery_kwh = float(batt_match.group(1).replace(",", "."))
-
-            except Exception as e:
-                print(f"[Cardoen] Erreur d'enrichissement pour {car_obj.url} : {e}")
+            if not car_obj.battery_kwh:
+                batt_match = re.search(r"([\d\.,]+)\s*(?:kWh|kwh)", page_text)
+                if batt_match:
+                    car_obj.battery_kwh = float(batt_match.group(1).replace(",", "."))
 
             return listing  
     

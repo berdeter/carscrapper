@@ -22,7 +22,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from brandfilter import BrandFilter
-from cardata import CarListing, CarScraperBase
+from cardata import CarListing, CarScraperBase, DetailsFetchError, DetailsGoneError
 from carhelper import CarHelper
 
 # Pré-filtre optionnel par segment (cohérent avec models.json <= 4m20)
@@ -177,23 +177,25 @@ class RenewScraper(CarScraperBase):
 
     def scrape_details(self, listing) -> Any:
         car = listing.listing if hasattr(listing, "listing") else listing
-        try:
-            detail = self._detail_cache.get(car.url)
-            if detail is None and car.url:
-                soup = self._get(car.url)
-                if soup is not None:
-                    detail = self._parse_detail_page(soup)
-                    self._detail_cache[car.url] = detail
-            if detail:
-                self._apply_detail(car, detail)
-        except Exception as e:
-            print(f"[Renew] Erreur d'enrichissement pour {car.url} : {e}")
+        # Une erreur remonte au pipeline (qui retentera plus tard) au lieu d'être avalée ici.
+        detail = self._detail_cache.get(car.url)
+        if detail is None and car.url:
+            soup = self._get(car.url)
+            if soup is None:
+                if self._last_status in (404, 410):
+                    raise DetailsGoneError(f"HTTP {self._last_status}")
+                raise DetailsFetchError(f"fiche inaccessible (HTTP {self._last_status})")
+            detail = self._parse_detail_page(soup)
+            self._detail_cache[car.url] = detail
+        if detail:
+            self._apply_detail(car, detail)
         return listing
 
     # ------------------------------------------------------------------
     # Réseau
     # ------------------------------------------------------------------
     def _get(self, url: str) -> Optional[BeautifulSoup]:
+        self._last_status = None  # dernier code HTTP (None : erreur réseau)
         for attempt in range(3):
             wait = self.request_delay - (time.time() - self._last_request)
             if wait > 0:
@@ -204,6 +206,7 @@ class RenewScraper(CarScraperBase):
             except requests.RequestException:
                 time.sleep(2 * (attempt + 1))
                 continue
+            self._last_status = resp.status_code
 
             if resp.status_code == 200:
                 self.stats["pages"] += 1

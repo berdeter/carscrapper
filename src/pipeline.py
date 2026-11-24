@@ -22,7 +22,7 @@ Exemples :
     python pipeline.py                                 # tout (scraping inclus)
     python pipeline.py --only scrape --max-pages 10
     python pipeline.py --only match,resolve            # rejeu hors-ligne, aucun scraping
-    python pipeline.py --only resolve --force --no-llm # re-résoudre tout, règles seules
+    python pipeline.py --only resolve --force          # re-résoudre tout (règles seules ; --llm pour le LLM)
 """
 import argparse
 import copy
@@ -37,12 +37,13 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
-from cardata import CarListing, CarScraperBase, EnrichedCarListing
+from cardata import CarListing, CarScraperBase, DetailsGoneError, EnrichedCarListing
 from spec_hints import SpecHints
 from stagestore import StageStore
 from variant_resolver import VariantResolver
 
 STAGES = ("scrape", "match", "details", "resolve")
+MAX_DETAILS_ATTEMPTS = 3  # au-delà, une fiche en échec n'est plus retentée (sauf --retry-failed-details)
 
 _LISTING_FIELDS = set(CarListing.__dataclass_fields__)
 
@@ -75,10 +76,10 @@ class CarPipeline:
         self,
         scrapers: Optional[List[Any]] = None,
         helper: Optional[Any] = None,
-        model_name: str = "qwen2.5-coder:14b",
+        model_name: str = "qwen2.5:14b",
         resolved_db_path: str = "resolved_cars_cache.json",
         data_dir: str = ".",
-        use_llm_fallback: bool = True,
+        use_llm_fallback: bool = False,
         spec_hints: Optional[SpecHints] = None,
         resolver: Optional[VariantResolver] = None,
         catalog_path: str = "models.json",
@@ -276,18 +277,28 @@ class CarPipeline:
     # Étape 3 : details (réseau, une fois par annonce retenue)
     # ------------------------------------------------------------------
     def stage_details(self, keys: Optional[Iterable[str]] = None, refresh: bool = False,
-                      only_matched: bool = True, verbose: bool = True) -> Dict[str, int]:
+                      only_matched: bool = True, verbose: bool = True,
+                      retry_failed: bool = False) -> Dict[str, int]:
+        """Lit la fiche de détail des annonces retenues.
+
+        Une fiche n'est marquée lue (`details_at`) que si scrape_details a RÉUSSI. En cas d'erreur, l'échec est
+        compté (`details_failures`, `details_error`) et la fiche est retentée aux exécutions suivantes, jusqu'à
+        MAX_DETAILS_ATTEMPTS essais (`retry_failed` lève cette limite). Une fiche disparue (DetailsGoneError,
+        HTTP 404/410) rend l'annonce inactive."""
         by_name = {s.__class__.__name__: s for s in self.scrapers}
-        todo = []
+        todo, abandoned = [], 0
         for k in self._active_keys(keys):
             rec = self.raw.get(k)
             if only_matched and not (self.matches.get(k) or {}).get("matched"):
                 continue
             if rec.get("details_at") and not refresh:
                 continue
+            if rec.get("details_failures", 0) >= MAX_DETAILS_ATTEMPTS and not (retry_failed or refresh):
+                abandoned += 1
+                continue
             todo.append(k)
 
-        stats = {"todo": len(todo), "done": 0, "no_scraper": 0, "errors": 0}
+        stats = {"todo": len(todo), "done": 0, "no_scraper": 0, "errors": 0, "gone": 0, "abandoned": abandoned}
         for i, k in enumerate(todo, 1):
             rec = self.raw.get(k)
             scraper = by_name.get(rec.get("scraper"))
@@ -295,11 +306,22 @@ class CarPipeline:
                 stats["no_scraper"] += 1
                 continue
             listing = listing_from_dict(rec["listing"])
+            now = _now()
             try:
                 result = scraper.scrape_details(listing)
+            except DetailsGoneError as e:
+                rec.update(active=False, gone_at=now, details_error=f"disparue : {e}")
+                self.raw.touch()
+                stats["gone"] += 1
+                continue
             except Exception as e:
-                print(f"[details] Erreur sur {k} : {e}")
+                rec["details_failures"] = rec.get("details_failures", 0) + 1
+                rec["details_error"] = f"{e.__class__.__name__}: {e}"[:300]
+                rec["details_last_try"] = now
+                self.raw.touch()
                 stats["errors"] += 1
+                if verbose:
+                    print(f"[details] Échec {rec['details_failures']}/{MAX_DETAILS_ATTEMPTS} sur {k} : {rec['details_error']}")
                 continue
             updated = getattr(result, "listing", result)  # certains scrapers renvoient un wrapper
             if not isinstance(updated, CarListing):
@@ -307,16 +329,20 @@ class CarPipeline:
             old_price = rec["listing"].get("price")
             rec["listing"] = _merge_listing(rec["listing"], dataclasses.asdict(updated))
             if rec["listing"].get("price") != old_price:
-                rec["price_history"].append([_now(), rec["listing"].get("price")])
-            rec["details_at"] = _now()
+                rec["price_history"].append([now, rec["listing"].get("price")])
+            rec["details_at"] = now
+            for f in ("details_failures", "details_error", "details_last_try"):
+                rec.pop(f, None)
             self.raw.touch()
             stats["done"] += 1
             if i % 20 == 0:
                 self.raw.save()  # robuste aux interruptions : l'étape est longue (réseau)
         self.raw.save()
         if verbose:
-            print(f"[details] {stats['done']}/{stats['todo']} fiches lues "
-                  f"({stats['errors']} erreurs, {stats['no_scraper']} sans scraper disponible).")
+            print(f"[details] {stats['done']}/{stats['todo']} fiches lues ({stats['errors']} échecs à retenter, "
+                  f"{stats['gone']} annonces disparues, {stats['no_scraper']} sans scraper disponible"
+                  + (f", {abandoned} abandonnées après {MAX_DETAILS_ATTEMPTS} échecs : --retry-failed-details"
+                     if abandoned else "") + ").")
         return stats
 
     # ------------------------------------------------------------------
@@ -351,7 +377,9 @@ class CarPipeline:
             "candidates": sorted(
                 [v.get("variante_id"), v.get("nom_variante"), v.get("generation"),
                  v.get("donnees_techniques", {}).get("batterie_utile_kwh"),
-                 v.get("donnees_techniques", {}).get("autonomie_wltp_km")]
+                 v.get("donnees_techniques", {}).get("autonomie_wltp_km"),
+                 v.get("donnees_techniques", {}).get("puissance_moteur_kw"),
+                 v.get("mots_cles")]
                 for v in enriched.variantes_candidates
             ),
             "config": resolver.config_signature(),
@@ -361,6 +389,7 @@ class CarPipeline:
     @staticmethod
     def _apply_logged(enriched: EnrichedCarListing, logged: Dict[str, Any]) -> None:
         vid = logged.get("variante_id")
+        enriched.variantes_possibles = list(logged.get("pool_ids") or ([vid] if vid else []))
         if vid is not None:
             for v in enriched.variantes_candidates:
                 if v.get("variante_id") == vid:
@@ -432,6 +461,13 @@ class CarPipeline:
             else:
                 enriched, trace = resolver.resolve_traced(enriched)
                 new_id = trace.get("variante_id")
+                if trace.get("llm_error"):
+                    # Erreur transitoire (Ollama injoignable...) : on ne fige pas ce résultat dans le journal,
+                    # l'annonce sera recalculée à la prochaine exécution.
+                    stats["unresolved"] += 1
+                    out_cache.upsert(listing_data=dataclasses.asdict(enriched))
+                    results.append(enriched)
+                    continue
                 if prev and prev.get("variante_id") != new_id:
                     stats["changed"] += 1
                     changes.append((k, prev.get("variante_id"), new_id, trace["method"]))
@@ -468,6 +504,7 @@ class CarPipeline:
         force_match: bool = False,
         force_resolve: bool = False,
         refresh_details: bool = False,
+        retry_failed_details: bool = False,
         use_llm: Optional[bool] = None,
         mark_missing: bool = False,
         verbose: bool = True,
@@ -490,7 +527,7 @@ class CarPipeline:
         if "match" in stages:
             self.stage_match(keys, force=force_match, verbose=verbose)
         if "details" in stages:
-            self.stage_details(keys, refresh=refresh_details, verbose=verbose)
+            self.stage_details(keys, refresh=refresh_details, verbose=verbose, retry_failed=retry_failed_details)
         if "resolve" in stages:
             return self.stage_resolve(keys, force=force_resolve, use_llm=use_llm, verbose=verbose, prune=prune)
         return []
@@ -531,8 +568,12 @@ def main() -> None:
     ap.add_argument("--force-match", action="store_true", help="rejoue le matching sur toutes les annonces")
     ap.add_argument("--force-resolve", action="store_true", help="re-résout toutes les annonces")
     ap.add_argument("--refresh-details", action="store_true", help="relit aussi les fiches déjà lues")
+    ap.add_argument("--retry-failed-details", action="store_true",
+                    help=f"retente aussi les fiches abandonnées après {MAX_DETAILS_ATTEMPTS} échecs")
+    ap.add_argument("--headless", action="store_true", help="navigateur Playwright invisible (exécution sans surveillance)")
     ap.add_argument("--mark-missing", action="store_true", help="marque inactives les annonces disparues")
-    ap.add_argument("--no-llm", action="store_true", help="résolution par règles seules")
+    ap.add_argument("--llm", action="store_true", help="active l'arbitrage LLM en dernier recours (désactivé par défaut)")
+    ap.add_argument("--no-llm", action="store_true", help=argparse.SUPPRESS)  # compatibilité : c'est le défaut
     ap.add_argument("--prune", action="store_true",
                     help="retire du cache final les fiches orphelines (sauvegarde automatique)")
     ap.add_argument("--data-dir", default=".")
@@ -550,17 +591,18 @@ def main() -> None:
     helper = None
     if "scrape" in stages or "details" in stages:
         from carhelper import CarHelper
-        helper = CarHelper(enrich_details=True, headless=False)
+        helper = CarHelper(enrich_details=True, headless=args.headless)
 
     pipe = CarPipeline(helper=helper, resolved_db_path=args.db, data_dir=args.data_dir,
-                       use_llm_fallback=not args.no_llm, catalog_path=args.catalog,
+                       use_llm_fallback=args.llm and not args.no_llm, catalog_path=args.catalog,
                        scrapers=None if helper else [])
     selected = None
     if args.scraper:
         selected = [s for s in pipe.scrapers if args.scraper.lower() in s.__class__.__name__.lower()]
     pipe.run(stages=stages, scrapers=selected, max_pages=args.max_pages, force_match=args.force_match,
              force_resolve=args.force_resolve, refresh_details=args.refresh_details,
-             mark_missing=args.mark_missing, use_llm=False if args.no_llm else None, prune=args.prune)
+             retry_failed_details=args.retry_failed_details,
+             mark_missing=args.mark_missing, use_llm=args.llm and not args.no_llm, prune=args.prune)
 
 
 if __name__ == "__main__":

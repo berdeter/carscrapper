@@ -39,7 +39,8 @@
         "recharge_max_soc": 0.8,
         "delai_branchement_min": 3
       }
-    }
+    },
+    "plateforme": "Champ `plateforme` par variante : type dediee (conçue uniquement pour l'électrique), multi_energie (conçue pour thermique + électrique : compromis d'implantation et de refroidissement de la batterie), convertie (modèle thermique électrifié après coup) ; refroidissement_batterie ; confiance. Utilisé par MarketEstimator (Coef. Plateforme)."
   },
   "catalogue_filtrage": [
     {
@@ -89,6 +90,14 @@
                 "nb_etapes_raccourcies": 7,
                 "pause_supplementaire_min": 199.5,
                 "autonomie_autoroute_km": 156.0
+              },
+              "plateforme": {
+                "type": "convertie",
+                "nom": "CMF-A (Renault Kwid thermique)",
+                "refroidissement_batterie": "air passif",
+                "confiance": "moyenne",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "refroidissement par air sans circuit liquide : à vérifier"
               }
             }
           ]
@@ -147,6 +156,14 @@
                 "nb_etapes_raccourcies": 5,
                 "pause_supplementaire_min": 161.5,
                 "autonomie_autoroute_km": 180.0
+              },
+              "plateforme": {
+                "type": "convertie",
+                "nom": "NSF (VW up! thermique)",
+                "refroidissement_batterie": "air passif",
+                "confiance": "moyenne",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "refroidissement batterie sans gestion active : à vérifier"
               }
             }
           ]
@@ -189,6 +206,13 @@
                 "nb_etapes_raccourcies": 5,
                 "pause_supplementaire_min": 87.2,
                 "autonomie_autoroute_km": 187.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "MEB Entry (MEB+) traction",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             },
             {
@@ -219,6 +243,13 @@
                 "nb_etapes_raccourcies": 5,
                 "pause_supplementaire_min": 40.2,
                 "autonomie_autoroute_km": 207.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "MEB Entry (MEB+) traction",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             },
             {
@@ -249,6 +280,13 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 3.6,
                 "autonomie_autoroute_km": 294.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "MEB Entry (MEB+) traction",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             }
           ]
@@ -301,6 +339,13 @@
                 "nb_etapes_raccourcies": 9,
                 "pause_supplementaire_min": 371.3,
                 "autonomie_autoroute_km": 132.0
+              },
+              "plateforme": {
+                "type": "convertie",
+                "nom": "Twingo III (thermique, moteur arrière)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "moyenne",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             },
             {
@@ -331,6 +376,14 @@
                 "nb_etapes_raccourcies": 5,
                 "pause_supplementaire_min": 83.3,
                 "autonomie_autoroute_km": 182.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "AmpR Small (Renault)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "moyenne",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "nouvelle Twingo électrique uniquement"
               }
             }
           ]
@@ -360,7 +413,11 @@
                 "temps_charge_10_80_min": 65,
                 "puissance_dc_max_kw": 43,
                 "conso_wltp_theorique_kwh_100km": 12.97,
-                "puissance_charge_moyenne_10_80_kw": 26.5
+                "puissance_charge_moyenne_10_80_kw": 26.5,
+                "puissance_moteur_kw": [
+                  68,
+                  80
+                ]
               },
               "prediction_challenge_1000km": {
                 "temps_formate": "14h18",
@@ -378,6 +435,14 @@
                 "nb_etapes_raccourcies": 5,
                 "pause_supplementaire_min": 222.8,
                 "autonomie_autoroute_km": 211.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "Zoe (modèle uniquement électrique, base plateforme B)",
+                "refroidissement_batterie": "air forcé",
+                "confiance": "moyenne",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "batterie refroidie par air via la climatisation"
               }
             },
             {
@@ -390,7 +455,11 @@
                 "temps_charge_10_80_min": 56,
                 "puissance_dc_max_kw": 50,
                 "conso_wltp_theorique_kwh_100km": 13.16,
-                "puissance_charge_moyenne_10_80_kw": 39.0
+                "puissance_charge_moyenne_10_80_kw": 39.0,
+                "puissance_moteur_kw": [
+                  80,
+                  100
+                ]
               },
               "prediction_challenge_1000km": {
                 "temps_formate": "12h00",
@@ -408,6 +477,14 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 111.3,
                 "autonomie_autoroute_km": 263.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "Zoe (modèle uniquement électrique, base plateforme B)",
+                "refroidissement_batterie": "air forcé",
+                "confiance": "moyenne",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "batterie refroidie par air via la climatisation"
               }
             }
           ]
@@ -436,7 +513,11 @@
                 "temps_charge_10_80_min": 30,
                 "puissance_dc_max_kw": 80,
                 "conso_wltp_theorique_kwh_100km": 12.82,
-                "puissance_charge_moyenne_10_80_kw": 56.0
+                "puissance_charge_moyenne_10_80_kw": 56.0,
+                "puissance_moteur_kw": [
+                  70,
+                  90
+                ]
               },
               "prediction_challenge_1000km": {
                 "temps_formate": "11h41",
@@ -454,6 +535,14 @@
                 "nb_etapes_raccourcies": 5,
                 "pause_supplementaire_min": 66.8,
                 "autonomie_autoroute_km": 208.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "AmpR Small (Renault)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "dérivée de la CMF-B mais réservée à l'électrique"
               }
             },
             {
@@ -466,7 +555,10 @@
                 "temps_charge_10_80_min": 30,
                 "puissance_dc_max_kw": 100,
                 "conso_wltp_theorique_kwh_100km": 12.68,
-                "puissance_charge_moyenne_10_80_kw": 72.8
+                "puissance_charge_moyenne_10_80_kw": 72.8,
+                "puissance_moteur_kw": [
+                  110
+                ]
               },
               "prediction_challenge_1000km": {
                 "temps_formate": "11h08",
@@ -484,6 +576,14 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 24.5,
                 "autonomie_autoroute_km": 273.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "AmpR Small (Renault)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "dérivée de la CMF-B mais réservée à l'électrique"
               }
             }
           ]
@@ -511,7 +611,10 @@
                 "temps_charge_10_80_min": 30,
                 "puissance_dc_max_kw": 80,
                 "conso_wltp_theorique_kwh_100km": 12.99,
-                "puissance_charge_moyenne_10_80_kw": 56.0
+                "puissance_charge_moyenne_10_80_kw": 56.0,
+                "puissance_moteur_kw": [
+                  90
+                ]
               },
               "prediction_challenge_1000km": {
                 "temps_formate": "11h43",
@@ -529,6 +632,14 @@
                 "nb_etapes_raccourcies": 5,
                 "pause_supplementaire_min": 67.2,
                 "autonomie_autoroute_km": 205.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "AmpR Small (Renault)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "dérivée de la CMF-B mais réservée à l'électrique"
               }
             },
             {
@@ -541,7 +652,10 @@
                 "temps_charge_10_80_min": 30,
                 "puissance_dc_max_kw": 100,
                 "conso_wltp_theorique_kwh_100km": 12.71,
-                "puissance_charge_moyenne_10_80_kw": 72.8
+                "puissance_charge_moyenne_10_80_kw": 72.8,
+                "puissance_moteur_kw": [
+                  110
+                ]
               },
               "prediction_challenge_1000km": {
                 "temps_formate": "11h08",
@@ -559,6 +673,14 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 24.8,
                 "autonomie_autoroute_km": 273.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "AmpR Small (Renault)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "dérivée de la CMF-B mais réservée à l'électrique"
               }
             }
           ]
@@ -612,6 +734,14 @@
                 "nb_etapes_raccourcies": 6,
                 "pause_supplementaire_min": 164.1,
                 "autonomie_autoroute_km": 179.0
+              },
+              "plateforme": {
+                "type": "convertie",
+                "nom": "NSF (VW up! thermique)",
+                "refroidissement_batterie": "air passif",
+                "confiance": "moyenne",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "refroidissement batterie sans gestion active : à vérifier"
               }
             }
           ]
@@ -658,6 +788,13 @@
                 "nb_etapes_raccourcies": 5,
                 "pause_supplementaire_min": 41.0,
                 "autonomie_autoroute_km": 200.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "MEB Entry (MEB+) traction",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             },
             {
@@ -688,6 +825,13 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 0.0,
                 "autonomie_autoroute_km": 300.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "MEB Entry (MEB+) traction",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             }
           ]
@@ -738,6 +882,13 @@
                 "nb_etapes_raccourcies": 4,
                 "pause_supplementaire_min": 45.5,
                 "autonomie_autoroute_km": 213.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "plateforme électrique Hyundai-Kia (petits modèles)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "type dédiée confirmé par Bernard (24/11/2026)"
               }
             },
             {
@@ -768,6 +919,13 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 12.8,
                 "autonomie_autoroute_km": 293.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "plateforme électrique Hyundai-Kia (petits modèles)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "type dédiée confirmé par Bernard (24/11/2026)"
               }
             }
           ]
@@ -813,6 +971,13 @@
                 "nb_etapes_raccourcies": 5,
                 "pause_supplementaire_min": 165.9,
                 "autonomie_autoroute_km": 184.0
+              },
+              "plateforme": {
+                "type": "multi_energie",
+                "nom": "K2 (Soul thermique / électrique)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "moyenne",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             },
             {
@@ -843,6 +1008,13 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 41.2,
                 "autonomie_autoroute_km": 301.0
+              },
+              "plateforme": {
+                "type": "multi_energie",
+                "nom": "K2 (Soul thermique / électrique)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "moyenne",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             }
           ]
@@ -893,6 +1065,13 @@
                 "nb_etapes_raccourcies": 4,
                 "pause_supplementaire_min": 53.9,
                 "autonomie_autoroute_km": 226.0
+              },
+              "plateforme": {
+                "type": "multi_energie",
+                "nom": "K1 (partagée avec la Casper thermique)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             },
             {
@@ -923,6 +1102,13 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 34.0,
                 "autonomie_autoroute_km": 256.0
+              },
+              "plateforme": {
+                "type": "multi_energie",
+                "nom": "K1 (partagée avec la Casper thermique)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             }
           ]
@@ -971,6 +1157,14 @@
                 "nb_etapes_raccourcies": 5,
                 "pause_supplementaire_min": 138.1,
                 "autonomie_autoroute_km": 203.0
+              },
+              "plateforme": {
+                "type": "multi_energie",
+                "nom": "Kona (thermique / hybride / électrique)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "Gén 2 conçue « EV d'abord » mais toujours multi-énergie"
               }
             },
             {
@@ -1001,6 +1195,14 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 36.8,
                 "autonomie_autoroute_km": 323.0
+              },
+              "plateforme": {
+                "type": "multi_energie",
+                "nom": "Kona (thermique / hybride / électrique)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "Gén 2 conçue « EV d'abord » mais toujours multi-énergie"
               }
             },
             {
@@ -1031,6 +1233,14 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 68.1,
                 "autonomie_autoroute_km": 251.0
+              },
+              "plateforme": {
+                "type": "multi_energie",
+                "nom": "Kona (thermique / hybride / électrique)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "Gén 2 conçue « EV d'abord » mais toujours multi-énergie"
               }
             },
             {
@@ -1061,6 +1271,14 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 12.1,
                 "autonomie_autoroute_km": 343.0
+              },
+              "plateforme": {
+                "type": "multi_energie",
+                "nom": "Kona (thermique / hybride / électrique)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "Gén 2 conçue « EV d'abord » mais toujours multi-énergie"
               }
             }
           ]
@@ -1105,6 +1323,13 @@
                 "nb_etapes_raccourcies": 4,
                 "pause_supplementaire_min": 34.6,
                 "autonomie_autoroute_km": 230.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "plateforme électrique Hyundai-Kia",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "type dédiée confirmé par Bernard (24/11/2026)"
               }
             },
             {
@@ -1135,6 +1360,13 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 0.4,
                 "autonomie_autoroute_km": 331.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "plateforme électrique Hyundai-Kia",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "type dédiée confirmé par Bernard (24/11/2026)"
               }
             }
           ]
@@ -1187,6 +1419,13 @@
                 "nb_etapes_raccourcies": 4,
                 "pause_supplementaire_min": 90.8,
                 "autonomie_autoroute_km": 230.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "Heartect-e (Suzuki/Toyota)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             },
             {
@@ -1217,6 +1456,13 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 52.1,
                 "autonomie_autoroute_km": 285.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "Heartect-e (Suzuki/Toyota)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             }
           ]
@@ -1268,6 +1514,14 @@
                 "nb_etapes_raccourcies": 6,
                 "pause_supplementaire_min": 162.8,
                 "autonomie_autoroute_km": 179.0
+              },
+              "plateforme": {
+                "type": "convertie",
+                "nom": "NSF (VW up! thermique)",
+                "refroidissement_batterie": "air passif",
+                "confiance": "moyenne",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "refroidissement batterie sans gestion active : à vérifier"
               }
             }
           ]
@@ -1327,6 +1581,14 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 44.6,
                 "autonomie_autoroute_km": 239.0
+              },
+              "plateforme": {
+                "type": "multi_energie",
+                "nom": "e-CMP / CMP (Stellantis)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "même plateforme que les versions essence/diesel"
               }
             },
             {
@@ -1357,6 +1619,14 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 18.9,
                 "autonomie_autoroute_km": 270.0
+              },
+              "plateforme": {
+                "type": "multi_energie",
+                "nom": "e-CMP / CMP (Stellantis)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "même plateforme que les versions essence/diesel"
               }
             }
           ]
@@ -1385,7 +1655,10 @@
                 "temps_charge_10_80_min": 30,
                 "puissance_dc_max_kw": 100,
                 "conso_wltp_theorique_kwh_100km": 13.7,
-                "puissance_charge_moyenne_10_80_kw": 64.8
+                "puissance_charge_moyenne_10_80_kw": 64.8,
+                "puissance_moteur_kw": [
+                  100
+                ]
               },
               "prediction_challenge_1000km": {
                 "temps_formate": "11h30",
@@ -1403,6 +1676,14 @@
                 "nb_etapes_raccourcies": 4,
                 "pause_supplementaire_min": 54.6,
                 "autonomie_autoroute_km": 225.0
+              },
+              "plateforme": {
+                "type": "multi_energie",
+                "nom": "e-CMP / CMP (Stellantis)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "même plateforme que les versions essence/diesel"
               }
             },
             {
@@ -1415,7 +1696,10 @@
                 "temps_charge_10_80_min": 27,
                 "puissance_dc_max_kw": 100,
                 "conso_wltp_theorique_kwh_100km": 12.61,
-                "puissance_charge_moyenne_10_80_kw": 79.0
+                "puissance_charge_moyenne_10_80_kw": 79.0,
+                "puissance_moteur_kw": [
+                  115
+                ]
               },
               "prediction_challenge_1000km": {
                 "temps_formate": "11h08",
@@ -1433,6 +1717,14 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 19.5,
                 "autonomie_autoroute_km": 269.0
+              },
+              "plateforme": {
+                "type": "multi_energie",
+                "nom": "e-CMP / CMP (Stellantis)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "même plateforme que les versions essence/diesel"
               }
             }
           ]
@@ -1477,6 +1769,14 @@
                 "nb_etapes_raccourcies": 5,
                 "pause_supplementaire_min": 52.1,
                 "autonomie_autoroute_km": 204.0
+              },
+              "plateforme": {
+                "type": "multi_energie",
+                "nom": "Smart Car (Stellantis)",
+                "refroidissement_batterie": "inconnu",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "plateforme low-cost commune thermique/hybride/électrique"
               }
             },
             {
@@ -1507,6 +1807,14 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 32.2,
                 "autonomie_autoroute_km": 273.0
+              },
+              "plateforme": {
+                "type": "multi_energie",
+                "nom": "Smart Car (Stellantis)",
+                "refroidissement_batterie": "inconnu",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "plateforme low-cost commune thermique/hybride/électrique"
               }
             }
           ]
@@ -1558,6 +1866,13 @@
                 "nb_etapes_raccourcies": 16,
                 "pause_supplementaire_min": 257.9,
                 "autonomie_autoroute_km": 76.0
+              },
+              "plateforme": {
+                "type": "convertie",
+                "nom": "Mitsubishi i-MiEV (dérivée de la i thermique)",
+                "refroidissement_batterie": "air forcé",
+                "confiance": "moyenne",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             }
           ]
@@ -1608,6 +1923,14 @@
                 "nb_etapes_raccourcies": 4,
                 "pause_supplementaire_min": 46.4,
                 "autonomie_autoroute_km": 217.0
+              },
+              "plateforme": {
+                "type": "multi_energie",
+                "nom": "Smart Car (Stellantis)",
+                "refroidissement_batterie": "inconnu",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "plateforme low-cost commune thermique/hybride/électrique"
               }
             }
           ]
@@ -1653,6 +1976,17 @@
                 "nb_etapes_raccourcies": 5,
                 "pause_supplementaire_min": 52.1,
                 "autonomie_autoroute_km": 204.0
+              },
+              "mots_cles": [
+                "comfort range"
+              ],
+              "plateforme": {
+                "type": "multi_energie",
+                "nom": "Smart Car (Stellantis)",
+                "refroidissement_batterie": "inconnu",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "plateforme low-cost commune thermique/hybride/électrique"
               }
             },
             {
@@ -1683,6 +2017,14 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 35.7,
                 "autonomie_autoroute_km": 267.0
+              },
+              "plateforme": {
+                "type": "multi_energie",
+                "nom": "Smart Car (Stellantis)",
+                "refroidissement_batterie": "inconnu",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "plateforme low-cost commune thermique/hybride/électrique"
               }
             }
           ]
@@ -1732,6 +2074,13 @@
                 "nb_etapes_raccourcies": 16,
                 "pause_supplementaire_min": 257.9,
                 "autonomie_autoroute_km": 76.0
+              },
+              "plateforme": {
+                "type": "convertie",
+                "nom": "Mitsubishi i-MiEV (dérivée de la i thermique)",
+                "refroidissement_batterie": "air forcé",
+                "confiance": "moyenne",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             }
           ]
@@ -1760,7 +2109,10 @@
                 "temps_charge_10_80_min": 30,
                 "puissance_dc_max_kw": 100,
                 "conso_wltp_theorique_kwh_100km": 12.79,
-                "puissance_charge_moyenne_10_80_kw": 64.8
+                "puissance_charge_moyenne_10_80_kw": 64.8,
+                "puissance_moteur_kw": [
+                  100
+                ]
               },
               "prediction_challenge_1000km": {
                 "temps_formate": "11h21",
@@ -1778,6 +2130,14 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 43.3,
                 "autonomie_autoroute_km": 241.0
+              },
+              "plateforme": {
+                "type": "multi_energie",
+                "nom": "e-CMP / CMP (Stellantis)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "même plateforme que les versions essence/diesel"
               }
             },
             {
@@ -1790,7 +2150,10 @@
                 "temps_charge_10_80_min": 27,
                 "puissance_dc_max_kw": 100,
                 "conso_wltp_theorique_kwh_100km": 11.73,
-                "puissance_charge_moyenne_10_80_kw": 74.8
+                "puissance_charge_moyenne_10_80_kw": 74.8,
+                "puissance_moteur_kw": [
+                  115
+                ]
               },
               "prediction_challenge_1000km": {
                 "temps_formate": "11h06",
@@ -1808,6 +2171,14 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 17.3,
                 "autonomie_autoroute_km": 273.0
+              },
+              "plateforme": {
+                "type": "multi_energie",
+                "nom": "e-CMP / CMP (Stellantis)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "même plateforme que les versions essence/diesel"
               }
             }
           ]
@@ -1836,7 +2207,10 @@
                 "temps_charge_10_80_min": 30,
                 "puissance_dc_max_kw": 100,
                 "conso_wltp_theorique_kwh_100km": 13.42,
-                "puissance_charge_moyenne_10_80_kw": 64.8
+                "puissance_charge_moyenne_10_80_kw": 64.8,
+                "puissance_moteur_kw": [
+                  100
+                ]
               },
               "prediction_challenge_1000km": {
                 "temps_formate": "11h26",
@@ -1854,6 +2228,14 @@
                 "nb_etapes_raccourcies": 4,
                 "pause_supplementaire_min": 51.1,
                 "autonomie_autoroute_km": 230.0
+              },
+              "plateforme": {
+                "type": "multi_energie",
+                "nom": "e-CMP / CMP (Stellantis)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "même plateforme que les versions essence/diesel"
               }
             },
             {
@@ -1866,7 +2248,10 @@
                 "temps_charge_10_80_min": 27,
                 "puissance_dc_max_kw": 100,
                 "conso_wltp_theorique_kwh_100km": 12.51,
-                "puissance_charge_moyenne_10_80_kw": 79.0
+                "puissance_charge_moyenne_10_80_kw": 79.0,
+                "puissance_moteur_kw": [
+                  115
+                ]
               },
               "prediction_challenge_1000km": {
                 "temps_formate": "11h07",
@@ -1884,6 +2269,14 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 18.5,
                 "autonomie_autoroute_km": 271.0
+              },
+              "plateforme": {
+                "type": "multi_energie",
+                "nom": "e-CMP / CMP (Stellantis)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "même plateforme que les versions essence/diesel"
               }
             }
           ]
@@ -1921,7 +2314,10 @@
                 "temps_charge_10_80_min": 30,
                 "puissance_dc_max_kw": 50,
                 "conso_wltp_theorique_kwh_100km": 11.21,
-                "puissance_charge_moyenne_10_80_kw": 29.8
+                "puissance_charge_moyenne_10_80_kw": 29.8,
+                "puissance_moteur_kw": [
+                  70
+                ]
               },
               "prediction_challenge_1000km": {
                 "temps_formate": "13h41",
@@ -1939,6 +2335,13 @@
                 "nb_etapes_raccourcies": 9,
                 "pause_supplementaire_min": 128.6,
                 "autonomie_autoroute_km": 132.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "500e (conçue uniquement électrique)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             },
             {
@@ -1951,7 +2354,10 @@
                 "temps_charge_10_80_min": 25,
                 "puissance_dc_max_kw": 85,
                 "conso_wltp_theorique_kwh_100km": 11.66,
-                "puissance_charge_moyenne_10_80_kw": 62.7
+                "puissance_charge_moyenne_10_80_kw": 62.7,
+                "puissance_moteur_kw": [
+                  87
+                ]
               },
               "prediction_challenge_1000km": {
                 "temps_formate": "11h31",
@@ -1969,6 +2375,17 @@
                 "nb_etapes_raccourcies": 4,
                 "pause_supplementaire_min": 40.0,
                 "autonomie_autoroute_km": 221.0
+              },
+              "mots_cles": [
+                "la prima",
+                "giorgio armani"
+              ],
+              "plateforme": {
+                "type": "dediee",
+                "nom": "500e (conçue uniquement électrique)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             }
           ]
@@ -2013,6 +2430,14 @@
                 "nb_etapes_raccourcies": 4,
                 "pause_supplementaire_min": 53.0,
                 "autonomie_autoroute_km": 213.0
+              },
+              "plateforme": {
+                "type": "multi_energie",
+                "nom": "Smart Car (Stellantis)",
+                "refroidissement_batterie": "inconnu",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "plateforme low-cost commune thermique/hybride/électrique"
               }
             }
           ]
@@ -2059,6 +2484,14 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 17.6,
                 "autonomie_autoroute_km": 273.0
+              },
+              "plateforme": {
+                "type": "multi_energie",
+                "nom": "e-CMP / CMP (Stellantis)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "même plateforme que les versions essence/diesel"
               }
             }
           ]
@@ -2109,6 +2542,13 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 7.6,
                 "autonomie_autoroute_km": 282.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "MEB+ (VW)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "type dédiée confirmé par Bernard (24/11/2026)"
               }
             },
             {
@@ -2139,6 +2579,13 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 0.0,
                 "autonomie_autoroute_km": 334.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "MEB+ (VW)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "type dédiée confirmé par Bernard (24/11/2026)"
               }
             },
             {
@@ -2169,6 +2616,13 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 0.0,
                 "autonomie_autoroute_km": 433.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "MEB+ (VW)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "type dédiée confirmé par Bernard (24/11/2026)"
               }
             }
           ]
@@ -2220,6 +2674,14 @@
                 "nb_etapes_raccourcies": 4,
                 "pause_supplementaire_min": 66.0,
                 "autonomie_autoroute_km": 211.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "AmpR Small (Renault)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "dérivée de la CMF-B mais réservée à l'électrique"
               }
             },
             {
@@ -2250,6 +2712,14 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 22.5,
                 "autonomie_autoroute_km": 277.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "AmpR Small (Renault)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier",
+                "remarque": "dérivée de la CMF-B mais réservée à l'électrique"
               }
             }
           ]
@@ -2300,6 +2770,13 @@
                 "nb_etapes_raccourcies": 8,
                 "pause_supplementaire_min": 108.1,
                 "autonomie_autoroute_km": 148.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "Honda e (propulsion, uniquement électrique)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             }
           ]
@@ -2344,6 +2821,13 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 62.7,
                 "autonomie_autoroute_km": 275.0
+              },
+              "plateforme": {
+                "type": "multi_energie",
+                "nom": "e:N Architecture F (dérivée du HR-V thermique)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "moyenne",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             }
           ]
@@ -2378,7 +2862,10 @@
                 "temps_charge_10_80_min": 29,
                 "puissance_dc_max_kw": 49,
                 "conso_wltp_theorique_kwh_100km": 12.35,
-                "puissance_charge_moyenne_10_80_kw": 41.9
+                "puissance_charge_moyenne_10_80_kw": 41.9,
+                "puissance_moteur_kw": [
+                  135
+                ]
               },
               "prediction_challenge_1000km": {
                 "temps_formate": "12h21",
@@ -2396,6 +2883,13 @@
                 "nb_etapes_raccourcies": 7,
                 "pause_supplementaire_min": 100.7,
                 "autonomie_autoroute_km": 156.0
+              },
+              "plateforme": {
+                "type": "convertie",
+                "nom": "F56 (Mini thermique)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             },
             {
@@ -2408,7 +2902,10 @@
                 "temps_charge_10_80_min": 28,
                 "puissance_dc_max_kw": 75,
                 "conso_wltp_theorique_kwh_100km": 12.0,
-                "puissance_charge_moyenne_10_80_kw": 54.9
+                "puissance_charge_moyenne_10_80_kw": 54.9,
+                "puissance_moteur_kw": [
+                  135
+                ]
               },
               "prediction_challenge_1000km": {
                 "temps_formate": "11h40",
@@ -2426,6 +2923,13 @@
                 "nb_etapes_raccourcies": 5,
                 "pause_supplementaire_min": 59.9,
                 "autonomie_autoroute_km": 203.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "MINI J01/J05 électrique (avec Great Wall)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             },
             {
@@ -2438,7 +2942,10 @@
                 "temps_charge_10_80_min": 30,
                 "puissance_dc_max_kw": 95,
                 "conso_wltp_theorique_kwh_100km": 12.24,
-                "puissance_charge_moyenne_10_80_kw": 68.9
+                "puissance_charge_moyenne_10_80_kw": 68.9,
+                "puissance_moteur_kw": [
+                  160
+                ]
               },
               "prediction_challenge_1000km": {
                 "temps_formate": "11h12",
@@ -2456,6 +2963,13 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 27.4,
                 "autonomie_autoroute_km": 268.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "MINI J01/J05 électrique (avec Great Wall)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             }
           ]
@@ -2481,7 +2995,10 @@
                 "temps_charge_10_80_min": 28,
                 "puissance_dc_max_kw": 75,
                 "conso_wltp_theorique_kwh_100km": 12.42,
-                "puissance_charge_moyenne_10_80_kw": 57.8
+                "puissance_charge_moyenne_10_80_kw": 57.8,
+                "puissance_moteur_kw": [
+                  135
+                ]
               },
               "prediction_challenge_1000km": {
                 "temps_formate": "11h38",
@@ -2499,6 +3016,13 @@
                 "nb_etapes_raccourcies": 5,
                 "pause_supplementaire_min": 59.4,
                 "autonomie_autoroute_km": 207.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "MINI J01/J05 électrique (avec Great Wall)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             },
             {
@@ -2511,7 +3035,10 @@
                 "temps_charge_10_80_min": 30,
                 "puissance_dc_max_kw": 95,
                 "conso_wltp_theorique_kwh_100km": 12.12,
-                "puissance_charge_moyenne_10_80_kw": 68.9
+                "puissance_charge_moyenne_10_80_kw": 68.9,
+                "puissance_moteur_kw": [
+                  160
+                ]
               },
               "prediction_challenge_1000km": {
                 "temps_formate": "11h12",
@@ -2529,6 +3056,13 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 26.0,
                 "autonomie_autoroute_km": 271.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "MINI J01/J05 électrique (avec Great Wall)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             }
           ]
@@ -2578,6 +3112,13 @@
                 "nb_etapes_raccourcies": 5,
                 "pause_supplementaire_min": 41.0,
                 "autonomie_autoroute_km": 200.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "MEB Entry (MEB+) traction",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             },
             {
@@ -2608,6 +3149,13 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 3.8,
                 "autonomie_autoroute_km": 293.0
+              },
+              "plateforme": {
+                "type": "dediee",
+                "nom": "MEB Entry (MEB+) traction",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             }
           ]
@@ -2661,6 +3209,13 @@
                 "nb_etapes_raccourcies": 0,
                 "pause_supplementaire_min": 17.6,
                 "autonomie_autoroute_km": 251.0
+              },
+              "plateforme": {
+                "type": "convertie",
+                "nom": "Puma (thermique)",
+                "refroidissement_batterie": "liquide",
+                "confiance": "haute",
+                "source": "estimation Claude (24/11/2026), à vérifier"
               }
             }
           ]

@@ -22,7 +22,7 @@ import unicodedata
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-VERSION = "1"
+VERSION = "2"
 
 
 def norm(text: Any) -> str:
@@ -53,7 +53,8 @@ DEFAULT_RULES: List[Dict[str, Any]] = (
         {"id": "autoscout-url-iv80", "source": "autoscout24", "url_regex": r"iv-80|e-80", "battery_kwh": 77.0},
         {"id": "autoscout-url-iv60", "source": "autoscout24", "url_regex": r"iv-60", "battery_kwh": 58.0},
         # Règles génériques sur le texte de l'annonce
-        {"id": "text-kwh", "text_regex": r"(\d{2,3}(?:[.,]\d{1,2})?)\s*(?:kwh|khw|kw/h)\b",
+        # « 52 kWh », « 51,5kwh » et, dans les URL, « 51-5-kwh » (le tiret remplace la virgule)
+        {"id": "text-kwh", "text_regex": r"(?<![\d.,])(\d{2,3}(?:[.,]\d{1,2}|-\d(?!\d))?)[\s-]*(?:kwh|khw|kw/h)\b",
          "capture": "battery_kwh", "min": 15.0, "max": 130.0},
         {"id": "text-wltp", "text_regex": r"\b(\d{3})\s*km\s*wltp\b", "capture": "wltp_km", "min": 100, "max": 900},
     ]
@@ -105,7 +106,7 @@ class SpecHints:
                 if not m:
                     continue
                 try:
-                    val = float(m.group(1).replace(",", "."))
+                    val = float(m.group(1).replace(",", ".").replace("-", "."))
                 except (ValueError, IndexError):
                     continue
                 if not (r.get("min", float("-inf")) <= val <= r.get("max", float("inf"))):

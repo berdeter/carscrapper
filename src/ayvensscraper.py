@@ -26,7 +26,7 @@ from urllib.parse import unquote, urljoin, urlparse
 import requests
 from bs4 import BeautifulSoup
 
-from cardata import CarListing, CarScraperBase
+from cardata import CarListing, CarScraperBase, DetailsFetchError, DetailsGoneError
 from carhelper import CarHelper
 
 LIEGE_LAT, LIEGE_LNG = 50.6326, 5.5797
@@ -211,17 +211,18 @@ class AyvensScraper(CarScraperBase):
     def scrape_details(self, listing) -> Any:
         """Complète l'annonce (batterie, autonomie, puissance, SoH, garantie...) depuis la fiche."""
         car = listing.listing if hasattr(listing, "listing") else listing
-        try:
-            detail = self._detail_cache.get(car.url)
-            if detail is None and car.url:
-                soup = self._get(car.url, {"pages": 1})
-                if soup is not None:
-                    detail = self._parse_detail(soup)
-                    self._detail_cache[car.url] = detail
-            if detail:
-                self._apply_detail(car, detail)
-        except Exception as e:  # ne jamais casser le pipeline pour un détail
-            print(f"[Ayvens] Erreur d'enrichissement pour {car.url} : {e}")
+        # Une erreur remonte au pipeline (qui retentera plus tard) au lieu d'être avalée ici.
+        detail = self._detail_cache.get(car.url)
+        if detail is None and car.url:
+            soup = self._get(car.url, {"pages": 1})
+            if soup is None:
+                if self._last_status in (404, 410):
+                    raise DetailsGoneError(f"HTTP {self._last_status}")
+                raise DetailsFetchError(f"fiche inaccessible (HTTP {self._last_status})")
+            detail = self._parse_detail(soup)
+            self._detail_cache[car.url] = detail
+        if detail:
+            self._apply_detail(car, detail)
         return listing
 
     # ------------------------------------------------------------------
@@ -250,6 +251,7 @@ class AyvensScraper(CarScraperBase):
         return self._robots.can_fetch(url) if self._robots else True
 
     def _get(self, url: str, budget: Dict[str, int]) -> Optional[BeautifulSoup]:
+        self._last_status = None  # dernier code HTTP (None : réseau, robots.txt ou budget)
         if budget["pages"] <= 0:
             return None
         if not self._allowed(url):
@@ -266,6 +268,7 @@ class AyvensScraper(CarScraperBase):
                 print(f"[Ayvens] Erreur réseau {url} ({e.__class__.__name__}), essai {attempt + 1}/3")
                 time.sleep(2 * (attempt + 1))
                 continue
+            self._last_status = resp.status_code
             if resp.status_code == 200:
                 budget["pages"] -= 1
                 self.stats["pages"] += 1

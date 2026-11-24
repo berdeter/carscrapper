@@ -41,9 +41,19 @@ class EnrichedCarListing:
     variantes_candidates: List[Dict[str, Any]] = field(default_factory=list)
     variante_resolue: Optional[Dict[str, Any]] = None
     url: Optional[str] = None
+    # Ids des variantes encore possibles quand la résolution échoue (sinon [id résolu]).
+    variantes_possibles: List[str] = field(default_factory=list)
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
+
+
+class DetailsFetchError(Exception):
+    """scrape_details n'a pas pu lire la fiche (réseau, HTTP, page inattendue) : à retenter plus tard."""
+
+
+class DetailsGoneError(DetailsFetchError):
+    """La fiche n'existe plus (HTTP 404/410, annonce introuvable) : l'annonce a disparu."""
 
 
 class CarScraperBase(ABC):
@@ -54,6 +64,10 @@ class CarScraperBase(ABC):
 
     @abstractmethod
     def scrape_details(self, listing: CarListing) -> CarListing:
-        """Extrait les données détaillées d'une annonce spécifique"""
+        """Extrait les données détaillées d'une annonce spécifique.
+
+        En cas d'échec, LEVER une exception (DetailsGoneError si l'annonce a disparu, DetailsFetchError ou
+        toute autre exception sinon) : ne jamais renvoyer l'annonce inchangée, sinon le pipeline la
+        considère comme lue et ne la retentera plus."""
         pass
 

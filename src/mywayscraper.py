@@ -9,7 +9,7 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-from cardata import CarListing, CarScraperBase
+from cardata import CarListing, CarScraperBase, DetailsFetchError
 from carhelper import CarHelper
 
 
@@ -267,15 +267,10 @@ class MyWayScraper(CarScraperBase):
                         break
 
         if node is None:
-            # Fallback : relire au minimum les spécifications annoncées dans le titre existant
-            bat_kwh, wltp_km = self._extract_stated_specs(
-                version=listing.title,
-                api_battery=listing.battery_kwh,
-                api_wltp=listing.range_wltp_km,
-            )
-            listing.battery_kwh = listing.battery_kwh or bat_kwh
-            listing.range_wltp_km = listing.range_wltp_km or wltp_km
-            return listing
+            # Avant : repli silencieux sur le titre, et la fiche était marquée comme lue. Les spécifications
+            # du titre sont de toute façon exploitées par SpecHints à l'étape resolve ; on signale l'échec
+            # pour que le pipeline retente (et abandonne après quelques essais).
+            raise DetailsFetchError("référence introuvable via l'API GraphQL")
 
         enriched = self._node_to_car_listing(node)
         listing.title = enriched.title

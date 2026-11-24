@@ -14,7 +14,7 @@ from typing import Any, Dict, List, Optional, Tuple
 import requests
 from bs4 import BeautifulSoup
 
-from cardata import CarListing, CarScraperBase
+from cardata import CarListing, CarScraperBase, DetailsFetchError, DetailsGoneError
 from carhelper import CarHelper
 
 
@@ -170,35 +170,35 @@ class AutoscoutScraper(CarScraperBase):
     # ------------------------------------------------------------------
     def scrape_details(self, listing: CarListing) -> CarListing:
         car = listing.listing if hasattr(listing, "listing") else listing
-        try:
-            resp = requests.get(car.url, headers=self.helper.headers, timeout=12)
-            if resp.status_code != 200:
-                return listing
-            soup = BeautifulSoup(resp.text, "html.parser")
-            page_text = soup.get_text(" ", strip=True)
-            if not car.price:
-                og_price = soup.find("meta", property=re.compile(r"price:amount|product:price:amount"))
-                if og_price and og_price.get("content"):
-                    car.price = self.helper._parse_price(og_price["content"])
-            if not car.price:
-                price_match = re.search(r"([\d\s\xa0\.,]+)\s*(?:€|EUR)", page_text)
-                if price_match:
-                    car.price = self.helper._parse_price(price_match.group(0))
-            if not car.mileage_km:
-                car.mileage_km = self.helper._extract_mileage(page_text)
-            if not car.year:
-                car.year = self.helper._extract_year(page_text)
-            if not car.battery_kwh:
-                car.battery_kwh = self.helper._extract_battery(page_text)
-            if not car.warranty_months:
-                w_match = re.search(r"garantie[^\d]*(\d+)\s*mois", page_text, re.IGNORECASE)
-                if w_match:
-                    car.warranty_months = int(w_match.group(1))
-            if car.has_service_history is None:
-                if "carnet d'entretien" in page_text.lower():
-                    car.has_service_history = True
-        except Exception as e:
-            print(f"[AutoScout24] Erreur d'enrichissement pour {car.url} : {e}")
+        # Pas de try/except ici : une erreur remonte au pipeline, qui retentera la fiche plus tard.
+        resp = requests.get(car.url, headers=self.helper.headers, timeout=12)
+        if resp.status_code in (404, 410):
+            raise DetailsGoneError(f"HTTP {resp.status_code}")
+        if resp.status_code != 200:
+            raise DetailsFetchError(f"HTTP {resp.status_code}")
+        soup = BeautifulSoup(resp.text, "html.parser")
+        page_text = soup.get_text(" ", strip=True)
+        if not car.price:
+            og_price = soup.find("meta", property=re.compile(r"price:amount|product:price:amount"))
+            if og_price and og_price.get("content"):
+                car.price = self.helper._parse_price(og_price["content"])
+        if not car.price:
+            price_match = re.search(r"([\d\s\xa0\.,]+)\s*(?:€|EUR)", page_text)
+            if price_match:
+                car.price = self.helper._parse_price(price_match.group(0))
+        if not car.mileage_km:
+            car.mileage_km = self.helper._extract_mileage(page_text)
+        if not car.year:
+            car.year = self.helper._extract_year(page_text)
+        if not car.battery_kwh:
+            car.battery_kwh = self.helper._extract_battery(page_text)
+        if not car.warranty_months:
+            w_match = re.search(r"garantie[^\d]*(\d+)\s*mois", page_text, re.IGNORECASE)
+            if w_match:
+                car.warranty_months = int(w_match.group(1))
+        if car.has_service_history is None:
+            if "carnet d'entretien" in page_text.lower():
+                car.has_service_history = True
         return listing
 
     @staticmethod
@@ -213,10 +213,11 @@ class AutoscoutScraper(CarScraperBase):
         if match:
             brand = match.group(1).capitalize()
             model = match.group(2).upper()
-        batt_match = re.search(r"(\d+[\.,]?\d*)-kwh", url, re.IGNORECASE)
+        # « 52-kwh », « 77kwh », et « 51-5-kwh » = 51,5 kWh (avant : lu 5.0)
+        batt_match = re.search(r"(?<![\d.,])(\d{2,3}(?:[.,]\d{1,2}|-\d(?!\d))?)-?kwh", url, re.IGNORECASE)
         if batt_match:
             try:
-                battery = float(batt_match.group(1).replace(",", "."))
+                battery = float(batt_match.group(1).replace(",", ".").replace("-", "."))
             except ValueError:
                 pass
         return brand, model, battery

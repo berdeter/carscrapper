@@ -12,15 +12,19 @@
       "reputation_fiabilite": "Réputation de fiabilité globale en occasion (études Consumer Reports, ADAC, Test Achats, WhatCar) : Excellente, Bonne, Moyenne, Délicate, Trop récente",
       "score_fiabilite": "Note indicative sur 5 (5 = référence du marché, 1 = pannes fréquentes / coûteuses, null = recul insuffisant)",
       "feeling_global": {
-        "description": "Indicateur synthétique sur 100 combinant fiabilité (40%), réseau BEL (35%) et géopolitique UE/alliés (25%), sans pénalité de segment.",
+        "description": "Indicateur synthétique sur 100 : fiabilité générale 20 %, maturité EV 35 %, réseau BEL 20 %, géopolitique UE/alliés 25 %. La fiabilité générale (études tous moteurs, ex. PureTech) passe de 40 à 20 % car elle reflète surtout le thermique ; le réseau de 35 à 20 % (entretien VE plus léger) ; la géopolitique est inchangée (25 %).",
         "ponderation": {
-          "fiabilite": 0.4,
-          "reseau_belgique": 0.35,
+          "fiabilite": 0.2,
+          "maturite_ev": 0.35,
+          "reseau_belgique": 0.2,
           "geopolitique": 0.25
         },
+        "historique": "v3 : fiabilité 40 %, réseau 35 %, géopolitique 25 %",
         "echelle_verdict": "Excellent (>= 80), Très bon (70-79), Correct (55-69), Peu adapté (40-54), Écarté (< 40)"
-      }
-    }
+      },
+      "maturite_ev": "Qualité de l'expérience électrique vécue par les propriétaires : logiciel, appli, gestion et puissance de charge, planification d'itinéraire. Score = 50 + NPS/2, NPS = % recommandent - % déconseillent (étude USCALE). 'nature' : mesure (marque publiée), estimation (proxy de groupe/plateforme, à vérifier), neutre (aucune donnée = 50)."
+    },
+    "version": "v3.1 (2026-11-24) : ajout de l'axe maturité EV, nouvelle pondération"
   },
   "marques": [
     {
@@ -39,13 +43,21 @@
       "reputation_fiabilite": "Bonne",
       "score_fiabilite": 4.0,
       "feeling_global": {
-        "score": 92.0,
-        "verdict": "Excellent",
+        "score": 76.8,
+        "verdict": "Très bon",
         "details": {
           "fiabilite_100": 80.0,
           "reseau_100": 100.0,
-          "geopolitique_100": 100.0
-        }
+          "geopolitique_100": 100.0,
+          "maturite_ev_100": 45.0
+        },
+        "score_v3": 92.0
+      },
+      "maturite_ev": {
+        "score": 45.0,
+        "nature": "estimation",
+        "source": "USCALE EV Satisfaction Study 2024 : parmi les marques les moins bien notées (sans chiffre publié)",
+        "points_cles": "recharge lente, sessions longues"
       }
     },
     {
@@ -64,13 +76,21 @@
       "reputation_fiabilite": "Bonne",
       "score_fiabilite": 3.7,
       "feeling_global": {
-        "score": 89.6,
+        "score": 87.8,
         "verdict": "Excellent",
         "details": {
           "fiabilite_100": 74.0,
           "reseau_100": 100.0,
-          "geopolitique_100": 100.0
-        }
+          "geopolitique_100": 100.0,
+          "maturite_ev_100": 80.0
+        },
+        "score_v3": 89.6
+      },
+      "maturite_ev": {
+        "score": 80.0,
+        "nature": "mesure",
+        "source": "USCALE EV Satisfaction Study 2026 (DACH, 4 004 conducteurs, VE ≤ 3 ans) : 67 % recommandent / 7 % déconseillent (3e)",
+        "points_cles": "Elroq en net progrès ; planification d'itinéraire et logiciel à améliorer"
       }
     },
     {
@@ -89,13 +109,21 @@
       "reputation_fiabilite": "Bonne",
       "score_fiabilite": 4.2,
       "feeling_global": {
-        "score": 88.6,
+        "score": 83.2,
         "verdict": "Excellent",
         "details": {
           "fiabilite_100": 84.0,
           "reseau_100": 100.0,
-          "geopolitique_100": 80.0
-        }
+          "geopolitique_100": 80.0,
+          "maturite_ev_100": 75.5
+        },
+        "score_v3": 88.6
+      },
+      "maturite_ev": {
+        "score": 75.5,
+        "nature": "mesure",
+        "source": "USCALE EV Satisfaction Study 2026 (DACH, 4 004 conducteurs, VE ≤ 3 ans) : 61 % / 10 % (7e)",
+        "points_cles": "autonomie, logiciel en progrès ; planification d'itinéraire faible"
       }
     },
     {
@@ -114,13 +142,21 @@
       "reputation_fiabilite": "Bonne",
       "score_fiabilite": 4.1,
       "feeling_global": {
-        "score": 87.8,
+        "score": 83.5,
         "verdict": "Excellent",
         "details": {
           "fiabilite_100": 82.0,
           "reseau_100": 100.0,
-          "geopolitique_100": 80.0
-        }
+          "geopolitique_100": 80.0,
+          "maturite_ev_100": 77.5
+        },
+        "score_v3": 87.8
+      },
+      "maturite_ev": {
+        "score": 77.5,
+        "nature": "mesure",
+        "source": "USCALE EV Satisfaction Study 2026 (DACH, 4 004 conducteurs, VE ≤ 3 ans) : 63 % / 8 % (5e)",
+        "points_cles": "autonomie et puissance de charge"
       }
     },
     {
@@ -137,13 +173,21 @@
       "reputation_fiabilite": "Moyenne",
       "score_fiabilite": 3.4,
       "feeling_global": {
-        "score": 87.2,
+        "score": 80.1,
         "verdict": "Excellent",
         "details": {
           "fiabilite_100": 68.0,
           "reseau_100": 100.0,
-          "geopolitique_100": 100.0
-        }
+          "geopolitique_100": 100.0,
+          "maturite_ev_100": 61.5
+        },
+        "score_v3": 87.2
+      },
+      "maturite_ev": {
+        "score": 61.5,
+        "nature": "mesure",
+        "source": "USCALE EV Satisfaction Study 2026 (DACH, 4 004 conducteurs, VE ≤ 3 ans) : 44 % / 21 % (14e)",
+        "points_cles": "puissance de charge faible, appli ; itinéraire et logiciel corrects (2025)"
       }
     },
     {
@@ -162,13 +206,21 @@
       "reputation_fiabilite": "Moyenne",
       "score_fiabilite": 3.4,
       "feeling_global": {
-        "score": 87.2,
+        "score": 81.7,
         "verdict": "Excellent",
         "details": {
           "fiabilite_100": 68.0,
           "reseau_100": 100.0,
-          "geopolitique_100": 100.0
-        }
+          "geopolitique_100": 100.0,
+          "maturite_ev_100": 66.0
+        },
+        "score_v3": 87.2
+      },
+      "maturite_ev": {
+        "score": 66.0,
+        "nature": "mesure",
+        "source": "USCALE EV Satisfaction Study 2026 (DACH, 4 004 conducteurs, VE ≤ 3 ans) : 46 % / 14 % (12e)",
+        "points_cles": "logiciel et appli = points faibles ; ID.7 meilleur que ID.3"
       }
     },
     {
@@ -187,13 +239,21 @@
       "reputation_fiabilite": "Moyenne",
       "score_fiabilite": 3.3,
       "feeling_global": {
-        "score": 86.4,
-        "verdict": "Excellent",
+        "score": 76.8,
+        "verdict": "Très bon",
         "details": {
           "fiabilite_100": 66.0,
           "reseau_100": 100.0,
-          "geopolitique_100": 100.0
-        }
+          "geopolitique_100": 100.0,
+          "maturite_ev_100": 53.0
+        },
+        "score_v3": 86.4
+      },
+      "maturite_ev": {
+        "score": 53.0,
+        "nature": "mesure",
+        "source": "USCALE EV Satisfaction Study 2026 (DACH, 4 004 conducteurs, VE ≤ 3 ans) : 37 % / 31 % (18e)",
+        "points_cles": "logiciel, appli, qualité perçue"
       }
     },
     {
@@ -212,13 +272,20 @@
       "reputation_fiabilite": "Excellente",
       "score_fiabilite": 4.4,
       "feeling_global": {
-        "score": 85.0,
-        "verdict": "Excellent",
+        "score": 72.1,
+        "verdict": "Très bon",
         "details": {
           "fiabilite_100": 88.0,
           "reseau_100": 85.0,
-          "geopolitique_100": 80.0
-        }
+          "geopolitique_100": 80.0,
+          "maturite_ev_100": 50.0
+        },
+        "score_v3": 85.0
+      },
+      "maturite_ev": {
+        "score": 50.0,
+        "nature": "neutre",
+        "source": "aucune donnée (e Vitara trop récente)"
       }
     },
     {
@@ -238,13 +305,21 @@
       "reputation_fiabilite": "Bonne",
       "score_fiabilite": 3.9,
       "feeling_global": {
-        "score": 82.2,
-        "verdict": "Excellent",
+        "score": 79.6,
+        "verdict": "Très bon",
         "details": {
           "fiabilite_100": 78.0,
           "reseau_100": 85.0,
-          "geopolitique_100": 85.0
-        }
+          "geopolitique_100": 85.0,
+          "maturite_ev_100": 73.5
+        },
+        "score_v3": 82.2
+      },
+      "maturite_ev": {
+        "score": 73.5,
+        "nature": "estimation",
+        "source": "MINI non publié en 2026 ; BMW 2026 : 63 % / 6 % moins 5 pts (anciens modèles). USCALE EV Satisfaction Study 2024 : bon logiciel, autonomie faible",
+        "points_cles": "logiciel BMW ; autonomie des F56"
       }
     },
     {
@@ -261,13 +336,20 @@
       "reputation_fiabilite": "Moyenne",
       "score_fiabilite": 3.4,
       "feeling_global": {
-        "score": 82.0,
-        "verdict": "Excellent",
+        "score": 77.0,
+        "verdict": "Très bon",
         "details": {
           "fiabilite_100": 68.0,
           "reseau_100": 85.0,
-          "geopolitique_100": 100.0
-        }
+          "geopolitique_100": 100.0,
+          "maturite_ev_100": 61.0
+        },
+        "score_v3": 82.0
+      },
+      "maturite_ev": {
+        "score": 61.0,
+        "nature": "estimation",
+        "source": "pas de mesure ; seul VE = Mii (conversion de l'e-up!) : VW 2026 moins 5 pts"
       }
     },
     {
@@ -286,13 +368,21 @@
       "reputation_fiabilite": "Moyenne",
       "score_fiabilite": 3.2,
       "feeling_global": {
-        "score": 80.3,
-        "verdict": "Excellent",
+        "score": 75.6,
+        "verdict": "Très bon",
         "details": {
           "fiabilite_100": 64.0,
           "reseau_100": 85.0,
-          "geopolitique_100": 100.0
-        }
+          "geopolitique_100": 100.0,
+          "maturite_ev_100": 59.5
+        },
+        "score_v3": 80.3
+      },
+      "maturite_ev": {
+        "score": 59.5,
+        "nature": "mesure",
+        "source": "USCALE EV Satisfaction Study 2026 (DACH, 4 004 conducteurs, VE ≤ 3 ans) : 38 % / 19 % (15e)",
+        "points_cles": "puissance de charge, appli et logiciel"
       }
     },
     {
@@ -309,13 +399,20 @@
       "reputation_fiabilite": "Moyenne",
       "score_fiabilite": 3.5,
       "feeling_global": {
-        "score": 77.8,
+        "score": 72.5,
         "verdict": "Très bon",
         "details": {
           "fiabilite_100": 70.0,
           "reseau_100": 85.0,
-          "geopolitique_100": 80.0
-        }
+          "geopolitique_100": 80.0,
+          "maturite_ev_100": 61.5
+        },
+        "score_v3": 77.8
+      },
+      "maturite_ev": {
+        "score": 61.5,
+        "nature": "estimation",
+        "source": "seul modèle du catalogue = Micra EV, sur base Renault 5 : valeur Renault 2026 (les critiques historiques visaient la Leaf, CHAdeMO)"
       }
     },
     {
@@ -335,13 +432,20 @@
       "reputation_fiabilite": "Excellente",
       "score_fiabilite": 4.6,
       "feeling_global": {
-        "score": 77.8,
-        "verdict": "Très bon",
+        "score": 67.9,
+        "verdict": "Correct",
         "details": {
           "fiabilite_100": 92.0,
           "reseau_100": 60.0,
-          "geopolitique_100": 80.0
-        }
+          "geopolitique_100": 80.0,
+          "maturite_ev_100": 50.0
+        },
+        "score_v3": 77.8
+      },
+      "maturite_ev": {
+        "score": 50.0,
+        "nature": "neutre",
+        "source": "aucune donnée exploitable"
       }
     },
     {
@@ -358,13 +462,21 @@
       "reputation_fiabilite": "Très délicate",
       "score_fiabilite": 2.1,
       "feeling_global": {
-        "score": 76.8,
-        "verdict": "Très bon",
+        "score": 65.5,
+        "verdict": "Correct",
         "details": {
           "fiabilite_100": 42.0,
           "reseau_100": 100.0,
-          "geopolitique_100": 100.0
-        }
+          "geopolitique_100": 100.0,
+          "maturite_ev_100": 34.5
+        },
+        "score_v3": 76.8
+      },
+      "maturite_ev": {
+        "score": 34.5,
+        "nature": "mesure",
+        "source": "USCALE EV Satisfaction Study 2026 (DACH, 4 004 conducteurs, VE ≤ 3 ans) : 19 % / 50 % (21e, dernier)",
+        "points_cles": "92 % de problèmes d'appli ; gestion de charge, logiciel, ergonomie"
       }
     },
     {
@@ -383,13 +495,21 @@
       "reputation_fiabilite": "Très délicate",
       "score_fiabilite": 2.1,
       "feeling_global": {
-        "score": 76.8,
-        "verdict": "Très bon",
+        "score": 65.5,
+        "verdict": "Correct",
         "details": {
           "fiabilite_100": 42.0,
           "reseau_100": 100.0,
-          "geopolitique_100": 100.0
-        }
+          "geopolitique_100": 100.0,
+          "maturite_ev_100": 34.5
+        },
+        "score_v3": 76.8
+      },
+      "maturite_ev": {
+        "score": 34.5,
+        "nature": "estimation",
+        "source": "absent de l'édition 2026 ; valeur Opel 2026 (logiciel Stellantis). USCALE EV Satisfaction Study 2024 : 4 % (avant-dernier)",
+        "points_cles": "logiciel et connectivité"
       }
     },
     {
@@ -408,13 +528,21 @@
       "reputation_fiabilite": "Très délicate",
       "score_fiabilite": 2.1,
       "feeling_global": {
-        "score": 76.8,
-        "verdict": "Très bon",
+        "score": 65.5,
+        "verdict": "Correct",
         "details": {
           "fiabilite_100": 42.0,
           "reseau_100": 100.0,
-          "geopolitique_100": 100.0
-        }
+          "geopolitique_100": 100.0,
+          "maturite_ev_100": 34.5
+        },
+        "score_v3": 76.8
+      },
+      "maturite_ev": {
+        "score": 34.5,
+        "nature": "estimation",
+        "source": "absent de l'édition 2026 ; même plateforme/logiciel Stellantis qu'Opel (valeur Opel 2026). USCALE EV Satisfaction Study 2024 : 3 % / 62 % (dernier)",
+        "points_cles": "logiciel et connectivité"
       }
     },
     {
@@ -433,13 +561,21 @@
       "reputation_fiabilite": "Délicate",
       "score_fiabilite": 2.4,
       "feeling_global": {
-        "score": 74.0,
-        "verdict": "Très bon",
+        "score": 68.0,
+        "verdict": "Correct",
         "details": {
           "fiabilite_100": 48.0,
           "reseau_100": 85.0,
-          "geopolitique_100": 100.0
-        }
+          "geopolitique_100": 100.0,
+          "maturite_ev_100": 47.0
+        },
+        "score_v3": 74.0
+      },
+      "maturite_ev": {
+        "score": 47.0,
+        "nature": "mesure",
+        "source": "USCALE EV Satisfaction Study 2026 (DACH, 4 004 conducteurs, VE ≤ 3 ans) : 24 % / 30 % (20e)",
+        "points_cles": "autonomie (500e), gestion de charge, appli ; consommation basse"
       }
     },
     {
@@ -458,13 +594,21 @@
       "reputation_fiabilite": "Moyenne",
       "score_fiabilite": 3.2,
       "feeling_global": {
-        "score": 73.1,
-        "verdict": "Très bon",
+        "score": 68.4,
+        "verdict": "Correct",
         "details": {
           "fiabilite_100": 64.0,
           "reseau_100": 100.0,
-          "geopolitique_100": 50.0
-        }
+          "geopolitique_100": 50.0,
+          "maturite_ev_100": 66.0
+        },
+        "score_v3": 73.1
+      },
+      "maturite_ev": {
+        "score": 66.0,
+        "nature": "mesure",
+        "source": "USCALE EV Satisfaction Study 2026 (DACH, 4 004 conducteurs, VE ≤ 3 ans) : 51 % / 19 % (10e)",
+        "points_cles": "appli et puissance de charge critiquées"
       }
     }
   ]

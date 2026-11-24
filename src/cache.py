@@ -6,7 +6,8 @@ class CarCache:
 
   def __init__(self, db_path: str = "cars_cache.json"):
     # TinyDB stocke tout dans un fichier JSON local léger
-    self.db = TinyDB(db_path, ensure_ascii=False, indent=2)
+    # encoding explicite : sans lui, TinyDB écrit dans l'encodage du système (cp1252 sous Windows).
+    self.db = TinyDB(db_path, encoding="utf-8", ensure_ascii=False, indent=2)
     self.query = Query()
 
   def get(self, url: str) -> Optional[Dict[str, Any]]:

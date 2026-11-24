@@ -183,7 +183,8 @@ class SpoticarScraper(CarScraperBase):
                     if veh_data.get("pricing", {}).get("netPriceInclTax") is not None:
                         price = float(veh_data["pricing"]["netPriceInclTax"])
                     if veh_data.get("features", {}).get("maximumPowerHP") is not None:
-                        power_hp = int(veh_data["features"]["maximumPowerHP"])
+                        # Malgré son nom, ce champ est en kW (113 ch -> 83, 136 pk -> 100 sur 41 annonces vérifiées)
+                        power_hp = round(float(veh_data["features"]["maximumPowerHP"]) * 1.35962)
                     state_data = veh_data.get("state", {})
                     if state_data.get("mileage"):
                         mileage = int(state_data["mileage"])

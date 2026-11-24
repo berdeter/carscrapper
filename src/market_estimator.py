@@ -22,6 +22,8 @@ class MarketEstimator:
           "dc_kw": 50.0,
           "ref_feeling": 92.0,  # Dacia dans classification_marques_belgique-v3_recalibrated.json
           "ref_sim_min": 834.5,  # Dacia Spring, simulation v2 (rythme humain) : temps total 1000 km en minutes
+          # Même valeur que `plateforme` de dacia_spring_27kwh dans models.json : à garder synchronisé.
+          "ref_plateforme": {"type": "convertie", "refroidissement_batterie": "air passif"},
       },
       "B": {
           "ref_name": "Hyundai IONIQ 3 Select (42.2 kWh)",
@@ -30,6 +32,8 @@ class MarketEstimator:
           "dc_kw": 110.0,
           "ref_feeling": 87.8,  # Hyundai dans classification_marques_belgique-v3_recalibrated.json
           "ref_sim_min": 639.6,  # Ioniq 3 petite batterie, simulation v2 : temps total 1000 km en minutes
+          # Même valeur que `plateforme` de hyundai_ioniq_3_42kwh dans models.json : à garder synchronisé.
+          "ref_plateforme": {"type": "dediee", "refroidissement_batterie": "liquide"},
       },
   }
   def __init__(
@@ -37,27 +41,67 @@ class MarketEstimator:
       output_filename: str = "best_ev_opportunities",
       current_year: Optional[int] = None,
       brands_json_path: str | Path = "classification_marques_belgique-v3.json",
-      roadtrip_max_lost_min: float = 240.0,
-      roadtrip_ok_lost_min: float = 60.0,
+      roadtrip_ok_lost_min: float = 30.0,
+      roadtrip_long_lost_min: float = 60.0,
+      roadtrip_max_lost_min: float = 90.0,
       roadtrip_min_range_km: float = 120.0,
       roadtrip_gate_segments: tuple = ("B",),
       ev_exponent: float = 0.65,
+      impossible_sim_min: float = 1200.0,
+      soh_loss_per_year: float = 2.0,
+      soh_expected_floor: float = 70.0,
+      soh_factor_max: float = 1.10,
+      platform_factors: Optional[Dict[str, float]] = None,
+      passive_cooling_factor: float = 0.95,
   ):
     """
     Barrière road trip (1000 km, rythme habituel) : ne retire que les voitures pour lesquelles
     c'est impraticable, pas celles qui sont simplement moins bonnes que la référence.
-      roadtrip_max_lost_min  : au-delà de ce temps perdu vs thermique -> "Impossible".
-      roadtrip_ok_lost_min   : en dessous -> "OK" ; entre les deux -> "Long".
-      roadtrip_min_range_km  : autonomie autoroute (100 % -> réserve) minimale ; en dessous -> "Impossible".
-      roadtrip_gate_segments : segments où "Impossible" exclut la voiture. Les autres (ex. A) sont
+    Paliers du temps perdu vs thermique (minutes) :
+        < roadtrip_ok_lost_min (30)                -> "OK"
+        < roadtrip_long_lost_min (60)              -> "Long"
+        <= roadtrip_max_lost_min (90)              -> "Très long"
+        > roadtrip_max_lost_min                    -> "Rédhibitoire"
+      roadtrip_min_range_km  : autonomie autoroute (100 % -> réserve) minimale ; en dessous -> "Impossible"
+                               (de même qu'une simulation irréalisable).
+      roadtrip_gate_segments : segments où "Rédhibitoire" / "Impossible" exclut la voiture. Les autres (ex. A) sont
                                conservés et seulement étiquetés.
       ev_exponent            : poids du temps de trajet dans la valorisation ((ref/voiture) ** exposant).
+      impossible_sim_min     : temps 1000 km RETENU pour une voiture incapable du trajet (simulation
+                               « irréalisable ») : plus pénalisant que toute voiture réalisable du catalogue
+                               (max observé ≈ 1036 min, Twingo ZE). Avant : coefficient neutre 1,0.
+      soh_loss_per_year      : perte de SoH « normale » par an, déjà contenue dans la décote liée à l'âge.
+      soh_expected_floor     : SoH attendu minimal, quel que soit l'âge.
+      soh_factor_max         : plafond du bonus SoH (un SoH 100 % déclaré sur une vieille voiture est
+                               souvent une valeur par défaut du vendeur).
+      platform_factors       : qualité selon le type de plateforme de la variante (champ `plateforme` de models.json) :
+                               dediee 1,00 ; multi_energie 0,95 ; convertie 0,90 (compromis d'implantation et de
+                               refroidissement de la batterie, vieillissement plus rapide).
+      passive_cooling_factor : multiplicateur supplémentaire si la batterie n'a pas de refroidissement actif ("air passif").
+    Coef. Plateforme = qualité de la plateforme de la voiture / qualité de celle de la référence du segment
+    (comme le coef. marque) ; plateforme inconnue -> 1,0.
+    Coefficient SoH : SoH mesuré / SoH attendu pour l'âge. Seul l'écart à l'usure normale compte (l'usure
+    normale est déjà dans la décote liée à l'âge) ; SoH inconnu -> 1,0.
     """
     self.output_filename = output_filename
-    self.current_year = current_year or date.today().year
+    today = date.today()
+    self.current_year = current_year or today.year
+    # Date de référence en années fractionnaires (ex. 23/11/2026 -> 2026.89) ; si `current_year` est imposé,
+    # on se place au milieu de cette année-là.
+    self.reference_year_frac = (
+        today.year + (today.timetuple().tm_yday - 0.5) / 365.25
+        if current_year is None or current_year == today.year else current_year + 0.5
+    )
     self.REFERENCE_BENCHMARKS = copy.deepcopy(MarketEstimator.REFERENCE_BENCHMARKS)  # pas d'état partagé
     self.roadtrip_max_lost_min = roadtrip_max_lost_min
+    self.impossible_sim_min = impossible_sim_min
+    self.soh_loss_per_year = soh_loss_per_year
+    self.soh_expected_floor = soh_expected_floor
+    self.soh_factor_max = soh_factor_max
+    self.platform_factors = platform_factors or {"dediee": 1.00, "multi_energie": 0.95, "convertie": 0.90}
+    self.passive_cooling_factor = passive_cooling_factor
     self.roadtrip_ok_lost_min = roadtrip_ok_lost_min
+    self.roadtrip_long_lost_min = roadtrip_long_lost_min
     self.roadtrip_min_range_km = roadtrip_min_range_km
     self.roadtrip_gate_segments = tuple(str(s).upper() for s in roadtrip_gate_segments)
     self.ev_exponent = ev_exponent
@@ -225,12 +269,21 @@ class MarketEstimator:
     flat["year"] = self._parse_year(lget("year"))
     flat["soh_percent"] = self._parse_soh(lget("soh_percent"))
 
+    # Variante non résolue : au lieu de prendre arbitrairement candidates[0], on valorise la voiture avec la
+    # variante la PLUS DÉFAVORABLE encore possible (temps 1000 km le plus long) et on garde la plus favorable
+    # pour indiquer le potentiel (« Indice si meilleure variante »).
     var_obj = d.get("variante_resolue")
     flat["variante_resolue_flag"] = isinstance(var_obj, dict)
+    best_obj = var_obj if isinstance(var_obj, dict) else None
+    flat["nb_variantes_possibles"] = 1 if isinstance(var_obj, dict) else 0
     if not isinstance(var_obj, dict):
-      candidates = d.get("variantes_candidates", [])
-      if candidates and isinstance(candidates, list):
-        var_obj = candidates[0]
+      candidates = [c for c in (d.get("variantes_candidates") or []) if isinstance(c, dict)]
+      possible_ids = set(d.get("variantes_possibles") or [])
+      possibles = [c for c in candidates if c.get("variante_id") in possible_ids] or candidates
+      if possibles:
+        var_obj = max(possibles, key=self._sim_cost)
+        best_obj = min(possibles, key=self._sim_cost)
+        flat["nb_variantes_possibles"] = len(possibles)
 
     sim = {}
     if isinstance(var_obj, dict):
@@ -241,6 +294,14 @@ class MarketEstimator:
       flat["wltp_km"] = tech.get("autonomie_wltp_km") or flat["listing_wltp"]
       flat["dc_kw"] = tech.get("puissance_dc_max_kw")
       flat["variante_nom"] = var_obj.get("nom_variante")
+      plat = var_obj.get("plateforme") or {}
+      flat["plateforme_type"] = plat.get("type")
+      flat["plateforme_label"] = self._platform_label(plat)
+      flat["platform_quality"] = self._platform_quality(plat)
+      if not flat["variante_resolue_flag"] and flat["nb_variantes_possibles"] > 1:
+        flat["variante_nom"] = (
+            f"? {flat['nb_variantes_possibles']} possibles, pire cas : {var_obj.get('nom_variante')}"
+        )
       sim = var_obj.get("simulation_humaine_1000km") or {}
     else:
       flat["norm_battery_kwh"] = flat["listing_batt"]
@@ -253,8 +314,94 @@ class MarketEstimator:
     flat["temps_perdu_min"] = sim.get("temps_perdu_min")
     flat["autonomie_autoroute_km"] = sim.get("autonomie_autoroute_km")
     flat["roadtrip_realisable"] = sim.get("realisable")
+    best_sim = (best_obj or {}).get("simulation_humaine_1000km") or sim
+    flat["best_sim_min"] = best_sim.get("temps_minutes")
+    flat["best_temps_perdu_min"] = best_sim.get("temps_perdu_min")
+    flat["best_autonomie_autoroute_km"] = best_sim.get("autonomie_autoroute_km")
+    flat["best_roadtrip_realisable"] = best_sim.get("realisable")
 
     return flat
+
+  PLATFORM_LABELS = {"dediee": "Dédiée EV", "multi_energie": "Multi-énergie", "convertie": "Thermique convertie"}
+
+  def _platform_quality(self, plat: Dict[str, Any]) -> Optional[float]:
+    """Qualité absolue d'une plateforme (None si type inconnu)."""
+    q = self.platform_factors.get((plat or {}).get("type"))
+    if q is None:
+      return None
+    if (plat.get("refroidissement_batterie") or "").lower() == "air passif":
+      q *= self.passive_cooling_factor
+    return q
+
+  def _platform_label(self, plat: Dict[str, Any]) -> Optional[str]:
+    if not plat or not plat.get("type"):
+      return None
+    label = self.PLATFORM_LABELS.get(plat["type"], plat["type"])
+    if (plat.get("refroidissement_batterie") or "").lower() == "air passif":
+      label += ", air passif"
+    if plat.get("confiance") == "faible":
+      label += " (?)"
+    return label
+
+  @staticmethod
+  def _sim_cost(variant: Dict[str, Any]) -> float:
+    """Temps 1000 km d'une variante (infini si irréalisable ou inconnu) : sert à trouver le pire / meilleur cas."""
+    sim = variant.get("simulation_humaine_1000km") or {}
+    t = sim.get("temps_minutes")
+    return float("inf") if not sim.get("realisable") or t is None else float(t)
+
+  def _ev_factor(self, sim_min: Any, ref_sim_min: float, realisable: Any = None) -> Optional[float]:
+    """(temps référence / temps voiture) ** exposant.
+    Simulation irréalisable -> pénalité (impossible_sim_min) ; simulation absente -> None (pas d'estimation),
+    au lieu de l'ancien 1,0 qui valait autant que la référence."""
+    if realisable is not None and not pd.isna(realisable) and not bool(realisable):
+      return round((ref_sim_min / self.impossible_sim_min) ** self.ev_exponent, 3)
+    car_sim_min = pd.to_numeric(sim_min, errors="coerce")
+    if pd.notnull(car_sim_min) and car_sim_min > 0:
+      return round((ref_sim_min / car_sim_min) ** self.ev_exponent, 3)
+    return None
+
+  def _soh_factor(self, soh: Any, age: float) -> float:
+    """SoH mesuré rapporté au SoH attendu pour l'âge (l'usure normale est déjà dans la décote d'âge)."""
+    soh = pd.to_numeric(soh, errors="coerce")
+    if pd.isnull(soh):
+      return 1.0
+    expected = max(self.soh_expected_floor, 100.0 - self.soh_loss_per_year * age)
+    return round(min(self.soh_factor_max, float(soh) / expected), 3)
+
+  ROADTRIP_EXCLUDED = ("Rédhibitoire", "Impossible")
+
+  def _roadtrip_status(self, realisable: Any, lost: Any, rng: Any) -> str:
+    lost = pd.to_numeric(lost, errors="coerce")
+    rng = pd.to_numeric(rng, errors="coerce")
+    if realisable is not None and not pd.isna(realisable) and not bool(realisable):
+      return "Impossible"
+    if pd.isnull(lost):
+      return "Inconnu"
+    if pd.notnull(rng) and rng < self.roadtrip_min_range_km:
+      return "Impossible"
+    if lost < self.roadtrip_ok_lost_min:
+      return "OK"
+    if lost < self.roadtrip_long_lost_min:
+      return "Long"
+    if lost <= self.roadtrip_max_lost_min:
+      return "Très long"
+    return "Rédhibitoire"
+
+  @staticmethod
+  def _age_depreciation(age: float) -> float:
+    """Décote liée à l'âge, CONTINUE en fonction de l'âge (en années fractionnaires) :
+      * 10 % dès l'immatriculation, puis +5 %/an jusqu'à 15 % à 1 an ;
+      * +8 %/an de 1 à 5 ans (47 % à 5 ans) ;
+      * +5 %/an au-delà.
+    Aux âges entiers 1..n on retrouve exactement l'ancien barème (15 %, 23 %, 31 %...) ; seule la 1re année
+    change : avant, 0 an et 1 an donnaient tous deux 15 %."""
+    a = max(0.0, age)
+    if a <= 1.0:
+      return 0.10 + 0.05 * a
+    if a <= 5.0:
+      return 0.15 + 0.08 * (a - 1.0)
+    return 0.47 + 0.05 * (a - 5.0)
 
   def _compute_valuation(self, row: pd.Series) -> pd.Series:
     seg = row.get("segment", "B")
@@ -264,30 +411,24 @@ class MarketEstimator:
     ref_feeling = bench["ref_feeling"]
     ref_sim_min = bench["ref_sim_min"]
 
-    # Calcul du coefficient électrique basé sur la simulation humaine 1000km
-    car_sim_min = pd.to_numeric(row.get("sim_humaine_1000km_min"), errors="coerce")
-    if pd.notnull(car_sim_min) and car_sim_min > 0:
-      ev_ratio = ref_sim_min / car_sim_min
-      ev_factor = round(ev_ratio**self.ev_exponent, 3)
-    else:
-      ev_factor = 1.0
+    # Coefficient électrique basé sur la simulation humaine 1000 km (pire cas si la variante est incertaine)
+    ev_factor = self._ev_factor(
+        row.get("sim_humaine_1000km_min"), ref_sim_min, row.get("roadtrip_realisable"))
+    ev_factor_best = self._ev_factor(
+        row.get("best_sim_min"), ref_sim_min, row.get("best_roadtrip_realisable"))
 
     year = pd.to_numeric(row.get("year"), errors="coerce")
     mileage = pd.to_numeric(row.get("mileage_km"), errors="coerce")
 
-    age = max(0, self.current_year - int(year)) if pd.notnull(year) else 1
+    # Âge en années fractionnaires : immatriculation supposée au milieu de l'année (seule l'année est connue).
+    age = max(0.0, self.reference_year_frac - (int(year) + 0.5)) if pd.notnull(year) else 1.0
     km = float(mileage) if pd.notnull(mileage) else (age * 15000.0)
 
-    # 1. Décote liée à l'âge (15% la 1ère année, 8% jusqu'à 5 ans, puis 5% au-delà)
-    if age == 0:
-      age_depreciation = 0.15
-    elif age <= 5:
-      age_depreciation = 0.15 + (age - 1) * 0.08
-    else:
-      age_depreciation = 0.47 + (age - 5) * 0.05
+    # 1. Décote liée à l'âge (continue, voir _age_depreciation)
+    age_depreciation = self._age_depreciation(age)
 
     # 2. Ajustement kilométrique basé sur l'écart par rapport à la normale (15 000 km/an)
-    expected_km = age * 15000.0 if age > 0 else 1500.0
+    expected_km = age * 15000.0
     km_diff = km - expected_km
 
     if km_diff > 0:
@@ -304,46 +445,44 @@ class MarketEstimator:
     feeling_val = float(feeling) if pd.notnull(feeling) else ref_feeling
     brand_factor = round(1.0 + (feeling_val - ref_feeling) / 100.0, 3)
 
-    # Facteur SoH (State of Health) de la batterie
+    # Facteur SoH : écart à l'usure normale pour l'âge (voir _soh_factor)
     soh = pd.to_numeric(row.get("soh_percent"), errors="coerce")
-    if pd.notnull(soh):
-      soh_factor = soh * 0.01
-    else:
-      ref_yr = int(year) if pd.notnull(year) else self.current_year
-      soh_factor = (100 - 2.0 * (self.current_year - ref_yr)) * 0.01
+    soh_factor = self._soh_factor(soh, age)
 
-    estimated_price = round(
-        ref_price * ev_factor * usage_factor * brand_factor * soh_factor, 0
-    )
+    # Facteur plateforme, relatif à la plateforme de la référence du segment (voir __init__)
+    car_q = pd.to_numeric(row.get("platform_quality"), errors="coerce")
+    ref_q = self._platform_quality(bench.get("ref_plateforme") or {})
+    platform_factor = round(float(car_q) / ref_q, 3) if pd.notnull(car_q) and ref_q else 1.0
+
+    def estimate(ev: Optional[float]) -> Optional[float]:
+      return None if ev is None else round(
+          ref_price * ev * usage_factor * brand_factor * platform_factor * soh_factor, 0)
+
+    estimated_price = estimate(ev_factor)
+    estimated_price_best = estimate(ev_factor_best)
 
     asked_price = pd.to_numeric(row.get("price"), errors="coerce")
-    if pd.notnull(asked_price) and asked_price > 0:
-      opp_ratio = round(estimated_price / asked_price, 3)
-    else:
-      opp_ratio = 0.0
+    has_price = pd.notnull(asked_price) and asked_price > 0
+    opp_ratio = round(estimated_price / asked_price, 3) if has_price and estimated_price is not None else None
+    opp_ratio_best = (round(estimated_price_best / asked_price, 3)
+                      if has_price and estimated_price_best is not None else None)
+    uncertain = not bool(row.get("variante_resolue_flag")) and (row.get("nb_variantes_possibles") or 0) > 1
 
     # --- Aptitude au road trip (barrière absolue, pas une comparaison à la référence) ---
-    lost = pd.to_numeric(row.get("temps_perdu_min"), errors="coerce")
-    rng = pd.to_numeric(row.get("autonomie_autoroute_km"), errors="coerce")
-    realisable = row.get("roadtrip_realisable")
-    not_feasible = realisable is not None and not pd.isna(realisable) and not bool(realisable)
-    if not_feasible:
-      roadtrip = "Impossible"
-    elif pd.isnull(lost):
-      roadtrip = "Inconnu"
-    elif lost > self.roadtrip_max_lost_min or (
-        pd.notnull(rng) and rng < self.roadtrip_min_range_km
-    ):
-      roadtrip = "Impossible"
-    elif lost <= self.roadtrip_ok_lost_min:
-      roadtrip = "OK"
-    else:
-      roadtrip = "Long"
+    # Variante incertaine : statut du pire cas, mais la barrière n'exclut la voiture que si même la
+    # meilleure variante possible est exclue (statut affiché avec « ? » sinon, ex. « Rédhibitoire ? »).
+    roadtrip = self._roadtrip_status(
+        row.get("roadtrip_realisable"), row.get("temps_perdu_min"), row.get("autonomie_autoroute_km"))
+    roadtrip_best = self._roadtrip_status(
+        row.get("best_roadtrip_realisable"), row.get("best_temps_perdu_min"),
+        row.get("best_autonomie_autoroute_km"))
+    if roadtrip in self.ROADTRIP_EXCLUDED and roadtrip_best not in self.ROADTRIP_EXCLUDED:
+      roadtrip = f"{roadtrip} ?"
 
     # --- Fiabilité de l'estimation : variante résolue, SoH et kilométrage réellement connus ---
     flag = row.get("variante_resolue_flag")
     known = int(bool(flag) and not pd.isna(flag)) + int(pd.notnull(soh)) + int(pd.notnull(mileage))
-    reliability = {3: "Haute", 2: "Moyenne"}.get(known, "Faible")
+    reliability = {3: "Haute", 2: "Moyenne"}.get(known, "Faible") if ev_factor is not None else "Aucune"
 
     return pd.Series({
         "roadtrip_status": roadtrip,
@@ -353,9 +492,11 @@ class MarketEstimator:
         "ev_factor": ev_factor,
         "usage_factor": usage_factor,
         "brand_factor": brand_factor,
+        "platform_factor": platform_factor,
         "soh_factor": soh_factor,
         "estimated_price": estimated_price,
         "opportunity_ratio": opp_ratio,
+        "opportunity_ratio_best": opp_ratio_best if uncertain else None,
     })
 
   def process_and_export(self, cars: list, verbose: bool = True) -> pd.DataFrame:
@@ -393,7 +534,7 @@ class MarketEstimator:
 
     # Barrière road trip : n'exclut que l'impossible, et seulement dans les segments concernés
     # (par défaut B). Les autres segments (A) sont conservés et simplement étiquetés.
-    impossible = df["roadtrip_status"] == "Impossible"
+    impossible = df["roadtrip_status"].isin(self.ROADTRIP_EXCLUDED)
     gated = impossible & df["segment"].isin(self.roadtrip_gate_segments)
     kept_flagged = int((impossible & ~gated).sum())
     unknown = int((df["roadtrip_status"] == "Inconnu").sum())
@@ -402,17 +543,17 @@ class MarketEstimator:
       if int(gated.sum()):
         print(
             f"🧹 {int(gated.sum())} véhicule(s) exclu(s) : road trip impossible"
-            f" (> {self.roadtrip_max_lost_min:.0f} min perdues ou autonomie autoroute"
+            f" (> {self.roadtrip_max_lost_min:.0f} min perdues, trajet irréalisable ou autonomie autoroute"
             f" < {self.roadtrip_min_range_km:.0f} km) en segment {'/'.join(self.roadtrip_gate_segments)}"
             f" (Reste : {len(df)} véhicules)."
         )
       if kept_flagged:
-        print(f"ℹ️ {kept_flagged} véhicule(s) 'Impossible' conservés (segment hors barrière).")
+        print(f"ℹ️ {kept_flagged} véhicule(s) 'Rédhibitoire' / 'Impossible' conservés (segment hors barrière).")
       if unknown:
         print(f"ℹ️ {unknown} véhicule(s) sans simulation road trip (statut 'Inconnu', conservés).")
 
     df = df.sort_values(
-        by=["opportunity_ratio", "price"], ascending=[False, True]
+        by=["opportunity_ratio", "price"], ascending=[False, True], na_position="last"
     )
 
     key_columns = [
@@ -435,10 +576,13 @@ class MarketEstimator:
         "ev_factor",
         "usage_factor",
         "brand_factor",
+        "plateforme_label",
+        "platform_factor",
         "soh_factor",
         "estimated_price",
         "price",
         "opportunity_ratio",
+        "opportunity_ratio_best",
         "fiabilite",
         "source",
         "url",
@@ -466,10 +610,13 @@ class MarketEstimator:
         "ev_factor": "Coef. Électrique",
         "usage_factor": "Coef. Âge/Km",
         "brand_factor": "Coef. Marque",
+        "plateforme_label": "Plateforme",
+        "platform_factor": "Coef. Plateforme",
         "soh_factor": "Coef. SoH",
         "estimated_price": "Prix Estimé (€)",
         "price": "Prix Demandé (€)",
         "opportunity_ratio": "Indice Opportunité",
+        "opportunity_ratio_best": "Indice si meilleure variante",
         "fiabilite": "Fiabilité",
         "source": "Source",
         "url": "Lien Annonce",
@@ -521,7 +668,7 @@ class MarketEstimator:
     ws.row_dimensions[1].height = 30
 
     for row_idx, row in enumerate(export_df.itertuples(index=False), 2):
-      row_data = list(row)
+      row_data = [None if isinstance(v, float) and v != v else v for v in row]  # NaN -> cellule vide
       ws.append(row_data)
       ws.row_dimensions[row_idx].height = 22
       row_fill = zebra_fill if (row_idx % 2 == 0) else white_fill
@@ -564,10 +711,14 @@ class MarketEstimator:
             "Coef. Électrique",
             "Coef. Âge/Km",
             "Coef. Marque",
+            "Coef. Plateforme",
             "Coef. SoH",
         ]:
           cell.number_format = "0.000"
           cell.alignment = Alignment(horizontal="right", vertical="center")
+        elif col_name == "Indice si meilleure variante":
+          cell.number_format = "0.00"
+          cell.alignment = Alignment(horizontal="center", vertical="center")
         elif col_name == "Indice Opportunité":
           cell.number_format = "0.00"
           cell.font = bold_font
@@ -598,7 +749,11 @@ class MarketEstimator:
           palette = {
               "OK": ("C6EFCE", "006100"), "Haute": ("C6EFCE", "006100"),
               "Long": ("FFEB9C", "9C6500"), "Moyenne": ("FFEB9C", "9C6500"),
+              "Très long": ("F8CBAD", "833C0B"),
+              "Rédhibitoire": ("FFC7CE", "9C0006"), "Rédhibitoire ?": ("FCE4D6", "9C0006"),
               "Impossible": ("FFC7CE", "9C0006"), "Faible": ("FFC7CE", "9C0006"),
+              "Aucune": ("E7E6E6", "595959"),
+              "Impossible ?": ("FCE4D6", "9C0006"),
               "Inconnu": ("E7E6E6", "595959"),
           }
           bg, fg = palette.get(str(val), ("FFFFFF", "000000"))

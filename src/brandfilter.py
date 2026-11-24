@@ -8,7 +8,10 @@ from typing import List
 class BrandFilter:
   def __init__(self,
         json_path: str | Path = "classification_marques_belgique-v3.json",
-        min_score: float = 70.0):
+        min_score: float = 55.0):
+      # 55 = seuil « Correct ». Depuis l'ajout de la maturité EV (v3.1, 24/11/2026), les marques Stellantis,
+      # Fiat, Ford et Honda descendent entre 65 et 69 : le seuil historique de 70 les aurait exclues du
+      # catalogue. Elles restent analysées, la pénalité passe par le coefficient marque de l'estimateur.
 
       self.allowed_brands = self.load_allowed_brands(json_path=json_path, min_score=min_score)
 
@@ -41,7 +44,7 @@ class BrandFilter:
   def load_allowed_brands(
       self,
       json_path: str | Path = "classification_marques_belgique-v3.json",
-      min_score: float = 70.0
+      min_score: float = 55.0
   ) -> Set[str]:
       """Charge dynamiquement les marques autorisées depuis le fichier JSON selon le seuil de score."""
       path = Path(json_path)
