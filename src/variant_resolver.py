@@ -395,18 +395,19 @@ class VariantResolver:
 
 if __name__ == "__main__":
     # Rejeu de la résolution sur les annonces déjà stockées, SANS re-scraper.
-    #   python variant_resolver.py [--force] [--llm] [--data-dir .] [--db resolved_cars.json]
+    #   python variant_resolver.py [--force] [--llm] [--data-dir data] [--db data/resolved_cars.json]
     import argparse
 
+    import paths
     from pipeline import CarPipeline
 
     ap = argparse.ArgumentParser(description="Rejoue l'étape de résolution de variante (aucun scraping).")
     ap.add_argument("--force", action="store_true", help="re-résoudre même les annonces inchangées")
     ap.add_argument("--llm", action="store_true", help="active l'arbitrage LLM en dernier recours")
     ap.add_argument("--no-llm", action="store_true", help=argparse.SUPPRESS)  # compatibilité (défaut)
-    ap.add_argument("--data-dir", default=".")
-    ap.add_argument("--catalog", default="models.json")
-    ap.add_argument("--db", default="resolved_cars.json")
+    ap.add_argument("--data-dir", default=str(paths.DATA_DIR))
+    ap.add_argument("--catalog", default=str(paths.CATALOG))
+    ap.add_argument("--db", default=str(paths.RESOLVED_DB))
     args = ap.parse_args()
 
     pipe = CarPipeline(scrapers=[], resolved_db_path=args.db, data_dir=args.data_dir, catalog_path=args.catalog)

@@ -2,11 +2,11 @@
 =============================================================================================
 
 full.bat           Traitement complet : scraping de toutes les pages -> match -> fiches de détail
-                   -> résolution des variantes -> estimation (best_ev_opportunities.xlsx).
+                   -> résolution des variantes -> estimation (output\best_ev_opportunities.xlsx).
                    Les annonces non revues deviennent inactives, les fiches orphelines sont retirées.
                    Arguments transmis au pipeline : full.bat --scraper renew   /   full.bat --headless
 
-reset-all.bat      Après une longue pause : archive toutes les données d'annonces dans
+reset-all.bat      Après une longue pause : archive data\ (annonces) et output\ (exports) dans
                    archives\AAAAMMJJ-HHMMSS\ puis lance full.bat. models.json et les scores de
                    marques sont conservés. « reset-all.bat /y » : sans confirmation.
 
@@ -20,9 +20,15 @@ replay.bat         Hors-ligne, sans réseau : après une modification de models.
 
 estimate.bat       Estimation seule, après un changement de paramètres de MarketEstimator.
 
-simulate.bat       Recalcule la simulation 1000 km de toutes les variantes de models.json (sauvegarde
-                   dans archives\ avant), puis resolve + estimation. Affiche les temps Spring / IONIQ 3
-                   pour mettre à jour ref_sim_min dans market_estimator.py si besoin.
+set_reference_variant.bat
+                   Choisit la voiture NEUVE de référence d'un segment, obligatoire avant toute estimation :
+                   « set_reference_variant.bat B hyundai_ioniq_3_42kwh 31495 ».
+                   Arguments : segment, variante_id de models.json, prix neuf payé (remises déduites),
+                   remarque facultative. Sans argument : références actuelles et variantes disponibles.
+                   Enregistré dans data\references.json (conservé par reset-all), puis estimate.bat.
+
+simulate.bat       Recalcule la simulation 1000 km de toutes les variantes de models.json, puis
+                   resolve + estimation (models.json est versionné : git diff / git checkout pour annuler).
 
 details-retry.bat  Retente les fiches de détail en échec (même abandonnées après 3 essais).
                    « details-retry.bat --refresh-details » relit TOUTES les fiches : à faire une fois,
@@ -32,7 +38,8 @@ _env.bat, _estimate.bat : utilitaires internes (ne pas lancer directement).
 
 Remarques
 - Python : .venv\Scripts\python.exe s'il existe, sinon « python » du PATH.
-- Fermer best_ev_opportunities.xlsx dans Excel avant une estimation (sinon échec d'écriture).
+- Fermer output\best_ev_opportunities.xlsx dans Excel avant une estimation (sinon échec d'écriture).
 - full.bat suppose que 200 pages couvrent tout le catalogue de chaque source : si une source a plus
   d'annonces, augmenter --max-pages, sinon --mark-missing rendrait inactives des annonces encore en ligne.
-- --prune sauvegarde resolved_cars.json (resolved_cars.json.bak-...) avant de retirer des fiches.
+- --prune sauvegarde data\resolved_cars.json (data\resolved_cars.json.bak-...) avant de retirer des fiches.
+- Dossiers : data\ = état du pipeline (régénérable), output\ = résultats ; ni l'un ni l'autre n'est versionné.

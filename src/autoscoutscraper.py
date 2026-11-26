@@ -230,7 +230,7 @@ if __name__ == "__main__":
     max_pages = 10  # Ajuste selon tes besoins de test
     helper = CarHelper(enrich_details=True, headless=False)
     scraper = AutoscoutScraper(helper=helper)
-    pipeline = CarPipeline(scrapers=[scraper], helper=helper, resolved_db_path="resolved_cars.json")
+    pipeline = CarPipeline(scrapers=[scraper], helper=helper)
 
     print("=== TEST DU PIPELINE : AUTOSCOUT24 ===")
     resolved_cars = pipeline.run_single(scraper, max_pages=max_pages, verbose=True)

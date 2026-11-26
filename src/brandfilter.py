@@ -3,11 +3,12 @@ import unicodedata
 from pathlib import Path
 from typing import List, Set
 from cardata import CarListing
+import paths
 from typing import List
 
 class BrandFilter:
   def __init__(self,
-        json_path: str | Path = "classification_marques_belgique-v3.json",
+        json_path: str | Path = paths.BRANDS,
         min_score: float = 55.0):
       # 55 = seuil « Correct ». Depuis l'ajout de la maturité EV (v3.1, 24/11/2026), les marques Stellantis,
       # Fiat, Ford et Honda descendent entre 65 et 69 : le seuil historique de 70 les aurait exclues du
@@ -43,7 +44,7 @@ class BrandFilter:
 
   def load_allowed_brands(
       self,
-      json_path: str | Path = "classification_marques_belgique-v3.json",
+      json_path: str | Path = paths.BRANDS,
       min_score: float = 55.0
   ) -> Set[str]:
       """Charge dynamiquement les marques autorisées depuis le fichier JSON selon le seuil de score."""

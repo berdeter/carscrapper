@@ -260,7 +260,7 @@ if __name__ == "__main__":
     scraper = CardoenScraper(helper=helper)
     
     # Initialisation du pipeline avec ce scraper unique
-    pipeline = CarPipeline(scrapers=[scraper], helper=helper, resolved_db_path="resolved_cars.json")
+    pipeline = CarPipeline(scrapers=[scraper], helper=helper)
     
     print("=== TEST DU PIPELINE : AUTOSCOUT24 ===")
     resolved_cars = pipeline.run_single(scraper, max_pages=max_pages, verbose=True)

@@ -37,6 +37,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
+import paths
 from cardata import CarListing, CarScraperBase, DetailsGoneError, EnrichedCarListing
 from spec_hints import SpecHints
 from stagestore import StageStore
@@ -77,12 +78,12 @@ class CarPipeline:
         scrapers: Optional[List[Any]] = None,
         helper: Optional[Any] = None,
         model_name: str = "qwen2.5:14b",
-        resolved_db_path: str = "resolved_cars_cache.json",
-        data_dir: str = ".",
+        resolved_db_path: str = str(paths.RESOLVED_DB),
+        data_dir: str = str(paths.DATA_DIR),
         use_llm_fallback: bool = False,
         spec_hints: Optional[SpecHints] = None,
         resolver: Optional[VariantResolver] = None,
-        catalog_path: str = "models.json",
+        catalog_path: str = str(paths.CATALOG),
     ):
         """
         scrapers   : liste de scrapers ; None = découverte automatique (paresseuse) ; [] = aucun.
@@ -119,7 +120,7 @@ class CarPipeline:
     @staticmethod
     def _discover_scrapers(helper: Optional[Any] = None) -> List[Any]:
         scrapers_list = []
-        search_paths = glob.glob("*scraper.py") + glob.glob("src/*scraper.py")
+        search_paths = glob.glob(str(paths.SRC_DIR / "*scraper.py"))  # indépendant du dossier courant
 
         for filepath in set(search_paths):
             module_name = os.path.splitext(os.path.basename(filepath))[0]
@@ -250,7 +251,7 @@ class CarPipeline:
             return stats
 
         listings = [listing_from_dict(self.raw.get(k)["listing"]) for k in todo]
-        brand_filter = BrandFilter()
+        brand_filter = BrandFilter(json_path=paths.BRANDS)
         kept = brand_filter.brand_filter(listings)
         enriched = ModelCatalogMatcher(json_path=self.catalog_path).filter_and_enrich_listings(kept)
         by_key = {listing_key(e.listing): e for e in enriched}
@@ -576,9 +577,9 @@ def main() -> None:
     ap.add_argument("--no-llm", action="store_true", help=argparse.SUPPRESS)  # compatibilité : c'est le défaut
     ap.add_argument("--prune", action="store_true",
                     help="retire du cache final les fiches orphelines (sauvegarde automatique)")
-    ap.add_argument("--data-dir", default=".")
-    ap.add_argument("--catalog", default="models.json", help="référentiel (avec les simulations 1000 km)")
-    ap.add_argument("--db", default="resolved_cars.json", help="cache final lu par MarketEstimator")
+    ap.add_argument("--data-dir", default=str(paths.DATA_DIR))
+    ap.add_argument("--catalog", default=str(paths.CATALOG), help="référentiel (avec les simulations 1000 km)")
+    ap.add_argument("--db", default=str(paths.RESOLVED_DB), help="cache final lu par MarketEstimator")
     args = ap.parse_args()
 
     if args.only:

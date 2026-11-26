@@ -5,6 +5,8 @@ from cardata import CarListing, EnrichedCarListing
 import unicodedata
 from pathlib import Path
 
+import paths
+
 
 def _normalize_text(text: str) -> str:
     """Normalise une chaîne (minuscules, sans accents, ponctuation unifiée)."""
@@ -25,7 +27,7 @@ def _normalize_text(text: str) -> str:
 
 
 class ModelCatalogMatcher:
-    def __init__(self, json_path: str | Path = "models.json"):
+    def __init__(self, json_path: str | Path = paths.CATALOG):
         self.json_path = Path(json_path)
         self._brand_index: Dict[str, Dict[str, Any]] = {}
         self._load_catalog()

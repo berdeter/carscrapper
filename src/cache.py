@@ -1,4 +1,6 @@
 from typing import Any, Dict, Iterable, Optional, Union
+from pathlib import Path
+
 from tinydb import Query, TinyDB
 
 
@@ -7,6 +9,7 @@ class CarCache:
   def __init__(self, db_path: str = "cars_cache.json"):
     # TinyDB stocke tout dans un fichier JSON local léger
     # encoding explicite : sans lui, TinyDB écrit dans l'encodage du système (cp1252 sous Windows).
+    Path(db_path).parent.mkdir(parents=True, exist_ok=True)
     self.db = TinyDB(db_path, encoding="utf-8", ensure_ascii=False, indent=2)
     self.query = Query()
 

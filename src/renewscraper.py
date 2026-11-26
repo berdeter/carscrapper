@@ -497,7 +497,7 @@ if __name__ == "__main__":
         exclude_future_availability=False,
     )
 
-    pipeline = CarPipeline(scrapers=[scraper], helper=helper, resolved_db_path="resolved_cars.json")
+    pipeline = CarPipeline(scrapers=[scraper], helper=helper)
 
     print("=== TEST DU PIPELINE : Renew Belgique ===")
     resolved_cars = pipeline.run_single(scraper, max_pages=max_pages, verbose=True)

@@ -12,35 +12,18 @@ from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 import pandas as pd
 
+import paths
+from references import MissingReferenceError, load_catalog, resolve_references
+
 
 class MarketEstimator:
-  REFERENCE_BENCHMARKS = {
-      "A": {
-          "ref_name": "Dacia Spring Expression (80 ch)",
-          "real_new_price": 17890.0,
-          "wltp_km": 246.0,
-          "dc_kw": 50.0,
-          "ref_feeling": 92.0,  # Dacia dans classification_marques_belgique-v3_recalibrated.json
-          "ref_sim_min": 834.5,  # Dacia Spring, simulation v2 (rythme humain) : temps total 1000 km en minutes
-          # Même valeur que `plateforme` de dacia_spring_27kwh dans models.json : à garder synchronisé.
-          "ref_plateforme": {"type": "convertie", "refroidissement_batterie": "air passif"},
-      },
-      "B": {
-          "ref_name": "Hyundai IONIQ 3 Select (42.2 kWh)",
-          "real_new_price": 31495.0,
-          "wltp_km": 344.0,
-          "dc_kw": 110.0,
-          "ref_feeling": 87.8,  # Hyundai dans classification_marques_belgique-v3_recalibrated.json
-          "ref_sim_min": 639.6,  # Ioniq 3 petite batterie, simulation v2 : temps total 1000 km en minutes
-          # Même valeur que `plateforme` de hyundai_ioniq_3_42kwh dans models.json : à garder synchronisé.
-          "ref_plateforme": {"type": "dediee", "refroidissement_batterie": "liquide"},
-      },
-  }
+  # Les voitures de référence ne sont plus figées ici : elles sont choisies par l'utilisateur
+  # (data/references.json, batch\\set_reference_variant.bat) et complétées depuis models.json (voir references.py).
   def __init__(
       self,
-      output_filename: str = "best_ev_opportunities",
+      output_filename: str = paths.EXPORT_BASENAME,
       current_year: Optional[int] = None,
-      brands_json_path: str | Path = "classification_marques_belgique-v3.json",
+      brands_json_path: str | Path = paths.BRANDS,
       roadtrip_ok_lost_min: float = 30.0,
       roadtrip_long_lost_min: float = 60.0,
       roadtrip_max_lost_min: float = 90.0,
@@ -53,6 +36,8 @@ class MarketEstimator:
       soh_factor_max: float = 1.10,
       platform_factors: Optional[Dict[str, float]] = None,
       passive_cooling_factor: float = 0.95,
+      catalog_path: str | Path = paths.CATALOG,
+      references_path: str | Path = paths.REFERENCES,
   ):
     """
     Barrière road trip (1000 km, rythme habituel) : ne retire que les voitures pour lesquelles
@@ -83,7 +68,9 @@ class MarketEstimator:
     Coefficient SoH : SoH mesuré / SoH attendu pour l'âge. Seul l'écart à l'usure normale compte (l'usure
     normale est déjà dans la décote liée à l'âge) ; SoH inconnu -> 1,0.
     """
-    self.output_filename = output_filename
+    # Un simple nom de fichier est placé dans output/ ; un chemin explicite est respecté.
+    out = Path(output_filename)
+    self.output_filename = str(out if out.parent != Path(".") else paths.OUTPUT_DIR / out)
     today = date.today()
     self.current_year = current_year or today.year
     # Date de référence en années fractionnaires (ex. 23/11/2026 -> 2026.89) ; si `current_year` est imposé,
@@ -92,7 +79,6 @@ class MarketEstimator:
         today.year + (today.timetuple().tm_yday - 0.5) / 365.25
         if current_year is None or current_year == today.year else current_year + 0.5
     )
-    self.REFERENCE_BENCHMARKS = copy.deepcopy(MarketEstimator.REFERENCE_BENCHMARKS)  # pas d'état partagé
     self.roadtrip_max_lost_min = roadtrip_max_lost_min
     self.impossible_sim_min = impossible_sim_min
     self.soh_loss_per_year = soh_loss_per_year
@@ -107,7 +93,8 @@ class MarketEstimator:
     self.ev_exponent = ev_exponent
     self.brands_json_path = Path(brands_json_path)
     self.brand_feelings: Dict[str, float] = self._load_brand_feelings()
-    self._sync_benchmark_feelings()
+    # Lève MissingReferenceError tant qu'une référence de segment n'est pas choisie : pas d'estimation sans elle.
+    self.REFERENCE_BENCHMARKS = self._load_benchmarks(Path(catalog_path), Path(references_path))
 
   @staticmethod
   def _normalize_brand(name: Any) -> str:
@@ -141,12 +128,22 @@ class MarketEstimator:
             mapping[norm_k] = val
     return mapping
 
-  def _sync_benchmark_feelings(self) -> None:
-    """Synchronise automatiquement les scores de référence des segments A (Dacia) et B (Hyundai) avec le JSON."""
-    if "dacia" in self.brand_feelings:
-      self.REFERENCE_BENCHMARKS["A"]["ref_feeling"] = self.brand_feelings["dacia"]
-    if "hyundai" in self.brand_feelings:
-      self.REFERENCE_BENCHMARKS["B"]["ref_feeling"] = self.brand_feelings["hyundai"]
+  def _load_benchmarks(self, catalog_path: Path, references_path: Path) -> Dict[str, Dict[str, Any]]:
+    """Construit les références par segment : prix neuf choisi + données relues dans le catalogue."""
+    benchmarks = {}
+    for seg, ref in resolve_references(load_catalog(catalog_path), references_path).items():
+      b, m, v = ref["marque"], ref["modele"], ref["variante"]
+      tech, sim = v.get("donnees_techniques", {}), v.get("simulation_humaine_1000km", {})
+      benchmarks[seg] = {
+          "ref_name": f"{b['marque_nom']} {m['nom_canonique']} — {v['nom_variante']}",
+          "real_new_price": ref["prix_neuf"],
+          "wltp_km": tech.get("autonomie_wltp_km"),
+          "dc_kw": tech.get("puissance_dc_max_kw"),
+          "ref_feeling": self._get_brand_feeling(b.get("marque_id"), b.get("marque_nom"), default_fallback=80.0),
+          "ref_sim_min": float(sim["temps_minutes"]),
+          "ref_plateforme": v.get("plateforme") or {},
+      }
+    return benchmarks
 
   def _get_brand_feeling(
       self, marque_id: Any, marque_nom: Any, default_fallback: float = 80.0
@@ -623,6 +620,7 @@ class MarketEstimator:
     }
     export_df = export_df.rename(columns=rename_map)
 
+    Path(self.output_filename).parent.mkdir(parents=True, exist_ok=True)
     excel_path = f"{self.output_filename}.xlsx"
     csv_path = f"{self.output_filename}.csv"
     export_df.to_csv(csv_path, index=False, encoding="utf-8-sig")
@@ -815,22 +813,19 @@ def load_json_robust(path: str) -> Any:
 
 
 if __name__ == "__main__":
-  cache_files = ["resolved_cars.json"]
-  loaded = False
-  for cache_file in cache_files:
-    if os.path.exists(cache_file):
-      print(f"📂 Chargement automatique du cache depuis {cache_file}...")
-      raw_data = load_json_robust(cache_file)
-      cars_data = list(raw_data.get("_default", raw_data).values())
-      estimator = MarketEstimator(
-          output_filename="best_ev_opportunities",
-          brands_json_path="classification_marques_belgique-v3.json",
-      )
-      estimator.process_and_export(cars_data, verbose=True)
-      loaded = True
-      break
-  if not loaded:
-    print(
-        "❌ Aucun fichier de cache (resolved_cars.json) n'a été trouvé dans le"
-        " répertoire courant."
-    )
+  import sys
+  if paths.RESOLVED_DB.exists():
+    try:
+      estimator = MarketEstimator()
+    except MissingReferenceError as e:
+      print(f"❌ {e}")
+      sys.exit(2)
+    print(f"📂 Chargement du cache {paths.RESOLVED_DB}...")
+    raw_data = load_json_robust(str(paths.RESOLVED_DB))
+    cars_data = list(raw_data.get("_default", raw_data).values())
+    estimator.process_and_export(cars_data, verbose=True)
+    print("Références : " + " | ".join(f"{seg} = {b['ref_name']} ({b['real_new_price']:.0f} €)"
+                                        for seg, b in sorted(estimator.REFERENCE_BENCHMARKS.items())))
+  else:
+    print(f"❌ {paths.RESOLVED_DB} introuvable : lancer d'abord le pipeline (batch\\full.bat).")
+    sys.exit(1)

@@ -17,7 +17,7 @@ if errorlevel 1 goto :erreur
 call "%~dp0_estimate.bat"
 if errorlevel 1 goto :erreur
 echo.
-echo Termine : best_ev_opportunities.xlsx
+echo Termine : output\best_ev_opportunities.xlsx
 exit /b 0
 :erreur
 echo.

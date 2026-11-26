@@ -1,6 +1,6 @@
 @echo off
 rem ===========================================================================
-rem  estimate.bat : relance UNIQUEMENT l'estimation sur resolved_cars.json
+rem  estimate.bat : relance UNIQUEMENT l'estimation sur data\resolved_cars.json
 rem  (apres un changement des parametres de MarketEstimator ou des scores de
 rem  marques). Aucun scraping, aucune resolution.
 rem ===========================================================================

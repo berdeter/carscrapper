@@ -1,9 +1,9 @@
 @echo off
 rem ===========================================================================
 rem  reset-all.bat : repartir de zero apres une longue pause.
-rem  1. ARCHIVE (deplace, ne supprime pas) toutes les donnees d'annonces dans
-rem     archives\AAAAMMJJ-HHMMSS\ : raw_listings, catalog_matches, resolution_log,
-rem     llm_decisions, resolved_cars, exports best_ev_opportunities.*
+rem  1. ARCHIVE (deplace, ne supprime pas) les dossiers data\ (annonces, etapes
+rem     du pipeline) et output\ (exports) dans archives\AAAAMMJJ-HHMMSS\
+rem     Les voitures de reference (data\references.json) sont conservees.
 rem     Les referentiels (models.json, classification_marques_*.json) sont gardes.
 rem  2. lance full.bat (scraping complet -> estimation).
 rem  Usage : reset-all.bat        (demande confirmation)
@@ -21,8 +21,12 @@ if /i not "%~1"=="/y" (
 )
 set "ARCH=archives\%STAMP%"
 mkdir "%ARCH%"
-for %%f in (raw_listings.json catalog_matches.json resolution_log.json llm_decisions.json resolved_cars.json best_ev_opportunities.xlsx best_ev_opportunities.csv) do (
-  if exist "%%f" move "%%f" "%ARCH%\" >nul && echo   archive : %%f
+for %%d in (data output) do (
+  if exist "%%d" move "%%d" "%ARCH%\%%d" >nul && echo   archive : %%d\
+)
+if exist "%ARCH%\data\references.json" (
+  mkdir data
+  copy /y "%ARCH%\data\references.json" data\ >nul && echo   conserve : data\references.json
 )
 echo Donnees archivees dans %ARCH%
 call "%~dp0full.bat"
