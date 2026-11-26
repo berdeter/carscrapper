@@ -95,9 +95,9 @@
                 "type": "convertie",
                 "nom": "CMF-A (Renault Kwid thermique)",
                 "refroidissement_batterie": "air passif",
-                "confiance": "moyenne",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "refroidissement par air sans circuit liquide : à vérifier"
+                "confiance": "haute",
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "base thermique convertie; refroidissement passif sans circuit liquide confirmé"
               }
             }
           ]
@@ -161,9 +161,9 @@
                 "type": "convertie",
                 "nom": "NSF (VW up! thermique)",
                 "refroidissement_batterie": "air passif",
-                "confiance": "moyenne",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "refroidissement batterie sans gestion active : à vérifier"
+                "confiance": "haute",
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "base thermique convertie; refroidissement passif par air sans circuit liquide"
               }
             }
           ]
@@ -212,7 +212,8 @@
                 "nom": "MEB Entry (MEB+) traction",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme électrique MEB+ traction confirmée"
               }
             },
             {
@@ -249,7 +250,8 @@
                 "nom": "MEB Entry (MEB+) traction",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme électrique MEB+ traction confirmée"
               }
             },
             {
@@ -286,7 +288,8 @@
                 "nom": "MEB Entry (MEB+) traction",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme électrique MEB+ traction confirmée"
               }
             }
           ]
@@ -344,8 +347,9 @@
                 "type": "convertie",
                 "nom": "Twingo III (thermique, moteur arrière)",
                 "refroidissement_batterie": "liquide",
-                "confiance": "moyenne",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "confiance": "haute",
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "refroidissement liquide confirme par Renault sur Twingo Electric"
               }
             },
             {
@@ -380,10 +384,10 @@
               "plateforme": {
                 "type": "dediee",
                 "nom": "AmpR Small (Renault)",
-                "refroidissement_batterie": "liquide",
+                "refroidissement_batterie": "air passif",
                 "confiance": "moyenne",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "nouvelle Twingo électrique uniquement"
+                "source": "Automobile Propre (22/11/2025) : refroidissement par air, « absence de refroidissement liquide » ; L'argus (24/06/2026) classe la Twingo E-Tech en air passif",
+                "remarque": "batterie LFP 27,5 kWh refroidie par air, sans circuit liquide ni préconditionnement"
               }
             }
           ]
@@ -440,9 +444,9 @@
                 "type": "dediee",
                 "nom": "Zoe (modèle uniquement électrique, base plateforme B)",
                 "refroidissement_batterie": "air forcé",
-                "confiance": "moyenne",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "batterie refroidie par air via la climatisation"
+                "confiance": "haute",
+                "source": "L'argus (24/06/2026) : air forcé par ventilateur ; documentation de maintenance Renault (ventilateur et électrovannes de refroidissement batterie)",
+                "remarque": "air pulsé par ventilateur entre les modules, aidé par la climatisation surtout en recharge rapide ; pas de circuit liquide"
               }
             },
             {
@@ -482,9 +486,9 @@
                 "type": "dediee",
                 "nom": "Zoe (modèle uniquement électrique, base plateforme B)",
                 "refroidissement_batterie": "air forcé",
-                "confiance": "moyenne",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "batterie refroidie par air via la climatisation"
+                "confiance": "haute",
+                "source": "L'argus (24/06/2026) : air forcé par ventilateur ; documentation de maintenance Renault (ventilateur et électrovannes de refroidissement batterie)",
+                "remarque": "air pulsé par ventilateur entre les modules, aidé par la climatisation surtout en recharge rapide ; pas de circuit liquide"
               }
             }
           ]
@@ -541,8 +545,8 @@
                 "nom": "AmpR Small (Renault)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "dérivée de la CMF-B mais réservée à l'électrique"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "AmpR Small (ex-CMF-B EV) réservée à l'électrique mais issue de la base CMF-B"
               }
             },
             {
@@ -582,8 +586,8 @@
                 "nom": "AmpR Small (Renault)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "dérivée de la CMF-B mais réservée à l'électrique"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "AmpR Small (ex-CMF-B EV) réservée à l'électrique mais issue de la base CMF-B"
               }
             }
           ]
@@ -638,8 +642,8 @@
                 "nom": "AmpR Small (Renault)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "dérivée de la CMF-B mais réservée à l'électrique"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "AmpR Small (ex-CMF-B EV) réservée à l'électrique mais issue de la base CMF-B"
               }
             },
             {
@@ -679,8 +683,8 @@
                 "nom": "AmpR Small (Renault)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "dérivée de la CMF-B mais réservée à l'électrique"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "AmpR Small (ex-CMF-B EV) réservée à l'électrique mais issue de la base CMF-B"
               }
             }
           ]
@@ -739,9 +743,9 @@
                 "type": "convertie",
                 "nom": "NSF (VW up! thermique)",
                 "refroidissement_batterie": "air passif",
-                "confiance": "moyenne",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "refroidissement batterie sans gestion active : à vérifier"
+                "confiance": "haute",
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "base thermique convertie; refroidissement passif par air sans circuit liquide"
               }
             }
           ]
@@ -794,7 +798,8 @@
                 "nom": "MEB Entry (MEB+) traction",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme électrique MEB+ traction confirmée"
               }
             },
             {
@@ -831,7 +836,8 @@
                 "nom": "MEB Entry (MEB+) traction",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme électrique MEB+ traction confirmée"
               }
             }
           ]
@@ -888,7 +894,7 @@
                 "nom": "plateforme électrique Hyundai-Kia (petits modèles)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "type dédiée confirmé par Bernard (24/11/2026)"
+                "source": "vérifié par Bernard (26/11/2026)"
               }
             },
             {
@@ -925,7 +931,7 @@
                 "nom": "plateforme électrique Hyundai-Kia (petits modèles)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "type dédiée confirmé par Bernard (24/11/2026)"
+                "source": "vérifié par Bernard (26/11/2026)"
               }
             }
           ]
@@ -976,8 +982,9 @@
                 "type": "multi_energie",
                 "nom": "K2 (Soul thermique / électrique)",
                 "refroidissement_batterie": "liquide",
-                "confiance": "moyenne",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "confiance": "haute",
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "gestion thermique liquide confirmee sur e-Soul (ventilation air uniquement sur gen. < 2020)"
               }
             },
             {
@@ -1013,8 +1020,9 @@
                 "type": "multi_energie",
                 "nom": "K2 (Soul thermique / électrique)",
                 "refroidissement_batterie": "liquide",
-                "confiance": "moyenne",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "confiance": "haute",
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "gestion thermique liquide confirmee sur e-Soul (ventilation air uniquement sur gen. < 2020)"
               }
             }
           ]
@@ -1071,7 +1079,8 @@
                 "nom": "K1 (partagée avec la Casper thermique)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "base partagée avec la Casper thermique confirmée"
               }
             },
             {
@@ -1108,7 +1117,8 @@
                 "nom": "K1 (partagée avec la Casper thermique)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "base partagée avec la Casper thermique confirmée"
               }
             }
           ]
@@ -1163,7 +1173,7 @@
                 "nom": "Kona (thermique / hybride / électrique)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier",
+                "source": "vérifié par Bernard (26/11/2026)",
                 "remarque": "Gén 2 conçue « EV d'abord » mais toujours multi-énergie"
               }
             },
@@ -1201,7 +1211,7 @@
                 "nom": "Kona (thermique / hybride / électrique)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier",
+                "source": "vérifié par Bernard (26/11/2026)",
                 "remarque": "Gén 2 conçue « EV d'abord » mais toujours multi-énergie"
               }
             },
@@ -1239,7 +1249,7 @@
                 "nom": "Kona (thermique / hybride / électrique)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier",
+                "source": "vérifié par Bernard (26/11/2026)",
                 "remarque": "Gén 2 conçue « EV d'abord » mais toujours multi-énergie"
               }
             },
@@ -1277,7 +1287,7 @@
                 "nom": "Kona (thermique / hybride / électrique)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier",
+                "source": "vérifié par Bernard (26/11/2026)",
                 "remarque": "Gén 2 conçue « EV d'abord » mais toujours multi-énergie"
               }
             }
@@ -1329,7 +1339,7 @@
                 "nom": "plateforme électrique Hyundai-Kia",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "type dédiée confirmé par Bernard (24/11/2026)"
+                "source": "vérifié par Bernard (26/11/2026)"
               }
             },
             {
@@ -1366,7 +1376,7 @@
                 "nom": "plateforme électrique Hyundai-Kia",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "type dédiée confirmé par Bernard (24/11/2026)"
+                "source": "vérifié par Bernard (26/11/2026)"
               }
             }
           ]
@@ -1425,7 +1435,8 @@
                 "nom": "Heartect-e (Suzuki/Toyota)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme électrique Heartect-e confirmée"
               }
             },
             {
@@ -1462,7 +1473,8 @@
                 "nom": "Heartect-e (Suzuki/Toyota)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme électrique Heartect-e confirmée"
               }
             }
           ]
@@ -1519,9 +1531,9 @@
                 "type": "convertie",
                 "nom": "NSF (VW up! thermique)",
                 "refroidissement_batterie": "air passif",
-                "confiance": "moyenne",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "refroidissement batterie sans gestion active : à vérifier"
+                "confiance": "haute",
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "base thermique convertie; refroidissement passif par air sans circuit liquide"
               }
             }
           ]
@@ -1587,8 +1599,8 @@
                 "nom": "e-CMP / CMP (Stellantis)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "même plateforme que les versions essence/diesel"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme multi-énergie CMP / e-CMP confirmée"
               }
             },
             {
@@ -1625,8 +1637,8 @@
                 "nom": "e-CMP / CMP (Stellantis)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "même plateforme que les versions essence/diesel"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme multi-énergie CMP / e-CMP confirmée"
               }
             }
           ]
@@ -1682,8 +1694,8 @@
                 "nom": "e-CMP / CMP (Stellantis)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "même plateforme que les versions essence/diesel"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme multi-énergie CMP / e-CMP confirmée"
               }
             },
             {
@@ -1723,8 +1735,8 @@
                 "nom": "e-CMP / CMP (Stellantis)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "même plateforme que les versions essence/diesel"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme multi-énergie CMP / e-CMP confirmée"
               }
             }
           ]
@@ -1773,10 +1785,10 @@
               "plateforme": {
                 "type": "multi_energie",
                 "nom": "Smart Car (Stellantis)",
-                "refroidissement_batterie": "inconnu",
+                "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "plateforme low-cost commune thermique/hybride/électrique"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "refroidissement liquide confirme sur pack batterie Smart Car"
               }
             },
             {
@@ -1811,10 +1823,10 @@
               "plateforme": {
                 "type": "multi_energie",
                 "nom": "Smart Car (Stellantis)",
-                "refroidissement_batterie": "inconnu",
+                "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "plateforme low-cost commune thermique/hybride/électrique"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "refroidissement liquide confirme sur pack batterie Smart Car"
               }
             }
           ]
@@ -1871,8 +1883,9 @@
                 "type": "convertie",
                 "nom": "Mitsubishi i-MiEV (dérivée de la i thermique)",
                 "refroidissement_batterie": "air forcé",
-                "confiance": "moyenne",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "confiance": "haute",
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "base thermique convertie; ventilation d'air forcé liée au système CVC"
               }
             }
           ]
@@ -1927,10 +1940,10 @@
               "plateforme": {
                 "type": "multi_energie",
                 "nom": "Smart Car (Stellantis)",
-                "refroidissement_batterie": "inconnu",
+                "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "plateforme low-cost commune thermique/hybride/électrique"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "refroidissement liquide confirme sur pack batterie Smart Car"
               }
             }
           ]
@@ -1983,10 +1996,10 @@
               "plateforme": {
                 "type": "multi_energie",
                 "nom": "Smart Car (Stellantis)",
-                "refroidissement_batterie": "inconnu",
+                "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "plateforme low-cost commune thermique/hybride/électrique"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "refroidissement liquide confirme sur documentation technique"
               }
             },
             {
@@ -2021,10 +2034,10 @@
               "plateforme": {
                 "type": "multi_energie",
                 "nom": "Smart Car (Stellantis)",
-                "refroidissement_batterie": "inconnu",
+                "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "plateforme low-cost commune thermique/hybride/électrique"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "refroidissement liquide confirme sur documentation technique"
               }
             }
           ]
@@ -2079,8 +2092,9 @@
                 "type": "convertie",
                 "nom": "Mitsubishi i-MiEV (dérivée de la i thermique)",
                 "refroidissement_batterie": "air forcé",
-                "confiance": "moyenne",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "confiance": "haute",
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "base thermique convertie; ventilation d'air forcé liée au système CVC"
               }
             }
           ]
@@ -2136,8 +2150,8 @@
                 "nom": "e-CMP / CMP (Stellantis)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "même plateforme que les versions essence/diesel"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme multi-énergie CMP / e-CMP confirmée"
               }
             },
             {
@@ -2177,8 +2191,8 @@
                 "nom": "e-CMP / CMP (Stellantis)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "même plateforme que les versions essence/diesel"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme multi-énergie CMP / e-CMP confirmée"
               }
             }
           ]
@@ -2234,8 +2248,8 @@
                 "nom": "e-CMP / CMP (Stellantis)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "même plateforme que les versions essence/diesel"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme multi-énergie CMP / e-CMP confirmée"
               }
             },
             {
@@ -2275,8 +2289,8 @@
                 "nom": "e-CMP / CMP (Stellantis)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "même plateforme que les versions essence/diesel"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme multi-énergie CMP / e-CMP confirmée"
               }
             }
           ]
@@ -2341,7 +2355,8 @@
                 "nom": "500e (conçue uniquement électrique)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme dédiée uniquement électrique confirmée"
               }
             },
             {
@@ -2385,7 +2400,8 @@
                 "nom": "500e (conçue uniquement électrique)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme dédiée uniquement électrique confirmée"
               }
             }
           ]
@@ -2434,10 +2450,10 @@
               "plateforme": {
                 "type": "multi_energie",
                 "nom": "Smart Car (Stellantis)",
-                "refroidissement_batterie": "inconnu",
+                "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "plateforme low-cost commune thermique/hybride/électrique"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "refroidissement liquide confirme sur pack batterie Smart Car"
               }
             }
           ]
@@ -2490,8 +2506,8 @@
                 "nom": "e-CMP / CMP (Stellantis)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "même plateforme que les versions essence/diesel"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme multi-énergie CMP / e-CMP confirmée"
               }
             }
           ]
@@ -2548,7 +2564,7 @@
                 "nom": "MEB+ (VW)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "type dédiée confirmé par Bernard (24/11/2026)"
+                "source": "vérifié par Bernard (26/11/2026)"
               }
             },
             {
@@ -2585,7 +2601,7 @@
                 "nom": "MEB+ (VW)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "type dédiée confirmé par Bernard (24/11/2026)"
+                "source": "vérifié par Bernard (26/11/2026)"
               }
             },
             {
@@ -2622,7 +2638,7 @@
                 "nom": "MEB+ (VW)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "type dédiée confirmé par Bernard (24/11/2026)"
+                "source": "vérifié par Bernard (26/11/2026)"
               }
             }
           ]
@@ -2680,8 +2696,8 @@
                 "nom": "AmpR Small (Renault)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "dérivée de la CMF-B mais réservée à l'électrique"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "AmpR Small (ex-CMF-B EV) réservée à l'électrique mais issue de la base CMF-B"
               }
             },
             {
@@ -2718,8 +2734,8 @@
                 "nom": "AmpR Small (Renault)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier",
-                "remarque": "dérivée de la CMF-B mais réservée à l'électrique"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "AmpR Small (ex-CMF-B EV) réservée à l'électrique mais issue de la base CMF-B"
               }
             }
           ]
@@ -2776,7 +2792,8 @@
                 "nom": "Honda e (propulsion, uniquement électrique)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme électrique et refroidissement liquide de la batterie 35,5 kWh confirmés par la documentation Honda"
               }
             }
           ]
@@ -2826,8 +2843,9 @@
                 "type": "multi_energie",
                 "nom": "e:N Architecture F (dérivée du HR-V thermique)",
                 "refroidissement_batterie": "liquide",
-                "confiance": "moyenne",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "confiance": "haute",
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "fondations et carrosserie dérivées du HR-V thermique"
               }
             }
           ]
@@ -2889,7 +2907,8 @@
                 "nom": "F56 (Mini thermique)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "version thermique F56 convertie confirmée"
               }
             },
             {
@@ -2929,7 +2948,8 @@
                 "nom": "MINI J01/J05 électrique (avec Great Wall)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme électrique J01 confirmée"
               }
             },
             {
@@ -2969,7 +2989,8 @@
                 "nom": "MINI J01/J05 électrique (avec Great Wall)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme électrique J01 confirmée"
               }
             }
           ]
@@ -3022,7 +3043,8 @@
                 "nom": "MINI J01/J05 électrique (avec Great Wall)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme électrique J01 confirmée"
               }
             },
             {
@@ -3062,7 +3084,8 @@
                 "nom": "MINI J01/J05 électrique (avec Great Wall)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme électrique J01 confirmée"
               }
             }
           ]
@@ -3118,7 +3141,8 @@
                 "nom": "MEB Entry (MEB+) traction",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme électrique MEB+ traction confirmée"
               }
             },
             {
@@ -3155,7 +3179,8 @@
                 "nom": "MEB Entry (MEB+) traction",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme électrique MEB+ traction confirmée"
               }
             }
           ]
@@ -3215,7 +3240,8 @@
                 "nom": "Puma (thermique)",
                 "refroidissement_batterie": "liquide",
                 "confiance": "haute",
-                "source": "estimation Claude (24/11/2026), à vérifier"
+                "source": "vérifié par Bernard (26/11/2026)",
+                "remarque": "plateforme du Puma thermique adaptée pour l'électrique"
               }
             }
           ]

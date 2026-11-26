@@ -13,8 +13,8 @@ Aucune référence en dur dans le code : l'estimateur refuse de tourner (`Missin
 Prix estimé = prix neuf de la référence × coef. électrique (simulation 1000 km) × coef. âge/km × coef. marque × coef. SoH.
 
 - Coef. Plateforme : champ `plateforme` de chaque variante (dediee 1,00 / multi_energie 0,95 / convertie 0,90, ×0,95 si batterie « air passif »),
-  relatif à la plateforme de la variante de référence du segment. Valeurs à faire valider par Bernard
-  (`plateformes_a_verifier.csv`).
+  relatif à la plateforme de la variante de référence du segment. Chaque `plateforme` indique sa `source` et sa `confiance`
+  (vérifiées par Bernard le 26/11/2026) : documenter la source de toute nouvelle valeur.
 - Coef. SoH : SoH mesuré / SoH attendu pour l'âge. L'usure normale est déjà dans la décote d'âge : ne pas la compter deux fois.
 - Variante incertaine : valorisée au **pire cas** parmi `variantes_possibles`.
 - Road trip (temps perdu vs thermique) : OK < 30 min, Long < 60, Très long ≤ 90, Rédhibitoire > 90 ; exclusion en segment B seulement.
